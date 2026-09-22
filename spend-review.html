@@ -240,7 +240,7 @@ svg.chart .title { font-size: 8.2pt; fill: #13344f; font-weight: 700; font-famil
   <div class="kpi">
     <div class="kpi-label">Anomalies identified</div>
     <div class="kpi-value">9</div>
-    <div class="kpi-sub">5 high &middot; 4 medium</div>
+    <div class="kpi-sub">5 high &middot; 3 medium &middot; 1 excluded</div>
   </div>
 </td>
 </tr>
@@ -542,7 +542,7 @@ svg.chart .title { font-size: 8.2pt; fill: #13344f; font-weight: 700; font-famil
 </thead>
 <tbody>
 <tr><td class="ctr">A4</td><td>Undocumented cash</td><td>ATM branch, ACCT 3510</td><td class="num">15,000.00</td><td class="num">60,000.00</td><td class="hi">HIGH</td><td>Produce petty cash log in 7 days or stop card cash access.</td></tr>
-<tr><td class="ctr">A5</td><td>Business purpose not evidenced</td><td>Marina Yacht Club, CARD 1346</td><td class="num">6,400.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td>Obtain attendee list. Tax of 304.76 is blocked, confirm not claimed.</td></tr>
+<tr><td class="ctr">A5</td><td>Business purpose not evidenced</td><td>Marina Yacht Club, CARD 1346</td><td class="num">6,400.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td>Obtain attendee list and stated business purpose. Tax of 304.76 is blocked, confirm not claimed.</td></tr>
 <tr><td class="ctr">A1</td><td>Duplicate payment</td><td>Nimbus IT Services, ACCT 3510</td><td class="num">4,830.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td>Bank recall plus written refund demand, 7 day deadline.</td></tr>
 <tr><td class="ctr">A3</td><td>Duplicate across channels</td><td>Al Reem Facilities, ACCT 3510</td><td class="num">3,150.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td>Recover and cancel the stale direct debit mandate.</td></tr>
 <tr><td class="ctr">A9</td><td>Unapproved price increase</td><td>Datastream Pro, CARD 1346</td><td class="num">734.50</td><td class="num">8,814.00</td><td class="hi">HIGH</td><td>Renegotiate or exit before September billing.</td></tr>
@@ -561,6 +561,11 @@ svg.chart .title { font-size: 8.2pt; fill: #13344f; font-weight: 700; font-famil
   <li style="margin-bottom:5px;"><strong>Renegotiate Datastream Pro</strong> before the September billing date. A 40.0% increase absorbed silently by autopay means recurring charges are unmonitored.</li>
 </ol>
 
+</div>
+
+<div style="background: #13344f; color: #ffffff; padding: 14px 18px; margin: 0 0 6mm 0; border-radius: 2px; text-align: center;">
+  <div style="font-size: 11pt; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px;">Detailed memorandum</div>
+  <div style="font-size: 9pt; opacity: 0.9;">The second half of this page expands the executive register above into full detail: memo header, category-level commentary, item-by-item anomaly register, the excluded A8 treatment, items tested and cleared, and the explicit scope statement.</div>
 </div>
 
 <div class="page">
@@ -588,13 +593,14 @@ svg.chart .title { font-size: 8.2pt; fill: #13344f; font-weight: 700; font-famil
 </table>
 
 <h2>2. Anomaly register in detail</h2>
+<p class="small">Detail behind the executive anomaly and leakage register above. Each row expands the abbreviated action line with date(s), channel, type, and the full recommended action.</p>
 <table>
 <thead>
 <tr><th style="width:5%" class="ctr">Ref</th><th style="width:13%">Date(s)</th><th style="width:17%">Vendor and channel</th><th style="width:8%" class="num">AED</th><th style="width:8%" class="num">Annual</th><th style="width:6%" class="ctr">Pri</th><th style="width:7%">Type</th><th style="width:36%">Finding and action</th></tr>
 </thead>
 <tbody>
 <tr><td class="ctr">A4</td><td>03 Jun, 01 Jul, 05 Aug</td><td>ATM branch, ACCT 3510</td><td class="num">15,000.00</td><td class="num">60,000.00</td><td class="hi">HIGH</td><td><span class="tag-gov">Gov</span></td><td><strong>Three round AED 5,000 withdrawals at each month start.</strong> No vendor, no invoice, no petty cash reconciliation. <em>Action:</em> produce the log and receipts within 7 days, or stop cash access and move to a reconciled imprest float under a named custodian.</td></tr>
-<tr><td class="ctr">A5</td><td>18 Jul 2026 (Saturday)</td><td>Marina Yacht Club Dubai F&amp;B, CARD 1346</td><td class="num">6,400.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-gov">Gov</span></td><td><strong>Saturday client entertainment with no attendee record on file.</strong> Blocked input tax is AED 304.76 (6,400 &times; 5/105), non-recoverable under Article 53 of the VAT Executive Regulations per FTA VATP005. <em>Action:</em> obtain written business justification and attendee list; if genuine, retain with the 304.76 blocked; if not, reclassify to director current account. Confirm not claimed in the VAT return.</td></tr>
+<tr><td class="ctr">A5</td><td>18 Jul 2026 (Saturday)</td><td>Marina Yacht Club Dubai F&amp;B, CARD 1346</td><td class="num">6,400.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-gov">Gov</span></td><td><strong>Saturday food and beverage charge with no attendee record or stated business purpose.</strong> Blocked input tax is AED 304.76 (6,400 &times; 5/105), non-recoverable under Article 53 of the VAT Executive Regulations per FTA VATP005. <em>Action:</em> obtain written business justification and attendee list; if genuine, retain with the 304.76 blocked; if not, reclassify to director current account. Confirm not claimed in the VAT return.</td></tr>
 <tr><td class="ctr">A1</td><td>16 Jun 2026</td><td>Nimbus IT Services, ACCT 3510, inv NIM-097</td><td class="num">4,830.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-rec">Recover</span></td><td><strong>Invoice NIM-097 paid twice on the same day through the same transfer batch.</strong> No credit note received. <em>Action:</em> bank recall request with indemnity today, plus written vendor demand for refund within seven days.</td></tr>
 <tr><td class="ctr">A3</td><td>09 Jul and 12 Jul 2026</td><td>Al Reem Facilities, ACCT 3510, inv ARF-902</td><td class="num">3,150.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-rec">Recover</span></td><td><strong>Invoice settled twice &mdash; manual TT on 09 Jul, again on 12 Jul by a stale direct debit mandate that was never cancelled.</strong> <em>Action:</em> recover AED 3,150.00 and cancel one route. Audit every live direct debit mandate against vendors now paid manually.</td></tr>
 <tr><td class="ctr">A9</td><td>15 Aug 2026</td><td>Datastream Pro, CARD 1346</td><td class="num">734.50</td><td class="num">8,814.00</td><td class="hi">HIGH</td><td><span class="tag-ren">Renegotiate</span></td><td><strong>Monthly fee rose from AED 1,836.25 to AED 2,570.75, exactly 40.0%, with no contract variation or renewal notice on file.</strong> <em>Action:</em> demand the renewal notice and contract terms; renegotiate or exit before September billing. Set a variance alert on every recurring charge.</td></tr>
