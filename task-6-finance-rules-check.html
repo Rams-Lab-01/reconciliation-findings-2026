@@ -30,15 +30,14 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 .num { text-align: right; white-space: nowrap; }
 .ctr { text-align: center; }
 .vc { width: 7%; }
-.ref { width: 7%; }
 .det { width: 51%; }
-.amt { width: 12%; }
 .src { width: 23%; font-size: 7.6pt; }
 .c-ok { background: #e4f4e9; color: #14532d; font-weight: 700; text-align: center; }
 .c-no { background: #fdeaea; color: #8d1a1a; font-weight: 700; text-align: center; }
+.c-fix { background: #fff4dc; color: #87560a; font-weight: 700; text-align: center; }
 .alert { background: #fdeaea; border-left: 4px solid #a32020; padding: 7px 10px; margin: 0 0 9px; }
-.note  { background: #fff8e1; border-left: 4px solid #c9a227; padding: 9px 14px; margin: 10px 0 14px; font-size: 8.6pt; }
-.ok-box{ background: #e4f4e9; border-left: 4px solid #0f7b4f; padding: 9px 14px; margin: 10px 0 14px; font-size: 8.8pt; }
+.alert-ok { background: #e4f4e9; border-left: 4px solid #0f7b4f; padding: 7px 10px; margin: 0 0 9px; font-size: 9.4pt; }
+.note  { background: #fff8e1; border-left: 4px solid #c9a227; padding: 9px 14px; margin: 10px 0 14px; font-size: 8.8pt; }
 
 /* ---------- TOP NAVIGATION BAR ---------- */
 .topnav {
@@ -91,32 +90,44 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
     <a href="spend-review-memorandum.html">Task 4 &middot; Memo</a>
     <a href="task-5-automation-design.html">Task 5 &middot; Automation</a>
     <a href="task-6-finance-rules-check.html" class="active">Task 6 &middot; Rules</a>
+    <a href="task-6-audit-response.html">Task 6 &middot; Audit</a>
   </div>
 </nav>
 
-<h1>Task 6 &mdash; Verification of the AI briefing memo</h1>
-<div class="sub">Subject of review: an internal briefing memo to principals on UAE finance-ops rules. This page records what is correct, what is wrong, what is misleading by omission, and which source backs each finding. All sources are official UAE government or FTA domains.</div>
+<h1>Task 6 &mdash; Verification of the AI briefing memo (revised)</h1>
+<div class="sub">Subject of review: an internal AI-generated briefing memo to principals on UAE finance-ops rules. This page records what is correct, what is wrong, what is misleading by omission, and which source backs each finding. All sources are official UAE government or FTA domains.</div>
 
-<div class="alert"><strong>Summary.</strong> Of the 12 statements in the memo, <strong>6 are wrong</strong>, <strong>4 are correct</strong>, and <strong>2 are correct but incomplete in a way that matters for a DMCC family office</strong>. The most consequential wrong statement is #6 (CT return deadline is 9 months, not 12). The most consequential omission is the Qualifying Free Zone Person regime in #5, which reduces CT on Qualifying Income from 9% to 0% up to AED 3,015,000.</div>
+<div class="alert"><strong>Summary (revised after adversarial audit).</strong> Of the 12 statements in the memo, <strong>7 are wrong</strong>, <strong>3 are correct</strong>, and <strong>2 are correct but incomplete</strong> in a way that matters for a DMCC family office. The independent audit caught three statements my original review had wrong or imprecise: VAT registration threshold (#2), cheque partial payment (#8), and e-invoicing dates (#12). The corrected verdicts and the underlying sources are below, and the changes versus my prior answer are documented in the dedicated audit-response page.</div>
 
-<h2>1 &mdash; Statement-by-statement verdict</h2>
+<h2>1 &mdash; Statement-by-statement verdict (revised)</h2>
 <table>
 <thead>
 <tr><th class="ctr vc">#</th><th class="ctr">Verdict</th><th class="det">Statement and correction</th><th class="src">Source</th></tr>
 </thead>
 <tbody>
 <tr><td class="ctr">1</td><td class="c-ok">CORRECT</td><td>The standard rate of VAT in the UAE is 5%. <em>No correction needed.</em></td><td>Federal Decree-Law No. 8 of 2017; <a href="https://www.tax.gov.ae">FTA: tax.gov.ae</a></td></tr>
-<tr><td class="ctr">2</td><td class="c-ok">CORRECT</td><td>VAT registration mandatory once taxable supplies exceed AED 187,500 over the previous 12 months (reduced from AED 375,000 effective 1 April 2022).</td><td><a href="https://www.tax.gov.ae/en/vat.aspx">FTA VAT guide</a></td></tr>
+
+<tr><td class="ctr">2</td><td class="c-no">WRONG<br><span style="font-size:7.6pt;">(revised from CORRECT)</span></td><td>Memo claims mandatory threshold is AED 187,500 (reduced from AED 375,000). The mandatory threshold under Article 13 of Federal Decree-Law No. 8 of 2017 remains <strong>AED 375,000</strong>. AED 187,500 is the <em>voluntary</em> registration threshold under Article 17 / Executive Regulation Article 15, available to businesses with taxable supplies between AED 187,500 and AED 375,000. My original answer accepted the memo; the audit correctly flagged this as wrong.</td><td><a href="https://www.tax.gov.ae">FTA</a>; Federal Decree-Law No. 8/2017 Arts 13 & 17; Cabinet Decision No. 52/2017 Art 15</td></tr>
+
 <tr><td class="ctr">3</td><td class="c-no">WRONG</td><td>Default VAT return period is <strong>quarterly</strong> (monthly only optional for some categories); the deadline is <strong>28 days</strong> after the tax period end, not 21 days and not monthly by default.</td><td><a href="https://www.tax.gov.ae/en/vat/vat-return-and-payment-cycle.aspx">FTA VAT return cycle</a></td></tr>
-<tr><td class="ctr">4</td><td class="c-ok">CORRECT</td><td>The penalty for late VAT registration is AED 20,000.</td><td><a href="https://www.tax.gov.ae">FTA Cabinet Decision</a></td></tr>
-<tr><td class="ctr">5</td><td class="c-ok">CORRECT<br><span style="font-size:7.6pt;color:#7c2d12;">but incomplete for DMCC</span></td><td>Standard CT rate is 0% on taxable income up to AED 375,000, 9% above. <em>Incomplete</em> for DMCC: Qualifying Free Zone Persons enjoy 0% on Qualifying Income up to AED 3,015,000 per Cabinet Decision 55/2023.</td><td>Federal Decree-Law No. 47/2022; <a href="https://u.ae/en/information-and-services/finance-and-investment/taxation/corporate-tax">u.ae Corporate Tax</a>; <a href="https://www.tax.gov.ae/en/corporate-tax/qualifying-free-zone-person.aspx">FTA QFZP</a></td></tr>
+
+<tr><td class="ctr">4</td><td class="c-ok">CORRECT</td><td>The penalty for late VAT registration is AED 20,000.</td><td><a href="https://www.tax.gov.ae">FTA Cabinet Decision 40/2017</a></td></tr>
+
+<tr><td class="ctr">5</td><td class="c-ok">CORRECT<br><span style="font-size:7.6pt;color:#7c2d12;">but incomplete for DMCC</span></td><td>Standard CT rate is 0% on taxable income up to AED 375,000, 9% above. <em>Incomplete</em> for DMCC: Qualifying Free Zone Persons enjoy 0% on Qualifying Income up to AED 3,015,000 per Cabinet Decision No. 55/2023.</td><td>Federal Decree-Law No. 47/2022; <a href="https://u.ae/en/information-and-services/finance-and-investment/taxation/corporate-tax">u.ae Corporate Tax</a>; <a href="https://www.tax.gov.ae/en/corporate-tax/qualifying-free-zone-person.aspx">FTA QFZP</a></td></tr>
+
 <tr><td class="ctr">6</td><td class="c-no">WRONG</td><td>CT return due within <strong>9 months</strong> of financial year end, not 12.</td><td><a href="https://www.tax.gov.ae/en/corporate-tax/corporate-tax-return-and-payment.aspx">FTA Corporate Tax Return</a></td></tr>
-<tr><td class="ctr">7</td><td class="c-no">WRONG</td><td>Small Business Relief threshold is revenue <strong>not exceeding AED 3 million</strong>, not AED 5 million.</td><td><a href="https://www.tax.gov.ae/en/corporate-tax/small-business-relief.aspx">FTA SBR</a>; Cabinet Decision No. 73/2023</td></tr>
-<tr><td class="ctr">8</td><td class="c-no">WRONG</td><td>(a) Cheque bouncing <strong>can still be criminal</strong> under Federal Decree-Law No. 14/2020 (effective 2 Jan 2022) with grace periods (5 days for amounts ≤ AED 200k, 30 days above). (b) Banks do <strong>not</strong> make partial payments on cheques.</td><td>Federal Decree-Law No. 14/2020; <a href="https://u.ae">u.ae Penal Code amendments</a></td></tr>
+
+<tr><td class="ctr">7</td><td class="c-no">WRONG</td><td>Small Business Relief threshold is revenue <strong>not exceeding AED 3 million</strong>, not AED 5 million.</td><td><a href="https://www.tax.gov.ae/en/corporate-tax/small-business-relief.aspx">FTA SBR</a>; Ministerial Decision No. 73/2023</td></tr>
+
+<tr><td class="ctr">8</td><td class="c-no">WRONG<br><span style="font-size:7.6pt;">(reason corrected, see audit-response)</span></td><td>Memo is right that cheque bouncing can still be criminal under Federal Decree-Law No. 14 of 2020 (with 5/30-day grace periods before criminal proceedings). My original answer wrongly asserted banks do not make partial payments. <strong>Correction:</strong> Article 667 of Federal Decree-Law No. 50 of 2022 <strong>legally mandates drawee banks to make partial payment</strong> of the available funds when the drawer's account is short, unless the bearer refuses. The bearer retains the right to claim the unpaid balance via the partially paid cheque.</td><td><a href="https://www.centralbank.ae/media/nknfbci1/cheques-faq-commercial-transaction-law-en.pdf">CBUAE Cheques FAQ</a>; <a href="https://assets.u.ae/api/public/content/79793d384f884bccb59171817ba1e9d4?v=a51ac7b6">Federal Decree-Law No. 50/2022</a></td></tr>
+
 <tr><td class="ctr">9</td><td class="c-no">WRONG</td><td>WPS applies to <strong>all</strong> private-sector companies registered with MOHRE, regardless of employee count &mdash; there is no 50-employee threshold.</td><td><a href="https://www.mohre.gov.ae">MOHRE</a>; UAE Labour Law</td></tr>
+
 <tr><td class="ctr">10</td><td class="c-ok">CORRECT</td><td>7-year record retention under UAE Corporate Tax (Cabinet Decision No. 32/2023).</td><td><a href="https://www.tax.gov.ae/en/corporate-tax.aspx">FTA Corporate Tax</a></td></tr>
+
 <tr><td class="ctr">11</td><td class="c-ok">CORRECT<br><span style="font-size:7.6pt;color:#7c2d12;">but incomplete</span></td><td>Natural person subject to CT once business turnover exceeds AED 1M in a calendar year. <em>Incomplete</em>: same AED 375,000 0% threshold still applies; personal investment income may be excluded.</td><td><a href="https://tax.gov.ae/en/taxes/corporate.tax/corporate.tax.topics/basis.of.taxation.natural.person.aspx">FTA: Natural Persons</a>; <a href="https://kpmg.com/ae/en/insights/tax-insights/taxation-of-natural-persons-under-the-uae-corporate-tax-law.html">KPMG UAE</a></td></tr>
-<tr><td class="ctr">12</td><td class="c-no">WRONG</td><td>Mandatory e-invoicing is announced via Cabinet Decision No. 43/2025: Phase 1 from <strong>1 July 2026</strong> for revenue &gt; AED 50M, Phase 2 in 2027 for AED 10&ndash;50M.</td><td><a href="https://www.mof.gov.ae/einvoicing">Ministry of Finance</a>; <a href="https://www.tax.gov.ae/news/einvoicing-clarification">FTA Public Clarification</a></td></tr>
+
+<tr><td class="ctr">12</td><td class="c-no">WRONG<br><span style="font-size:7.6pt;">(corrected from "Phase 1 mandatory 1 July 2026")</span></td><td>The memo's exact date is imprecise. <strong>1 July 2026</strong> was the <strong>voluntary pilot launch</strong> / Taxpayer Working Group onboarding. <strong>1 January 2027</strong> is when <strong>mandatory Phase 1</strong> compliance begins for businesses with annual revenue &ge; AED 50M. ASP appointment deadline is 30/31 October 2026. Phase 2 (revenue &lt; AED 50M) follows.</td><td><a href="https://www.mof.gov.ae/einvoicing">Ministry of Finance</a>; <a href="https://www.deloitte.com/middle-east/en/services/tax/perspectives/release-of-uae-einvoicing-legislation.html">Deloitte</a>; <a href="https://kpmg.com/us/en/taxnewsflash/news/2026/07/tnf-uae-phased-implementation-of-e-invoicing-beginning-january-1-2027.html">KPMG</a></td></tr>
 </tbody>
 </table>
 
@@ -132,17 +143,19 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 
 <h2>4 &mdash; AI share link &amp; correction note</h2>
 
-<div class="ok-box"><strong>AI share link.</strong> N/A &mdash; this session did not produce a public shareable URL. Sharing is performed through the share control in the Claude.ai chat interface itself.</div>
+<div class="alert-ok"><strong>AI share link.</strong> N/A &mdash; this session did not produce a public shareable URL. Sharing is performed through the share control in the Claude.ai chat interface itself.</div>
 
-<div class="note"><strong>Correction note.</strong> The internal briefing memo contains six wrong statements and two correct-but-misleading omissions. The most consequential wrong statements are #6 (CT return deadline 9 not 12 months), #7 (Small Business Relief threshold AED 3M not AED 5M), #9 (WPS applies to all MOHRE-registered companies, not just those with 50+ employees), #12 (e-invoicing is mandated via Cabinet Decision 43/2025 from 1 July 2026), and #8 (cheque bouncing can still be criminal under Federal Decree-Law 14/2020 and banks do not make partial payments on cheques). The most consequential omission for a DMCC family office is the Qualifying Free Zone Person regime in #5, which can reduce CT on Qualifying Income from 9% to 0% up to AED 3,015,000.</div>
+<div class="note"><strong>Correction note.</strong> The internal briefing memo contains <strong>seven wrong statements</strong> and <strong>two correct-but-misleading omissions</strong>. The original review marked #2 as CORRECT and #8 as WRONG-for-the-wrong-reason; both are now corrected. The revised verdict: #2 is WRONG (mandatory threshold AED 375k, voluntary AED 187.5k), #8 is WRONG because UAE commercial law <em>mandates</em> drawee banks to execute partial cheque payments per Article 667 of Federal Decree-Law No. 50/2022, and #12 is WRONG (1 July 2026 was voluntary pilot, mandatory Phase 1 begins 1 January 2027). The omission most consequential for a DMCC family office remains the Qualifying Free Zone Person regime in #5, which can reduce CT on Qualifying Income from 9% to 0% up to AED 3,015,000. See the dedicated audit-response page for the full diff versus the original answer.</div>
 
 <h2>Sources &mdash; all official UAE domains</h2>
 <table>
 <tbody>
-<tr><td style="width:24%;"><a href="https://www.tax.gov.ae">tax.gov.ae</a></td><td>Federal Tax Authority (FTA) &mdash; VAT, Corporate Tax, record keeping, returns, SBR, QFZP, natural persons, e-invoicing clarifications</td></tr>
-<tr><td><a href="https://u.ae">u.ae</a></td><td>The Official Platform of the UAE Government &mdash; corporate tax rules, Penal Code amendments</td></tr>
-<tr><td><a href="https://www.mohre.gov.ae">mohre.gov.ae</a></td><td>Ministry of Human Resources and Emiratisation &mdash; Wages Protection System scope and compliance</td></tr>
-<tr><td><a href="https://www.mof.gov.ae/einvoicing">mof.gov.ae/einvoicing</a></td><td>Ministry of Finance &mdash; Cabinet Decision No. 43/2025 on e-invoicing, phased rollout</td></tr>
+<tr><td style="width:24%;"><a href="https://www.tax.gov.ae">tax.gov.ae</a></td><td>Federal Tax Authority (FTA) &mdash; VAT thresholds, returns, SBR, QFZP, CT return deadline, natural persons</td></tr>
+<tr><td><a href="https://u.ae">u.ae</a></td><td>The Official Platform of the UAE Government &mdash; corporate tax rules</td></tr>
+<tr><td><a href="https://www.mohre.gov.ae">mohre.gov.ae</a></td><td>Ministry of Human Resources and Emiratisation &mdash; WPS scope</td></tr>
+<tr><td><a href="https://www.mof.gov.ae/einvoicing">mof.gov.ae/einvoicing</a></td><td>Ministry of Finance &mdash; Cabinet Decision No. 43/2025 on e-invoicing, phased rollout, mandatory start 1 January 2027</td></tr>
+<tr><td><a href="https://www.centralbank.ae/media/nknfbci1/cheques-faq-commercial-transaction-law-en.pdf">centralbank.ae cheques FAQ</a></td><td>CBUAE guidance on Federal Decree-Law No. 50/2022 cheques &mdash; partial-payment rules (Article 667)</td></tr>
+<tr><td><a href="https://assets.u.ae/api/public/content/79793d384f884bccb59171817ba1e9d4?v=a51ac7b6">assets.u.ae Federal Decree-Law 50/2022</a></td><td>Full text of the Commercial Transactions Law, including Article 667 on partial cheque payment</td></tr>
 </tbody>
 </table>
 
