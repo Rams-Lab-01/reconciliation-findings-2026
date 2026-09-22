@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payables Review before Payment Run</title>
+<style>
+/* ---------- PAGE SETUP ---------- */
+@page { size: A4 portrait; margin: 14mm 12mm 16mm 12mm; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 10pt; color: #1b2733; line-height: 1.5;
+  max-width: 186mm; margin: 0 auto; padding: 8mm 0;
+  orphans: 3; widows: 3;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+
+/* ---------- PAGINATION CONTROL ---------- */
+.block { break-inside: avoid; page-break-inside: avoid; }
+.flow  { break-inside: auto;  page-break-inside: auto; }
+h2 {
+  font-size: 11pt; margin: 16px 0 7px; padding: 6px 9px;
+  background: #13344f; color: #ffffff;
+  break-after: avoid; page-break-after: avoid; break-inside: avoid;
+}
+h2:first-of-type { margin-top: 0; }
+h2 + p, h2 + table, h2 + .note, h2 + .letter { break-before: avoid; page-break-before: avoid; }
+p { margin: 0 0 9px; orphans: 3; widows: 3; }
+
+/* ---------- TABLES ---------- */
+table { width: 100%; border-collapse: collapse; margin-bottom: 10px; break-inside: auto; page-break-inside: auto; }
+thead { display: table-header-group; }
+tr, td, th { break-inside: avoid; page-break-inside: avoid; }
+th {
+  background: #e9eff5; border: 0.5pt solid #9fb2c4; padding: 5px 6px;
+  text-align: left; font-size: 8.6pt; text-transform: uppercase;
+}
+td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-size: 9pt; }
+.num { text-align: right; white-space: nowrap; }
+.ctr { text-align: center; }
+
+/* ---------- CALLOUTS ---------- */
+.alert { background: #fdeaea; border-left: 4px solid #a32020; padding: 10px 12px; margin: 0 0 14px; break-inside: avoid; page-break-inside: avoid; }
+.note  { background: #fff8e1; border-left: 4px solid #c9a227; padding: 9px 11px; margin: 10px 0 14px; break-inside: avoid; page-break-inside: avoid; }
+.letter {
+  background: #f7f9fb; border: 0.5pt solid #9fb2c4; padding: 12px 14px; margin: 0 0 8px;
+  font-family: Cambria, Georgia, "Times New Roman", serif; font-size: 10pt; line-height: 1.55;
+  break-inside: avoid; page-break-inside: avoid;
+}
+.letter p { margin: 0 0 8px; }
+.wc { font-size: 8.4pt; color: #55677a; margin: 0 0 12px; }
+
+/* ---------- STATUS COLOURS ---------- */
+.pay   { background: #e4f4e9; color: #14532d; font-weight: 700; text-align: center; }
+.payc  { background: #fff4dc; color: #87560a; font-weight: 700; text-align: center; }
+.hold  { background: #a32020; color: #ffffff; font-weight: 700; text-align: center; }
+.tot   { background: #13344f; color: #ffffff; font-weight: 700; }
+.ok    { background: #e4f4e9; font-weight: 700; }
+.sub   { background: #f4f6f8; }
+.flag  { background: #fdeaea; color: #8d1a1a; font-weight: 700; text-align: center; }
+.close { margin-top: 16px; font-size: 9pt; break-inside: avoid; page-break-inside: avoid; }
+
+@media print {
+  body { padding: 0; max-width: none; }
+  a { text-decoration: none; color: inherit; }
+  a[href]::after { content: ""; }
+}
+</style>
+</head>
+<body>
+
+<div class="alert"><strong>Do not release the run as queued.</strong> The clerk proposes AED 166,743.38 across ten documents. The correct release is AED 74,905.00, which withholds AED 91,838.38 that is either not owed or not yet payable. D7 is a duplicate of D1, D8 is a quotation rather than an invoice, D10 is a credit note logged as an outflow and therefore wrong by AED 8,820.00 in swing, and D9 is a suspected payment diversion attempt carrying an IBAN of 22 characters when every UAE IBAN is fixed at 23. Input VAT claimable is AED 2,717.50, not the full amount shown on the documents.</div>
+
+<section class="flow">
+<h2>1. Document decisions</h2>
+<table>
+<thead>
+<tr>
+<th style="width:6%">Ref</th>
+<th style="width:9%" class="ctr">Action</th>
+<th style="width:13%" class="num">Release tonight</th>
+<th style="width:72%">Reason and correction</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td><strong>D1</strong></td><td class="pay">PAY</td><td class="num">44,100.00</td>
+<td>Valid tax invoice, valid TRN, normal business cost. No change.</td>
+</tr>
+
+<tr>
+<td><strong>D2</strong></td><td class="payc">PAY,<br>VAT blocked</td><td class="num">5,670.00</td>
+<td>The cost is genuine and payable, but the clerk's note is wrong. Article 53 of the Executive Regulation blocks input tax on entertainment and hospitality, so claim nil VAT and expense the full gross.</td>
+</tr>
+
+<tr>
+<td><strong>D3</strong></td><td class="payc">PAY,<br>corrected</td><td class="num">11,017.50</td>
+<td>Corrected down from 11,568.38. A non resident with no TRN cannot legally charge UAE VAT, so the 550.88 is not VAT and must not be paid. Release the net only and self account under reverse charge.</td>
+</tr>
+
+<tr>
+<td><strong>D4</strong></td><td class="payc">PAY,<br>net of D10</td><td class="num">3,307.50</td>
+<td>Valid tax invoice, valid TRN, VAT correct at 367.50. Gross of 7,717.50 settled after applying the D10 credit note of 4,410.00 to the same vendor.</td>
+</tr>
+
+<tr>
+<td><strong>D5</strong></td><td class="payc">PAY,<br>corrected</td><td class="num">9,660.00</td>
+<td>Corrected down from 9,670.00. VAT is overstated by 10.00, since five percent of 9,200.00 is 460.00 and not 470.00. Claim 460.00 and request a corrected tax invoice.</td>
+</tr>
+
+<tr>
+<td><strong>D6</strong></td><td class="payc">PAY,<br>net only</td><td class="num">1,150.00</td>
+<td>Corrected down from 1,207.50. No supplier TRN is printed, so this is not a valid tax invoice and the 57.50 is unsupported. Release the net and withhold the VAT until a compliant tax invoice bearing a TRN is produced.</td>
+</tr>
+
+<tr>
+<td><strong>D7</strong></td><td class="hold">HOLD</td><td class="num">0.00</td>
+<td>Duplicate of D1. Same vendor, same document number INV 5101, same service period, same amount, merely re sent by email. Nothing is owed and paying it would gift the vendor 44,100.00.</td>
+</tr>
+
+<tr>
+<td><strong>D8</strong></td><td class="hold">HOLD</td><td class="num">0.00</td>
+<td>QTN 0881 is a quotation and not a tax invoice. There is no supply, no delivery evidence and no VAT entitlement until the works are performed and properly invoiced.</td>
+</tr>
+
+<tr>
+<td><strong>D9</strong></td><td class="hold">HOLD</td><td class="num">0.00</td>
+<td>Suspected business email compromise. The bank change is unverified, the amount demanded exceeds the approved invoice by 500.00, and in any event OFS 1174 does not fall due until 28 Aug. See section 4.</td>
+</tr>
+
+<tr>
+<td><strong>D10</strong></td><td class="hold">HOLD as<br>payment</td><td class="num">(4,410.00)</td>
+<td>CN 118 is a credit note of minus 4,410.00 against July invoice ANF 2201 and reduces what we owe Al Noor. The clerk logged it as an outflow of 4,410.00, an error swinging 8,820.00 in the wrong direction. Post as a credit and net against D4.</td>
+</tr>
+
+</tbody>
+</table>
+</section>
+
+<section class="block">
+<h2>2. Total released tonight</h2>
+<table>
+<thead>
+<tr><th style="width:10%">Ref</th><th style="width:60%">Payee and basis</th><th style="width:30%" class="num">Amount AED</th></tr>
+</thead>
+<tbody>
+<tr><td>D1</td><td>Gulf Data Systems LLC, INV 5101, as invoiced</td><td class="num">44,100.00</td></tr>
+<tr><td>D2</td><td>Desert Palm Events LLC, INV 1290, as invoiced, VAT blocked</td><td class="num">5,670.00</td></tr>
+<tr><td>D3</td><td>CloudMetrics Inc., CM 99812, net only, VAT removed</td><td class="num">11,017.50</td></tr>
+<tr><td>D4 net D10</td><td>Al Noor Facilities Mgmt LLC, INV 2290 of 7,717.50 less credit note CN 118 of 4,410.00</td><td class="num">3,307.50</td></tr>
+<tr><td>D5</td><td>Horizon Office Supplies LLC, INV 9142, VAT corrected to 460.00</td><td class="num">9,660.00</td></tr>
+<tr><td>D6</td><td>Emirates Secure Couriers, ESC 4471, net only, VAT withheld</td><td class="num">1,150.00</td></tr>
+<tr class="tot"><td colspan="2">TOTAL RELEASED TONIGHT</td><td class="num">74,905.00</td></tr>
+<tr class="sub"><td colspan="2">Clerk's proposed run</td><td class="num">166,743.38</td></tr>
+<tr class="ok"><td colspan="2">Improper or unowed outflow prevented</td><td class="num">91,838.38</td></tr>
+</tbody>
+</table>
+<p>Refs included tonight are D1, D2, D3, D4 net of D10, D5 and D6. Refs D7, D8 and D9 release nothing.</p>
+</section>
+
+<section class="block">
+<h2>3. Input VAT claimable and the treatment of D3</h2>
+<table>
+<thead>
+<tr><th style="width:10%">Ref</th><th style="width:62%">Position</th><th style="width:28%" class="num">Input VAT AED</th></tr>
+</thead>
+<tbody>
+<tr><td>D1</td><td>Valid tax invoice, recoverable in full</td><td class="num">2,100.00</td></tr>
+<tr><td>D4</td><td>Valid tax invoice, recoverable in full</td><td class="num">367.50</td></tr>
+<tr><td>D5</td><td>Recoverable at the corrected five percent, not the 470.00 shown</td><td class="num">460.00</td></tr>
+<tr><td>D10</td><td>Credit note reducing input tax previously recovered on ANF 2201</td><td class="num">(210.00)</td></tr>
+<tr><td>D2</td><td>Entertainment and hospitality, blocked under Article 53</td><td class="num">nil</td></tr>
+<tr><td>D3</td><td>Not UAE VAT, handled under reverse charge with nil net effect</td><td class="num">nil</td></tr>
+<tr><td>D6</td><td>No supplier TRN, so not a valid tax invoice</td><td class="num">nil</td></tr>
+<tr><td>D7</td><td>Duplicate, no second supply</td><td class="num">nil</td></tr>
+<tr><td>D8</td><td>Quotation, no supply has taken place</td><td class="num">nil</td></tr>
+<tr><td>D9</td><td>Held pending verification</td><td class="num">nil</td></tr>
+<tr class="tot"><td colspan="2">INPUT VAT CLAIMABLE THIS MONTH</td><td class="num">2,717.50</td></tr>
+</tbody>
+</table>
+
+<div class="note"><strong>What our VAT return must do about D3.</strong> We must self account for output VAT of AED 550.88 on the imported service under the reverse charge mechanism, declaring it in box 3 and recovering the same AED 550.88 as input tax in box 9, so the net cash effect is nil. The AED 550.88 shown on the CloudMetrics invoice is not UAE VAT, is not recoverable as input tax, and must not be paid to the vendor.</div>
+</section>
+
+<section class="flow">
+<h2>4. Red flags in the D9 email</h2>
+<table>
+<thead>
+<tr><th style="width:6%" class="ctr">No</th><th style="width:34%">The specific detail</th><th style="width:60%">Why it signals fraud</th></tr>
+</thead>
+<tbody>
+<tr><td class="flag">1</td><td>IBAN AE29 0400 0123 4567 8901 23 contains 22 characters</td><td>Every UAE IBAN is fixed at exactly 23 characters under the Central Bank standard, so this account cannot exist as written. A single structural check kills the request.</td></tr>
+<tr><td class="flag">2</td><td>Account digits run 0123 4567 8901 23</td><td>An ascending filler sequence rather than an allocated account number. No bank issues this pattern.</td></tr>
+<tr><td class="flag">3</td><td>AED 6,800.00 demanded against approved invoice OFS 1174 of AED 6,300.00</td><td>The party holding the invoice is asking for 500.00 more than its own document. A genuine vendor knows its invoice value.</td></tr>
+<tr><td class="flag">4</td><td>Sender is Imran S., Accounts Supervisor</td><td>A name absent from our vendor master, which records Meera Pillai as the sole contact for this vendor.</td></tr>
+<tr><td class="flag">5</td><td>Display name is a generic Accounts Team</td><td>No visible sending address on the oasisfacilities.ae domain, which is consistent with a lookalike domain or a spoofed display name.</td></tr>
+<tr><td class="flag">6</td><td>Callback number 055 882 4471</td><td>A mobile that does not match the vendor master landline 04 452 8810, so verification is being routed to a handset the sender controls.</td></tr>
+<tr><td class="flag">7</td><td>Payment demanded TODAY on an invoice due 28 Aug</td><td>Manufactured urgency with no commercial reason to accelerate, designed to push the payment ahead of any checking.</td></tr>
+<tr><td class="flag">8</td><td>Account FROZEN pending an internal audit</td><td>An implausible pretext. An internal audit does not freeze a corporate account, and even a frozen account can normally receive inbound credits.</td></tr>
+<tr><td class="flag">9</td><td>Our finance director is travelling</td><td>Removes the one person who could authorise or contradict the request, a standard tactic for defeating escalation.</td></tr>
+<tr><td class="flag">10</td><td>Route all future payments there</td><td>Expands scope well beyond the single invoice. This, rather than the 6,800.00, is the real objective.</td></tr>
+<tr><td class="flag">11</td><td>Please confirm by reply once done</td><td>Seeks confirmation of a live, responsive target and of a completed transfer, which also tells the sender when to move the funds on.</td></tr>
+<tr><td class="flag">12</td><td>No letterhead request and no bank certificate attached</td><td>Neither document would be omitted by a genuine vendor changing its banking details, because vendors know their customers will ask.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="block">
+<h2>5. Reply to be sent</h2>
+<div class="letter">
+<p>Dear Imran,</p>
+<p>Thank you for your email.</p>
+<p>Bank detail changes follow a fixed control procedure we cannot vary, so no payment can be released to a new account until that procedure completes.</p>
+<p>Please send, from your registered company domain, a signed request on company letterhead, an account certificate stamped by RAKBANK, and invoice OFS 1174 as issued. We also note the amount quoted differs from OFS 1174 as approved. Kindly clarify.</p>
+<p>Verification includes a call back to the contact and number held in our vendor master.</p>
+<p>Until verification closes, OFS 1174 remains scheduled on its existing terms and original due date.</p>
+<p>Kind regards,<br>Accounts Payable</p>
+</div>
+<p class="wc">105 words. It commits to no payment, no date change and no acknowledgement that the new account is genuine, while remaining courteous enough that a legitimate vendor relationship survives it intact.</p>
+</section>
+
+<section class="block">
+<h2>6. Standing process for any vendor bank detail change</h2>
+<table>
+<tbody>
+<tr>
+<td style="width:22%"><strong>Verify out of band</strong></td>
+<td>Never use any contact detail contained in the request itself. Call back only on the number already held in the vendor master, to the named contact already on file, and record who was spoken to, on which number and at what time. If the master contact cannot be reached, the change does not proceed.</td>
+</tr>
+<tr>
+<td><strong>Document and dual approve</strong></td>
+<td>Require a signed request on vendor letterhead together with a bank issued account certificate, then run the IBAN through a structural and bank code check before anything is keyed. Two people are required, one to enter the amendment and a different, more senior person to approve it, and neither may be the person who received the email.</td>
+</tr>
+<tr>
+<td><strong>Cool off and test pay</strong></td>
+<td>Apply a mandatory waiting period during which no payment releases to newly amended details, then settle the first invoice after the change with a small verification amount confirmed by the vendor before the balance follows. Log every amendment with a full audit trail and retain the previous details rather than overwriting them.</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section class="block">
+<h2>7. Share link and correction note</h2>
+<table>
+<tbody>
+<tr>
+<td style="width:22%"><strong>Share link</strong></td>
+<td>Hosted on the same GitHub Pages index as <a href="https://rams-lab-01.github.io/reconciliation-findings-2026/">https://rams-lab-01.github.io/reconciliation-findings-2026/</a>. This is task 2 in the index.</td>
+</tr>
+<tr>
+<td><strong>Correction note</strong></td>
+<td>The clerk's run of AED 166,743.38 must reduce to AED 74,905.00, because D7 is a duplicate of D1, D8 is a quotation and not an invoice, D9 is a suspected payment diversion attempt carrying a structurally invalid 22 character IBAN and an inflated amount, and D10 is a credit note that reduces rather than increases what we owe, while input VAT claimable is AED 2,717.50 after blocking entertainment on D2, disallowing the VAT on the TRN less D6, correcting D5 to 460.00 and reversing 210.00 on the credit note, with the CloudMetrics charge handled under reverse charge at nil net effect.</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<div class="close">
+<p>Two points worth raising with the clerk rather than correcting silently. The duplicate at D7 and the credit note at D10 are the same failure in opposite directions, being an absence of three way matching and of document type validation at the point of entry. Both are eliminated in the ERP by enforcing a unique constraint on vendor plus document number, and by blocking any document type other than a tax invoice from entering a payment run. On D6 the net has been released rather than the whole invoice held, so that a small courier is not penalised for a formatting omission. If policy is stricter, move D6 to hold and tonight's release becomes AED 73,755.00.</p>
+</div>
+
+</body>
+</html>
