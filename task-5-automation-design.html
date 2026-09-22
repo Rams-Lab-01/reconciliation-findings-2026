@@ -147,7 +147,7 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
 <h1>Task 5 &mdash; Design of the monthly-close automation</h1>
 <div class="sub">Brief: monthly close is currently two days of manual work (statement download &rarr; categorise &rarr; match invoices &rarr; chase missing &rarr; create top-up tasks &rarr; draft principals summary). Stack: Make.com for orchestration, Claude (API + Cowork + Code) for intelligence, Google Workspace as system of record, Todoist for human task tracking. Below is the proposed pipeline, Mermaid architecture diagram, approval gates, failure modes, security posture, and the verbatim first prompt.</div>
 
-<div class="alert"><strong>Stack rationale: Make.com for orchestration, not n8n.</strong> Make.com is the right layer for this office at its current size: deterministic, retryable, audit-logged, and it stays out of the data plane &mdash; nothing customer-confidential flows through it. A redaction step in Make.com strips account numbers, IBANs and PANs from every payload before the call to Claude, so the model only ever sees transaction lines labelled by account, never the real identifiers. The pipeline may prepare and reconcile; payment execution and any change to vendor bank details stay human-only (see point 4).</div>
+<div class="alert"><strong>Stack rationale: Make.com for orchestration, not n8n.</strong> Make.com is the right layer for this office at its current size: deterministic, retryable, audit-logged, and it stays out of the data plane &mdash; nothing customer-confidential flows through it. From step 3 onward a redaction step in Make.com strips account numbers, IBANs and PANs from every payload before the call to Claude, so the model sees transaction lines labelled by account rather than real identifiers. The one exception is the statement PDF at step 2, which carries the account number in its header and is handled contractually rather than technically &mdash; see point 5. The pipeline may prepare and reconcile; payment execution and any change to vendor bank details stay human-only (see point 4).</div>
 
 <h2>1 &mdash; Target architecture (8 numbered steps)</h2>
 
@@ -184,8 +184,9 @@ flowchart LR
     S5 --> S6[6. Make + Claude<br/>Draft chase emails<br/>never auto-send]
     S6 --> G2[Gate 2<br/>Vendor email<br/>release]
     S7[7. Make<br/>Funding &amp; top-up<br/>Todoist tasks] -. daily 07:00 .-> TODOIST[(Todoist)]
-    G2 -- sent by hand --> G3[Gate 3<br/>Memo release<br/>to principals]
-    G3 --> S8[8. Cowork<br/>Memo to Drive<br/>and PDF]
+    G2 -- sent by hand --> S8[8. Cowork<br/>Memo to Drive<br/>and PDF]
+    G1 -. matching closed .-> S8
+    S8 --> G3[Gate 3<br/>Memo release<br/>to principals]
 
     style H1 fill:#0f7b4f,color:#fff
     style HALT fill:#a32020,color:#fff
@@ -250,7 +251,7 @@ flowchart LR
 <tr><th style="width:30%">Data class</th><th style="width:35%">Where it lives / where it travels</th><th style="width:35%">Where it must NOT go</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Never leaves Google Workspace, with one declared exception.</strong> Card PANs in full, banking portal credentials and MFA devices, signatory mandates, KYC packs, passport and Emirates ID scans and the principals' personal financial documents never leave. <strong>THE EXCEPTION</strong> is the statement PDF itself at step 2, which necessarily carries the account number and IBAN in its header. That single call runs on an enterprise API tier with a signed DPA, inputs excluded from training and a stated retention window I have confirmed in writing. From step 3 onward the redaction step substitutes the account label, so no real identifier travels through any later call, any Make.com data store or any Sheet.</td><td>Drive under folder-level restriction.</td><td>Any external call. Not attached to any Make.com scenario, not sent to Claude, not stored outside the Workspace.</td></tr>
+<tr><td><strong>Never leaves Google Workspace, with one declared exception.</strong> Card PANs in full, banking portal credentials and MFA devices, signatory mandates, KYC packs, passport and Emirates ID scans and the principals' personal financial documents never leave. <strong>THE EXCEPTION</strong> is the statement PDF itself at step 2, which necessarily carries the account number and IBAN in its header. That single call runs on an enterprise API tier with a signed DPA, inputs excluded from training and a stated retention window I have confirmed in writing. From step 3 onward the redaction step substitutes the account label, so no real identifier travels through any later call, any Make.com data store or any Sheet.</td><td>Drive under folder-level restriction.</td><td>Any external call other than the single declared step 2 parse. Never attached to a Make.com data store, never persisted outside the Workspace, never included in any downstream call.</td></tr>
 <tr><td><strong>Goes to Claude via API</strong>: the transaction line only.</td><td>Date, amount, currency, description string, and an account <em>LABEL</em> such as ACCT-3510 or CARD-1346 rather than the real number. A redaction step in Make.com runs before every API call and strips anything matching IBAN, PAN or 16-digit patterns, substituting the label. The model never needs the real account number to categorise a line, so it never receives one.</td><td>Anything resembling a real identifier.</td></tr>
 <tr><td><strong>Goes to Make.com</strong>: OAuth tokens to Drive, Gmail and Todoist, scoped to a dedicated finance service account.</td><td>Access to the close folders only, never the principal's own account. Tokens rotated on any staff change.</td><td>The principal's own Google account; broader Workspace scopes.</td></tr>
 </tbody>
