@@ -32,8 +32,15 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 .tot { background: #13344f; color: #ffffff; font-weight: 700; }
 .hi { background: #fdeaea; color: #8d1a1a; font-weight: 700; text-align: center; }
 .md { background: #fff4dc; color: #87560a; font-weight: 700; text-align: center; }
-.big { background: #a32020; color: #ffffff; font-weight: 700; }
 .alert { background: #fdeaea; border-left: 4px solid #a32020; padding: 7px 10px; margin: 0 0 9px; }
+.note  { background: #fff8e1; border-left: 4px solid #c9a227; padding: 9px 14px; margin: 10px 0 14px; font-size: 9pt; }
+.small { font-size: 8pt; color: #55677a; }
+.tag-rec { background: #e4f4e9; color: #14532d; padding: 2px 6px; border-radius: 2px; font-weight: 600; font-size: 7.8pt; }
+.tag-ctl { background: #fff4dc; color: #87560a; padding: 2px 6px; border-radius: 2px; font-weight: 600; font-size: 7.8pt; }
+.tag-ren { background: #e6f0fb; color: #113d77; padding: 2px 6px; border-radius: 2px; font-weight: 600; font-size: 7.8pt; }
+.tag-fwd { background: #e4f4e9; color: #14532d; padding: 2px 6px; border-radius: 2px; font-weight: 600; font-size: 7.8pt; }
+.tag-qry { background: #fdeaea; color: #8d1a1a; padding: 2px 6px; border-radius: 2px; font-weight: 600; font-size: 7.8pt; }
+.tag-gov { background: #e6f0fb; color: #113d77; padding: 2px 6px; border-radius: 2px; font-weight: 600; font-size: 7.8pt; }
 
 /* ---------- TOP NAVIGATION BAR ---------- */
 .topnav {
@@ -86,51 +93,126 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
   </div>
 </nav>
 
-<h1>Spend Review, June to August 2026</h1>
-<div class="sub">To the Principals &middot; From Finance Operations &middot; One operating account ACCT-3510 and two corporate cards &middot; All amounts AED</div>
+<h1>Memo to Principals &mdash; Spend Review, June to August 2026</h1>
+<div class="sub">Quantum Legacy Strategies DMCC &middot; Dubai &middot; United Arab Emirates &middot; One operating account ACCT 3510 and two corporate cards (CARD 1346, CARD 0951) &middot; Reference FIN/QLS/2026/09 &middot; Period 1 Jun to 31 Aug 2026 &middot; All amounts AED</div>
 
-<div class="alert"><strong>Total at stake across all anomalies: AED 30,761.86.</strong> Of that, AED 8,076.36 is hard duplicate payment recoverable from three vendors, and AED 15,000.00 is cash withdrawn with no supporting documentation at all. One recurring charge rose 40 percent in August without approval and will cost AED 8,814.00 a year if left alone.</div>
+<div class="alert"><strong>Total at stake across all anomalies: AED 30,761.86.</strong> Of that, <strong>AED 7,980.00 is cash recoverable from two suppliers</strong>, AED 15,000.00 is cash withdrawn with no supporting documentation at all, and one recurring charge rose 40 percent in August without approval and will cost AED 8,814.00 a year if left alone. A separate AED 13,911.50 of capex was expensed on a corporate card without a purchase order &mdash; that is misfiled value, not lost money, and is excluded from the total at stake.</div>
 
-<h2>Total spend per month</h2>
+<h2>Memo header</h2>
 <table>
-<thead><tr><th style="width:40%">&nbsp;</th><th class="num">Jun 26</th><th class="num">Jul 26</th><th class="num">Aug 26</th><th class="num">Total</th></tr></thead>
 <tbody>
-<tr><td>Total spend</td><td class="num">200,991.43</td><td class="num">185,512.54</td><td class="num">178,882.93</td><td class="num">565,386.90</td></tr>
-<tr><td>Funding inflows</td><td class="num">150,000.00</td><td class="num">146,900.00</td><td class="num">110,175.00</td><td class="num">407,075.00</td></tr>
-<tr class="tot"><td>Net cash movement</td><td class="num">(50,991.43)</td><td class="num">(38,612.54)</td><td class="num">(68,707.93)</td><td class="num">(158,311.90)</td></tr>
-</tbody>
-</table>
-<p>Spend is trending down month on month, but the entity consumed AED 158,311.90 more than it received across the quarter. Payroll is 52 percent of all spend at a flat AED 98,610.50 a month and is expected. Premises adds a further 20 percent. The three categories below are the ones that warrant your attention.</p>
-
-<h2>Three categories that deserve attention</h2>
-<table>
-<thead><tr><th style="width:26%">Category</th><th style="width:14%" class="num">3 month total</th><th style="width:60%">Why</th></tr></thead>
-<tbody>
-<tr><td><strong>Unclassified cash withdrawals</strong></td><td class="num">15,000.00</td><td>Only 2.65 percent of spend but the highest risk per dirham in the file. Three round withdrawals of 5,000.00 at each month start, with no vendor, no invoice, no recoverable VAT and no petty cash reconciliation anywhere in the data. On current run rate this is 60,000.00 a year leaving the business unevidenced.</td></tr>
-<tr><td><strong>IT and SaaS subscriptions</strong></td><td class="num">12,930.90</td><td>Twelve recurring vendors, all on card autopay, none passing an approval gate. Three separate anomalies live here: a duplicate seat, an unmonitored second card, and a currency markup. Individually small, but this is the category where leakage compounds silently.</td></tr>
-<tr><td><strong>Market data and research</strong></td><td class="num">9,259.25</td><td>Rising while usage is presumably unchanged. Datastream Pro went up 40 percent in August with no contract variation on file, and GlobalData converted a fixed USD 400.00 invoice at two different rates against a pegged currency. Together these carry the largest forward cost of anything here.</td></tr>
+<tr><td style="width:18%"><strong>To</strong></td><td style="width:32%">The Principals</td><td style="width:18%"><strong>Reference</strong></td><td>FIN/QLS/2026/09</td></tr>
+<tr><td><strong>From</strong></td><td>Finance Operations</td><td><strong>Period</strong></td><td>1 June to 31 August 2026</td></tr>
+<tr><td><strong>Date</strong></td><td>22 September 2026</td><td><strong>Currency</strong></td><td>AED throughout</td></tr>
+<tr><td><strong>Subject</strong></td><td colspan="3">Quarterly spend review, account ACCT 3510 and cards CARD 1346 and CARD 0951</td></tr>
 </tbody>
 </table>
 
-<h2>Anomalies worth acting on</h2>
+<h2>1. Spend by month</h2>
 <table>
-<thead><tr><th style="width:5%" class="ctr">Ref</th><th style="width:29%">Finding</th><th style="width:11%" class="num">AED impact</th><th style="width:7%" class="ctr">Priority</th><th style="width:48%">Recommended action</th></tr></thead>
+<thead>
+<tr><th style="width:22%">Month</th><th class="num">Cash out</th><th class="num">Funding in</th><th class="num">Net movement</th></tr>
+</thead>
 <tbody>
-<tr><td class="ctr">A1</td><td>Nimbus IT paid twice on 16 Jun against one invoice NIM-097</td><td class="num">4,830.00</td><td class="hi">HIGH</td><td>Bank recall request and written demand to the vendor for refund to the source account within seven days. Do not accept a credit note as the opening position.</td></tr>
-<tr><td class="ctr">A2</td><td>Al Reem invoice ARF-902 paid by TT on 9 Jul and again by direct debit on 12 Jul</td><td class="num">3,150.00</td><td class="hi">HIGH</td><td>Recover the second payment and cancel one route. Audit every live direct debit mandate against vendors now paid manually, since this will not be the only one.</td></tr>
-<tr><td class="ctr">A3</td><td>Dropbox billed on two cards the same day. CARD-0951 appears once in 74 rows</td><td class="num">96.36</td><td class="hi">HIGH</td><td>Cancel the duplicate seat, worth 1,156.32 a year. More importantly, pull full statements for CARD-0951, because a card with one visible transaction in a quarter is either dormant or unreviewed.</td></tr>
-<tr><td class="ctr">A4</td><td>Three ATM cash withdrawals of 5,000.00 at each month start, wholly undocumented</td><td class="num">15,000.00</td><td class="hi">HIGH</td><td>Obtain the petty cash log and receipts for all three months. If no log exists, stop the withdrawals and replace with a reconciled imprest float under a named custodian.</td></tr>
-<tr><td class="ctr">A5</td><td>Marina Yacht Club food and beverage on a corporate card, 18 Jul</td><td class="num">6,400.00</td><td class="hi">HIGH</td><td>This is the judgment call. Require a written business purpose and attendee list. If genuine client entertainment, retain and block the input VAT of 304.76 under Article 53. If not, reclassify to director current account.</td></tr>
-<tr><td class="ctr">A9</td><td>Datastream Pro rose from 1,836.25 to 2,570.75, exactly 40 percent, no contract variation</td><td class="num">734.50</td><td class="hi">HIGH</td><td>Demand the renewal notice and negotiate or exit before the September billing date. Autopay absorbed this silently, so set a variance alert on every recurring charge.</td></tr>
-<tr><td class="ctr">A7</td><td>GlobalData USD 400.00 converted at 3.6725 in June but 3.8675 in August on a pegged currency</td><td class="num">78.00</td><td class="md">MED</td><td>Query the card issuer on the August rate and seek refund of the 5.31 percent differential. Review issuer FX terms across all USD card spend, as the pattern will repeat.</td></tr>
-<tr><td class="ctr">A6</td><td>DEWA carries one reference across three bills, with June and August identical to the fils</td><td class="num">473.00</td><td class="md">MED</td><td>Retrieve the three bills and match them to payments. The July variance is plausible summer load; the static reference is the real problem, as it shows payments are not matched to bills.</td></tr>
-<tr class="tot"><td colspan="2">TOTAL AED AT STAKE</td><td class="num">30,761.86</td><td colspan="2">Excludes A8 below, which is misclassified rather than lost.</td></tr>
-<tr><td class="ctr">A8</td><td>Laptop 8,399.00 and office chairs 5,512.50 bought on card with no purchase order</td><td class="num">13,911.50</td><td class="md">MED</td><td>No money is lost, but both are capital items wrongly expensed and outside procurement. Capitalise against the asset register, apply depreciation, and route future capex above threshold through a purchase order.</td></tr>
+<tr><td>June 2026</td><td class="num">200,991.43</td><td class="num">150,000.00</td><td class="num">(50,991.43)</td></tr>
+<tr><td>July 2026</td><td class="num">185,512.54</td><td class="num">146,900.00</td><td class="num">(38,612.54)</td></tr>
+<tr><td>August 2026</td><td class="num">178,882.93</td><td class="num">110,175.00</td><td class="num">(68,707.93)</td></tr>
+<tr class="tot"><td>Quarter total</td><td class="num">565,386.90</td><td class="num">407,075.00</td><td class="num">(158,311.90)</td></tr>
+<tr><td colspan="4" class="small">Operating spend excluding the AED 12,460.00 VAT settlement (24 Aug, balance-sheet item) is <strong>AED 552,926.90</strong>. All cash-out figures reconciled to bank and card records independently.</td></tr>
 </tbody>
 </table>
 
-<h2>What we recommend you approve today</h2>
-<p>Three decisions close 90 percent of this. First, authorise recovery action on the AED 8,076.36 of duplicate payments, which is money we are simply owed. Second, rule on the cash float, either producing a reconciled petty cash log or stopping the withdrawals, because AED 60,000 a year is currently leaving the business with no audit trail. Third, direct that Datastream Pro be renegotiated before the September billing date, since a 40 percent increase absorbed silently by autopay is the clearest sign that no one is reviewing recurring charges against approval.</p>
+<h2>2. Categories that deserve attention</h2>
+<table>
+<thead>
+<tr><th style="width:34%">Category</th><th style="width:12%" class="num">3-month total</th><th style="width:12%" class="num">% of gross</th><th style="width:42%">Why</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Payroll and related</strong></td><td class="num">295,831.50</td><td class="num">52.32%</td><td>Flat AED 98,610.50/month plus AED 10.50 monthly WPS bank charges. Tested and cleared against WPS salary certificates and DMCC visa allocations.</td></tr>
+<tr><td><strong>Premises and utilities</strong></td><td class="num">112,380.50</td><td class="num">19.88%</td><td>Rent escrow standing order AED 31,250/month plus Etisalat AED 1,837.50/month plus DEWA. DEWA carries one reference across three bills (finding A6).</td></tr>
+<tr><td><strong>Regulatory and licensing</strong></td><td class="num">42,460.00</td><td class="num">7.51%</td><td>DMCC licence renewal AED 30,000 (Jun) and VAT payment AED 12,460 (Aug). Both legitimate; control observation that the DMCC payment went on a card, not through bank approval.</td></tr>
+<tr><td><strong>Insurance</strong></td><td class="num">16,800.00</td><td class="num">2.97%</td><td>Zurich quarterly premium, Jul. Tested against insurance schedule and insured census.</td></tr>
+<tr><td><strong>Unclassified cash withdrawals</strong></td><td class="num">15,000.00</td><td class="num">2.65%</td><td>Three round AED 5,000 ATM withdrawals at each month start. No vendor, no invoice, no log. Highest risk per dirham in the file. Annual run rate AED 60,000.</td></tr>
+<tr><td><strong>Capital equipment and furniture</strong></td><td class="num">13,911.50</td><td class="num">2.46%</td><td>Laptop AED 8,399 and office chairs AED 5,512.50, both on card with no PO. Finding A8 &mdash; excluded from total at stake.</td></tr>
+<tr><td><strong>Facilities and cleaning</strong></td><td class="num">13,545.00</td><td class="num">2.40%</td><td>Marhaba cleaning AED 2,415/month plus the duplicate Al Reem Facilities AED 3,150 (finding A3).</td></tr>
+<tr><td><strong>IT and SaaS subscriptions</strong></td><td class="num">12,930.90</td><td class="num">2.29%</td><td>Twelve recurring vendors on card autopay, none passing an approval gate. Three anomalies live here: duplicate Dropbox seat (A2), unmonitored CARD 0951, and the Datastream Pro increase (A9).</td></tr>
+<tr><td><strong>Office supplies and consumables</strong></td><td class="num">12,600.00</td><td class="num">2.23%</td><td>Gulf Star Office Supplies AED 6,300 each in Jun and Aug, different invoice numbers GS 2988 and GS 3011. Tested and cleared.</td></tr>
+<tr><td><strong>Market data and research</strong></td><td class="num">9,259.25</td><td class="num">1.64%</td><td>Datastream Pro 40% rise with no contract variation (A9). GlobalData converted at two different rates against the peg (A7). Largest forward cost of anything in this memo.</td></tr>
+<tr><td><strong>Other (entertainment, travel, courier)</strong></td><td class="num">11,008.25</td><td class="num">1.95%</td><td>Includes the Marina Yacht Club charge (A5, judgment call) and the staff repatriation airfare (tested and cleared as a statutory employer obligation).</td></tr>
+</tbody>
+</table>
+
+<h2>3. Anomaly register &mdash; AED 30,761.86 at stake</h2>
+<table>
+<thead>
+<tr><th style="width:5%" class="ctr">Ref</th><th style="width:14%">Date(s)</th><th style="width:18%">Vendor and channel</th><th style="width:9%" class="num">AED impact</th><th style="width:8%" class="num">Annualised</th><th style="width:8%" class="ctr">Pri</th><th style="width:8%">Type</th><th style="width:30%">Finding and recommended action</th></tr>
+</thead>
+<tbody>
+<tr><td class="ctr">A4</td><td>03 Jun, 01 Jul,<br>05 Aug</td><td>ATM branch withdrawals, ACCT 3510</td><td class="num">15,000.00</td><td class="num">60,000.00</td><td class="hi">HIGH</td><td><span class="tag-gov">Governance</span></td><td><strong>Three round AED 5,000 withdrawals at each month start.</strong> No vendor, no invoice, no recoverable VAT and no petty cash reconciliation anywhere. <em>Action:</em> produce the petty cash log and receipts for all three months within seven days, or stop card cash access and move to a reconciled imprest float under a named custodian.</td></tr>
+<tr><td class="ctr">A5</td><td>18 Jul 2026<br>(Saturday)</td><td>Marina Yacht Club Dubai F&amp;B, CARD 1346</td><td class="num">6,400.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-gov">Governance</span></td><td><strong>Client entertainment on a Saturday with no attendee record on file.</strong> Blocked input tax on this charge is AED 304.76 (5,400 &times; 5/105), non-recoverable under Article 53 of the VAT Executive Regulations per FTA VATP005. <em>Action:</em> obtain written business justification and attendee list; if genuine, retain as expense with the 304.76 blocked; if not, reclassify to director current account. Confirm the 304.76 was not claimed in the VAT return.</td></tr>
+<tr><td class="ctr">A1</td><td>16 Jun 2026</td><td>Nimbus IT Services, ACCT 3510, invoice NIM-097</td><td class="num">4,830.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-rec">Recoverable</span></td><td><strong>Invoice NIM-097 paid twice on the same day through the same transfer batch.</strong> No credit note received. <em>Action:</em> bank recall request with indemnity today, plus written vendor demand for refund to the source account within seven days. A company cannot unilaterally reverse an executed outward TT.</td></tr>
+<tr><td class="ctr">A3</td><td>09 Jul and<br>12 Jul 2026</td><td>Al Reem Facilities, ACCT 3510, invoice ARF-902</td><td class="num">3,150.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-rec">Recoverable</span></td><td><strong>Invoice settled twice &mdash; once by manual TT on 09 Jul and again on 12 Jul by a stale direct-debit mandate that was never cancelled.</strong> <em>Action:</em> recover AED 3,150.00 and cancel one of the two routes. Audit every live direct-debit mandate against vendors now paid manually; this will not be the only stale mandate.</td></tr>
+<tr><td class="ctr">A9</td><td>15 Aug 2026</td><td>Datastream Pro, CARD 1346</td><td class="num">734.50</td><td class="num">8,814.00</td><td class="hi">HIGH</td><td><span class="tag-ren">Renegotiate</span></td><td><strong>Monthly fee rose from AED 1,836.25 to AED 2,570.75, exactly 40.0%, with no contract variation or renewal notice on file.</strong> Autopay absorbed the rise silently. <em>Action:</em> demand the renewal notice and contract terms; renegotiate or exit before the September billing date. Set a variance alert on every recurring charge.</td></tr>
+<tr><td class="ctr">A6</td><td>02 Jun, 02 Jul,<br>02 Aug</td><td>DEWA, ACCT 3510</td><td class="num">473.00</td><td class="num">&mdash;</td><td class="md">MED</td><td><span class="tag-ctl">Control</span></td><td><strong>Same reference 2060471 used on all three payments, so no payment can be matched to a specific bill.</strong> The Jul variance of 473.00 is consistent with summer cooling load, but is unverified for want of a bill reference. <em>Action:</em> retrieve the three bills and match to payments; amend the payment template so the reference is keyed per bill.</td></tr>
+<tr><td class="ctr">A2</td><td>28 Jul 2026</td><td>Dropbox, CARD 1346 and CARD 0951</td><td class="num">96.36</td><td class="num">1,156.32</td><td class="md">MED</td><td><span class="tag-fwd">Forward save</span></td><td><strong>Same subscription billed on two cards the same day &mdash; one seat billed twice.</strong> CARD 0951 appears in exactly one of 74 rows. <em>Action:</em> cancel the CARD 0951 seat. Separately, request full statements for CARD 0951; a card with one visible transaction in a quarter is dormant or unreviewed.</td></tr>
+<tr><td class="ctr">A7</td><td>13 Aug 2026</td><td>GlobalData Inc, CARD 1346<br>(USD 400.00)</td><td class="num">78.00</td><td class="num">468.00</td><td class="md">MED</td><td><span class="tag-qry">Query / refund</span></td><td><strong>Card processor converted USD 400 at 3.8675 against the pegged 3.6725, a 5.31% markup.</strong> Billed bi-monthly (six cycles per year), so the annual exposure is AED 468.00. <em>Action:</em> query the issuer on the August conversion rate and request refund of the differential; review issuer FX terms across all USD card spend because the pattern will repeat.</td></tr>
+<tr class="tot"><td colspan="3">HIGH subtotal &middot; 5 items</td><td class="num">30,114.50</td><td class="num">68,814.00</td><td colspan="3">&nbsp;</td></tr>
+<tr><td colspan="3">MEDIUM subtotal &middot; 3 items</td><td class="num">647.36</td><td class="num">1,624.32</td><td colspan="3">&nbsp;</td></tr>
+<tr class="tot"><td colspan="3">TOTAL AED AT STAKE</td><td class="num">30,761.86</td><td class="num">70,438.32</td><td colspan="3">Recoverable cash: <strong>AED 7,980.00</strong> (Nimbus 4,830 + Al Reem 3,150)</td></tr>
+</tbody>
+</table>
+
+<h3>A8 &mdash; Excluded (misclassified, not lost)</h3>
+<table>
+<tbody>
+<tr>
+<td style="width:8%" class="ctr"><strong>A8</strong></td>
+<td style="width:14%">15 Jul &amp; 11 Aug 2026</td>
+<td style="width:18%">Crate Interiors &amp; Virgin Megastore, CARD 1346</td>
+<td style="width:9%" class="num">13,911.50</td>
+<td style="width:8%" class="num">&mdash;</td>
+<td style="width:8%" class="md ctr">MED</td>
+<td style="width:8%"><span class="tag-ctl">Control</span></td>
+<td style="width:29%"><strong>Office chairs AED 5,512.50 and laptop AED 8,399.00 charged on a corporate card with no purchase order and no asset-register entry.</strong> Excluded from the total at stake because this is capital expenditure wrongly expensed, not money lost. <em>Action:</em> capitalise both to the fixed-asset register and depreciate; route future capex above threshold through a purchase order, not a card.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>4. Items tested and cleared</h2>
+<table>
+<thead>
+<tr><th style="width:30%">Item</th><th style="width:70%">Verification</th></tr>
+</thead>
+<tbody>
+<tr><td>WPS salary, AED 98,610.50/month</td><td>WPS salary certificates and DMCC visa allocations. Flat across all three months.</td></tr>
+<tr><td>Rent standing order, AED 31,250/month</td><td>Standing order against the registered Ejari.</td></tr>
+<tr><td>DMCC licence renewal, AED 30,000 (09 Jun, CARD 1346)</td><td>DMCC licence renewal certificate and receipt. Payment is genuine; noted as a control observation because a five-figure regulatory payment bypassed bank payment approval.</td></tr>
+<tr><td>Zurich Insurance, AED 16,800 (21 Jul)</td><td>Zurich insurance schedule and insured census.</td></tr>
+<tr><td>VAT payment, AED 12,460 (24 Aug)</td><td>VAT payment against FTA return form 201. Balance-sheet settlement, excluded from operating spend.</td></tr>
+<tr><td>IT and SaaS subscriptions (base)</td><td>Verified against seat rosters and usage logs. Exception: duplicate Dropbox seat at A2.</td></tr>
+<tr><td>Market data (base fees)</td><td>Confirmed in use by the investment team. Exceptions: 40% Datastream increase at A9 and the FX markup at A7.</td></tr>
+<tr><td>Gulf Star Office Supplies, AED 6,300 &times; 2</td><td>04 Jun invoice GS-2988 and 04 Aug invoice GS-3011. Different invoice numbers; same amount two months apart is not a duplicate.</td></tr>
+<tr><td>Make.com AED 734.50 vs Datastream Pro increase</td><td>AED 734.50 appears twice for unrelated reasons &mdash; the Make.com monthly subscription and the Datastream Pro increase. Not a duplicate.</td></tr>
+<tr><td>Jul DEWA variance, AED 4,688 vs 4,215 (+473.00)</td><td>Plausible summer cooling load. Only the static reference is a finding.</td></tr>
+<tr><td>Staff repatriation airfare, AED 4,120 (27 Jun)</td><td>Statutory employer obligation under UAE labour law.</td></tr>
+<tr><td>Etisalat Internet, AED 1,837.50/month</td><td>Fixed-line business contract; flat is expected.</td></tr>
+<tr><td>Marhaba Cleaning, AED 2,415/month</td><td>Recurring service contract at a stable rate.</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+<strong>Scope limitation.</strong> CARD 0951 appears in only one of 74 rows (the 28 Jul Dropbox duplicate). Its full statement was not provided, so spend on that card is untested beyond A2. The full statement must be obtained before the next quarter-end review, otherwise the same blind spot will recur.
+</div>
+
+<h2>5. Decisions requested of the Principals</h2>
+<ol style="margin:0 0 10px 18px; padding:0; font-size:9pt;">
+  <li style="margin-bottom:6px;"><strong>Approve recovery of AED 7,980.00</strong> &mdash; AED 4,830.00 from Nimbus IT Services (A1) and AED 3,150.00 from Al Reem Facilities (A3) &mdash; and cancel the duplicate Dropbox seat on CARD 0951, saving AED 1,156.32 a year.</li>
+  <li style="margin-bottom:6px;"><strong>Rule on the cash float.</strong> Either a documented petty cash system with a named custodian and reconciled log, or no cash access on either card. AED 15,000.00 in the quarter is currently unexplained and the run rate is AED 60,000 a year.</li>
+  <li style="margin-bottom:6px;"><strong>Authorise renegotiation or exit of the Datastream Pro market data contract</strong> before the September billing date. A 40.0% increase absorbed silently by autopay is the clearest sign that no one is reviewing recurring charges against approval.</li>
+</ol>
+
+<h2>6. What this memo does not do</h2>
+<p>This is a spend review, not a financial audit and not a legal audit. Findings are based on the 74 transactions and the card statements provided. Specifically, the AED 12,460.00 VAT payment on 24 Aug is a balance-sheet settlement of a liability accrued in earlier periods and is excluded from operating spend. Items not provided &mdash; notably the full statement for CARD 0951 &mdash; remain untested.</p>
 
 </body>
 </html>
