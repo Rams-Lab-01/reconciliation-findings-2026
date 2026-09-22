@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task 5 — Design of the Monthly-Close Automation</title>
+<style>
+@page { size: A4 portrait; margin: 12mm 11mm 14mm 11mm; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 9.2pt; color: #1b2733; line-height: 1.42;
+  max-width: 188mm; margin: 0 auto; padding: 5mm 0;
+  orphans: 3; widows: 3;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  background: #eef1f6;
+}
+.page {
+  background: #ffffff;
+  padding: 8mm 8mm;
+  margin-bottom: 5mm;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.08);
+  border-radius: 2px;
+}
+h1 { font-size: 13pt; margin: 0 0 2px; color: #0b3d91; }
+.sub { font-size: 8.2pt; color: #55677a; margin-bottom: 9px; }
+h2 {
+  font-size: 9.8pt; margin: 11px 0 5px; padding: 5px 9px;
+  background: #13344f; color: #ffffff;
+  break-after: avoid; page-break-after: avoid;
+  letter-spacing: 0.3px;
+}
+h2:first-of-type { margin-top: 0; }
+h3 { font-size: 9.2pt; margin: 10px 0 3px; color: #13344f; }
+p { margin: 0 0 7px; }
+p.code { font-family: Consolas, "Courier New", monospace; font-size: 8.4pt; background: #f1f5f9; border-left: 3px solid #13344f; padding: 8px 10px; margin: 6px 0; line-height: 1.45; white-space: pre-wrap; }
+p.verbatim { font-family: Consolas, "Courier New", monospace; font-size: 8.2pt; background: #fef3e0; border: 0.75pt solid #c9a227; padding: 10px 12px; margin: 6px 0 10px; line-height: 1.5; white-space: pre-wrap; }
+ol, ul { margin: 0 0 7px 18px; padding: 0; }
+ol li, ul li { margin: 0 0 4px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 7px; }
+thead { display: table-header-group; }
+tr, td, th { break-inside: avoid; page-break-inside: avoid; }
+th { background: #e9eff5; border: 0.5pt solid #9fb2c4; padding: 3px 5px; text-align: left; font-size: 7.8pt; text-transform: uppercase; }
+td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-size: 8.4pt; }
+.num { text-align: right; white-space: nowrap; }
+.ctr { text-align: center; }
+.alert { background: #fdeaea; border-left: 4px solid #a32020; padding: 7px 10px; margin: 0 0 9px; }
+.note  { background: #fff8e1; border-left: 4px solid #c9a227; padding: 9px 14px; margin: 10px 0 14px; font-size: 8.6pt; }
+.ok-box{ background: #e4f4e9; border-left: 4px solid #0f7b4f; padding: 9px 14px; margin: 10px 0 14px; font-size: 8.8pt; }
+.stop-box { background: #fee2e2; border: 1pt solid #a32020; padding: 10px 14px; margin: 10px 0 14px; font-size: 8.8pt; font-weight: 700; }
+.tag { display: inline-block; padding: 1px 6px; background: #13344f; color: #ffffff; font-size: 7.4pt; border-radius: 2px; margin-right: 3px; }
+.tag-g { background: #0f7b4f; }
+.tag-m { background: #13344f; }
+.tag-w { background: #f59e0b; }
+.tag-t { background: #1d4ed8; }
+
+/* ---------- MERMAID CHART CARDS ---------- */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.chart-card { background: #ffffff; border: 0.5pt solid #9fb2c4; border-radius: 2px; padding: 8px 10px; }
+.chart-card.full { grid-column: 1 / -1; }
+.chart-title {
+  font-size: 8.6pt; font-weight: 700; color: #13344f;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 3px; padding-bottom: 3px;
+  border-bottom: 0.5pt solid #bfcbd8;
+}
+.chart-sub { font-size: 7.6pt; color: #55677a; margin-bottom: 4px; font-style: italic; }
+.mermaid { font-family: Calibri, "Segoe UI", Arial, sans-serif !important; background: #ffffff; display: flex; justify-content: center; margin: 4px 0; }
+.mermaid svg { max-width: 100% !important; height: auto !important; }
+.mermaid .nodeLabel, .mermaid .edgeLabel, .mermaid .label, .mermaid .node rect, .mermaid .node circle, .mermaid .node ellipse, .mermaid .node polygon { font-family: Calibri, "Segoe UI", Arial, sans-serif !important; }
+@media print {
+  .mermaid { break-inside: avoid; page-break-inside: avoid; }
+}
+
+/* ---------- TOP NAVIGATION BAR ---------- */
+.topnav {
+  background: #13344f;
+  color: #ffffff;
+  padding: 10px 14px;
+  margin: 0 0 8mm 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 10pt;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border-radius: 2px;
+}
+.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; }
+.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; }
+.topnav a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-size: 9.5pt;
+  transition: background 0.15s;
+}
+.topnav a:hover { background: rgba(255,255,255,0.18); }
+.topnav a.active { background: #0b3d91; font-weight: 700; }
+.topnav a.back { background: #6b7c8c; }
+.topnav a.back:hover { background: #475569; }
+@media print {
+  .topnav { display: none; }
+  body { background: #ffffff; }
+  .page { box-shadow: none; padding: 0; margin: 0; }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: 'loose',
+      theme: 'base',
+      themeVariables: {
+        background: '#ffffff',
+        primaryColor: '#13344f',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#0b3d91',
+        secondaryColor: '#1d4ed8',
+        tertiaryColor: '#475569',
+        lineColor: '#0f7b4f',
+        textColor: '#1b2733',
+        fontFamily: 'Calibri, "Segoe UI", Arial, sans-serif',
+        fontSize: '12px'
+      },
+      flowchart: { curve: 'basis', htmlLabels: true, useMaxWidth: true }
+    });
+  });
+</script>
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="brand">Finance Reviews</span>
+  <div class="links">
+    <a href="index.html" class="back">&larr; Index</a>
+    <a href="reconciliation-findings.html">Task 1 &middot; Reconciliation</a>
+    <a href="payables-review.html">Task 2 &middot; Payables</a>
+    <a href="funding-plan-november-2026.html">Task 3 &middot; Funding Plan</a>
+    <a href="spend-review.html">Task 4 &middot; Dashboard</a>
+    <a href="spend-review-memorandum.html">Task 4 &middot; Memo</a>
+    <a href="task-5-automation-design.html" class="active">Task 5 &middot; Automation</a>
+    <a href="task-6-finance-rules-check.html">Task 6 &middot; Rules</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<h1>Task 5 &mdash; Design of the monthly-close automation</h1>
+<div class="sub">Brief: monthly close is currently two days of manual work (statement download &rarr; categorise &rarr; match invoices &rarr; chase missing &rarr; create top-up tasks &rarr; draft principals summary). Stack: Claude (Cowork + Code), self-hosted n8n on a UAE-region VPS, Google Workspace, Todoist. Below is the proposed pipeline, Mermaid architecture diagrams, approval gates, failure modes, security posture, and the verbatim first prompt.</div>
+
+<div class="alert"><strong>Stack decision: switch Make.com to self-hosted n8n on a UAE-region VPS.</strong> The cost is roughly equal once you factor in maintenance time, but bank statements, IBANs, and payroll files stop leaving our perimeter, we own the audit trail, and we stop being subject to a third-party SaaS's retention policy, pricing changes, or acquisition risk. Given the BEC attempt and the early-paid AED 93,750 cheque we saw this quarter, the control argument outweighs the convenience of a hosted UI.</div>
+
+<h2>1 &mdash; Target architecture (numbered pipeline)</h2>
+<table>
+<thead>
+<tr><th style="width:4%">#</th><th style="width:13%">Step</th><th style="width:14%">Tool</th><th style="width:14%">Trigger</th><th style="width:14%">Input</th><th style="width:14%">Output</th><th style="width:37%">Lands where</th></tr>
+</thead>
+<tbody>
+<tr><td class="ctr">1</td><td><span class="tag tag-g">Ingest</span> Statement collection</td><td>n8n on UAE VPS</td><td>Cron: 1st of month, 07:30 UAE</td><td>4 expected statement emails (1 bank + 3 cards)</td><td>4 standardised PDFs</td><td>Google Drive: <code>/Finance/Statements/YYYY-MM/</code> as <code>ACCT-3510_YYYY-MM.pdf</code>, <code>CARD-1346_YYYY-MM.pdf</code>, <code>CARD-0951_YYYY-MM.pdf</code>, <code>CARD-XXXX_YYYY-MM.pdf</code></td></tr>
+<tr><td class="ctr">2</td><td><span class="tag tag-t">Parse</span> PDF &rarr; text</td><td>n8n + pdfminer.six (Python) on the VPS</td><td>n8n webhook on new file in Drive folder</td><td>PDF binary</td><td>UTF-8 text with line breaks preserved</td><td>Same Drive folder, sidecar <code>.txt</code> per statement</td></tr>
+<tr><td class="ctr">3</td><td><span class="tag tag-m">Categorise</span> AI categorisation</td><td>Claude Cowork (via n8n HTTP Request to Anthropic API)</td><td>n8n triggers Cowork task on <code>.txt</code> sidecar appearing</td><td>Statement text + Chart of Accounts (passed as Cowork skill)</td><td>Structured JSON rows; written to Sheet via n8n Google Sheets node</td><td>Google Sheets: <code>/Finance/Categorised/YYYY-MM</code>, one row per line</td></tr>
+<tr><td class="ctr">4</td><td><span class="tag tag-m">Match</span> Match card charges to invoices</td><td>Claude Cowork (via n8n)</td><td>n8n triggers Cowork on step 3 completion</td><td>Categorised Sheet rows + Drive folder <code>/Finance/Invoices/YYYY-MM/</code></td><td>"Matched invoice" column populated OR row marked MISSING</td><td>Same Categorised Sheet, new columns: matched_invoice_file, match_confidence</td></tr>
+<tr><td class="ctr">5</td><td><span class="tag tag-w">Chase</span> Vendor chase emails</td><td>Claude Cowork (via n8n)</td><td>n8n HTTP Request fires for every MISSING row</td><td>MISSING row details + vendor master Sheet</td><td>Gmail draft, addressed from vendor master email</td><td>Gmail Drafts folder, labelled <code>/Finance/Chases/YYYY-MM</code>; never auto-sent</td></tr>
+<tr><td class="ctr">6</td><td><span class="tag tag-w">Alert</span> Top-up Todoist tasks</td><td>n8n + Todoist API</td><td>Cron: 2nd of month, 09:00 UAE</td><td>Sheet totals row (closing balance) + forecast outflows from step 3</td><td>One Todoist task per account forecast to dip below AED 50,000</td><td>Todoist project <code>Finance / Top-ups</code>, due date = forecast dip date</td></tr>
+<tr><td class="ctr">7</td><td><span class="tag tag-g">Report</span> Principals spend summary</td><td>Claude Cowork (via n8n) + Google Docs</td><td>Manual trigger: operator clicks "Run monthly close" in n8n</td><td>Categorised Sheet</td><td>Google Doc draft following Task 4 memo template</td><td>Google Drive: <code>/Finance/Summaries/YYYY-MM-Close.md</code>; never auto-shared</td></tr>
+</tbody>
+</table>
+
+<h3>Stack rationale per layer</h3>
+<ul>
+  <li><strong>n8n on UAE VPS</strong> is the orchestration layer. It runs cron schedules, webhooks, retries, error branches, and calls downstream tools. Hosting on the UAE VPS means statements and IBANs never leave our perimeter and we keep a full execution log on disk under <code>/var/log/n8n/</code>.</li>
+  <li><strong>Claude Cowork</strong> handles the AI steps (3, 4, 5, 7) via n8n's HTTP Request node hitting the Anthropic API. The chart of accounts and the vendor master Sheet are loaded as Cowork skills, so the prompts are deterministic across runs.</li>
+  <li><strong>Claude Code</strong> is reserved for building the pipeline itself, the Cowork skill definitions, and the vendor master Sheet validator &mdash; i.e. engineering work, not production traffic.</li>
+  <li><strong>Google Workspace</strong> stays the system of record. All outputs land in Drive / Sheets / Docs / Gmail, so the AI layer is replaceable without data migration.</li>
+  <li><strong>Todoist</strong> is used as-is for human task tracking; we do not replace it with anything.</li>
+</ul>
+
+<h2>2 &mdash; Architecture diagram (Mermaid)</h2>
+
+<div class="chart-grid">
+
+<div class="chart-card full">
+  <div class="chart-title">Pipeline &mdash; monthly close end-to-end</div>
+  <div class="chart-sub">All AI steps gated; no external action without a human click</div>
+  <div class="mermaid">
+flowchart LR
+    A[Cron: 1st of month<br/>07:30 UAE] --> B[n8n step 1<br/>Ingest PDFs]
+    B --> C{Drive folder<br/>complete?}
+    C -- no --> X1[Todoist:<br/>chase missing<br/>statement]
+    C -- yes --> D[n8n step 2<br/>PDF -> text]
+    D --> E[n8n step 3<br/>Claude categorise]
+    E --> F[n8n step 4<br/>Claude match invoices]
+    F --> G{MISSING<br/>rows?}
+    G -- yes --> H[n8n step 5<br/>Draft chase emails]
+    H --> I[Gmail Drafts<br/>human reviews]
+    G -- no --> J[n8n step 6<br/>Top-up Todoist]
+    I --> J
+    J --> K[Operator clicks<br/>Run monthly close]
+    K --> L[n8n step 7<br/>Draft principals summary]
+    L --> M[Google Doc draft<br/>human reviews and shares]
+
+    I -.human gate G4.-> I
+    E -.gate G2.-> E
+    F -.gate G3.-> F
+    L -.gate G5.-> L
+
+    style A fill:#13344f,color:#fff
+    style B fill:#1d4ed8,color:#fff
+    style D fill:#1d4ed8,color:#fff
+    style E fill:#1d4ed8,color:#fff
+    style F fill:#1d4ed8,color:#fff
+    style H fill:#1d4ed8,color:#fff
+    style J fill:#1d4ed8,color:#fff
+    style L fill:#1d4ed8,color:#fff
+    style I fill:#fff8e1,color:#1b2733,stroke:#c9a227
+    style M fill:#fff8e1,color:#1b2733,stroke:#c9a227
+    style X1 fill:#fdeaea,color:#8d1a1a,stroke:#a32020
+    style C fill:#0f7b4f,color:#fff
+    style G fill:#0f7b4f,color:#fff
+    style K fill:#a32020,color:#fff
+  </div>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Human gates &mdash; where the AI must stop and wait</div>
+  <div class="chart-sub">Five gates between the AI and any external action</div>
+  <div class="mermaid">
+flowchart TD
+    G1[G1 — after Ingest<br/>4 PDFs in Drive?]
+    G2[G2 — after Categorise<br/>Sheet amber rows?]
+    G3[G3 — after Match<br/>Vendor address valid?]
+    G4[G4 — after Chase drafts<br/>Send button?]
+    G5[G5 — after Top-ups + Summary<br/>Share with principals?]
+
+    G1 -- human --> A1[Open Drive folder<br/>confirm files]
+    G2 -- human --> A2[Scan amber rows<br/>sign off sheet]
+    G3 -- human --> A3[Confirm vendor<br/>in master Sheet]
+    G4 -- human --> A4[Open Gmail Drafts<br/>click Send]
+    G5 -- human --> A5[Review summary<br/>click Share]
+
+    style G1 fill:#fdeaea,color:#8d1a1a
+    style G2 fill:#fdeaea,color:#8d1a1a
+    style G3 fill:#fdeaea,color:#8d1a1a
+    style G4 fill:#fdeaea,color:#8d1a1a
+    style G5 fill:#fdeaea,color:#8d1a1a
+    style A1 fill:#0f7b4f,color:#fff
+    style A2 fill:#0f7b4f,color:#fff
+    style A3 fill:#0f7b4f,color:#fff
+    style A4 fill:#0f7b4f,color:#fff
+    style A5 fill:#0f7b4f,color:#fff
+  </div>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Data residency &mdash; who sees what</div>
+  <div class="chart-sub">Statements and IBANs never leave the UAE VPS or Google Workspace</div>
+  <div class="mermaid">
+flowchart LR
+    subgraph PERIMETER["Inside our perimeter"]
+        VPS[UAE VPS<br/>n8n + execution logs]
+        GW[Google Workspace<br/>Drive / Sheets / Gmail]
+    end
+    subgraph EXTERNAL["Third-party SaaS"]
+        ANTH[Anthropic API<br/>Cowork prompts only]
+        TODO[Todoist<br/>account name + amount]
+        BANK[Bank &amp; card portals<br/>statement source]
+    end
+
+    BANK -- read-only OAuth --> VPS
+    VPS -- n8n triggers, body only --> ANTH
+    ANTH -- categorised rows --> VPS
+    VPS -- writes --> GW
+    GW -- drafts --> VPS
+    VPS -- push task --> TODO
+
+    VPS -.statements, IBANs<br/>stay here.-> PERIMETER
+
+    style VPS fill:#13344f,color:#fff
+    style GW fill:#1d4ed8,color:#fff
+    style ANTH fill:#475569,color:#fff
+    style TODO fill:#475569,color:#fff
+    style BANK fill:#475569,color:#fff
+  </div>
+</div>
+
+</div>
+
+<h2>3 &mdash; Why self-hosted n8n instead of Make.com</h2>
+<table>
+<thead>
+<tr><th style="width:30%">Concern</th><th style="width:35%">Hosted Make.com</th><th style="width:35%">Self-hosted n8n on UAE VPS</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Statement and IBAN data</strong></td><td>Crosses Make.com's servers in the EU on every run. Subject to their retention policy.</td><td>Stays on our UAE VPS. Logs and intermediate data never leave our perimeter.</td></tr>
+<tr><td><strong>Audit trail</strong></td><td>Execution history visible to Make.com staff under their ToS.</td><td>Full execution log written to <code>/var/log/n8n/</code> on the VPS, owned by us, retained as long as we want.</td></tr>
+<tr><td><strong>Pricing changes / acquisition risk</strong></td><td>Per-operation billing, no long-term price guarantee. Vendor could be acquired or sunset.</td><td>Fixed monthly VPS cost. No per-operation billing. No vendor sunset risk on the orchestration layer.</td></tr>
+<tr><td><strong>Data-processing agreements</strong></td><td>Requires per-vendor DPA review on every new tool or region.</td><td>Single DPA scope: our UAE VPS. Easier to audit for principals.</td></tr>
+<tr><td><strong>Cost (TCO)</strong></td><td>Higher at scale due to per-operation billing. Hard to forecast.</td><td>Fixed VPS + maintenance time. Roughly equal at this office's transaction volume, but lower at 2x volume.</td></tr>
+<tr><td><strong>Operational risk given this quarter</strong></td><td>Hosted UI convenient but a single SaaS outage stalls the close.</td><td>We own the runtime. Outages are recoverable from the VPS, not from Make.com's status page.</td></tr>
+</tbody>
+</table>
+
+<p>The deciding factor is the BEC attempt and the early-paid AED 93,750 cheque seen this quarter (Task 4). Once the principal has seen a real attack and a real loss, the calculus on a hosted automation UI changes: control outweighs convenience.</p>
+
+<h2>4 &mdash; Five human approval gates</h2>
+<table>
+<thead>
+<tr><th style="width:6%">Gate</th><th style="width:24%">After step</th><th style="width:30%">What the human sees</th><th style="width:40%">What the human approves or rejects</th></tr>
+</thead>
+<tbody>
+<tr><td class="ctr">G1</td><td>1 &mdash; Statement collection</td><td>Drive folder with 4 PDFs and a one-row summary in <code>Close_Log/YYYY-MM</code></td><td>Confirms all 4 statements arrived, none is the wrong period or duplicate.</td></tr>
+<tr><td class="ctr">G2</td><td>3 &mdash; Categorisation</td><td>Categorised Sheet with low-confidence rows highlighted amber</td><td>Fixes any mis-categorisations; signs the Sheet off as the working version of the truth.</td></tr>
+<tr><td class="ctr">G3</td><td>4 &mdash; Invoice match</td><td>MISSING-flagged rows with vendor name, invoice date, amount, and the email subject drafted</td><td>Confirms the vendor master Sheet has the right email before drafts are generated.</td></tr>
+<tr><td class="ctr">G4</td><td>5 &mdash; Chase email</td><td>Gmail Drafts folder, one draft per MISSING row</td><td>Reviews and sends each draft manually. Nothing is auto-sent.</td></tr>
+<tr><td class="ctr">G5</td><td>6 &mdash; Top-ups &amp; 7 &mdash; Summary</td><td>Todoist tasks and the principals summary Google Doc draft</td><td>Adjusts task due dates and summary tone; never auto-shared.</td></tr>
+</tbody>
+</table>
+
+<h2>5 &mdash; Three most likely failure modes and mitigations</h2>
+<table>
+<thead>
+<tr><th style="width:6%">#</th><th style="width:24%">Failure mode</th><th style="width:35%">Detection</th><th style="width:35%">Mitigation</th></tr>
+</thead>
+<tbody>
+<tr><td class="ctr">F1</td><td>Mis-parsed PDF (multi-page statement split, columns misaligned).</td><td>n8n step 2 sanity check: parsed row count &ge; raw page count &times; min-rows-per-page. Alert if &lt; 80%.</td><td>Fallback to pdfminer.six on the VPS. If that also fails, n8n workflow pauses and raises a Todoist task; it never proceeds with bad data.</td></tr>
+<tr><td class="ctr">F2</td><td>Hallucinated category or vendor name.</td><td>Every row carries the original <code>line_snippet</code> from the PDF and a confidence score. Rows where confidence &lt; 0.7 highlighted amber at G2.</td><td>Chart-of-accounts prompt forbids inventing categories; new vendors must be added to the master Sheet first, so "UNKNOWN" is a deliberate signal, not a hallucination slot.</td></tr>
+<tr><td class="ctr">F3</td><td>Vendor chase email to the wrong vendor (BEC-style).</td><td>Vendor master Sheet is the single source of truth for <em>name, address, TRN, default contact</em>. Cowork is forbidden from inventing addresses.</td><td>Draft sits in Gmail Drafts; human opens it and visually confirms the To: line at G4. If the master Sheet does not contain the vendor, step 5 produces a draft addressed to "VENDOR-ON-FILE-MISSING" and raises a Todoist task. No email is sent to an address that does not appear in the master Sheet.</td></tr>
+</tbody>
+</table>
+
+<h2>6 &mdash; What I would NEVER automate end-to-end</h2>
+
+<div class="stop-box">Hard rule: the AI never initiates a payment, signs off a reconciliation, or sends an email without a human click.</div>
+
+<ul>
+  <li><strong>Payments.</strong> The AI may draft a payment instruction, but the actual click on the bank portal must be a human. A wrong auto-payment is immediate, irreversible cash-out. There is no amount threshold below which this is acceptable.</li>
+  <li><strong>Reconciliation sign-off.</strong> The AI produces the reconciled balance and a list of reconciling items. The counter-signature is always a human. Reason: audit trails require a named approver who has read the reconciliation, not an AI agent that produced it.</li>
+  <li><strong>Sending emails to vendors.</strong> Drafts only. Reason: vendor email compromise is a top fraud vector in the UAE (D9 in our Task 4 register); the AI cannot tell a genuine vendor email from a typosquatted one at send time.</li>
+  <li><strong>Anything touching external bank APIs with write access</strong> &mdash; read-only balance and statement pulls via OAuth-scoped credentials only.</li>
+</ul>
+
+<h2>7 &mdash; Data security</h2>
+
+<table>
+<thead>
+<tr><th style="width:30%">Data class</th><th style="width:35%">Where it lives</th><th style="width:35%">Where it must NOT go</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Bank statements</strong> (account numbers, balances, full transaction lines)</td><td>UAE VPS: <code>/var/n8n/data/</code>; Google Drive <code>/Finance/Statements/</code>; processed by Claude Cowork via signed Google OAuth.</td><td>Anywhere outside the VPS or Workspace. No Notion, no Slack DMs, no third-party SaaS docs, no local downloads on operator laptops.</td></tr>
+<tr><td><strong>Vendor data</strong> (name, address, TRN, IBAN, contact)</td><td>Vendor master Sheet, owner-only; backed up nightly to VPS disk.</td><td>Embedded into Cowork skills as hard-coded examples; pasted into third-party tools.</td></tr>
+<tr><td><strong>Vendor chase emails</strong> (PII)</td><td>Gmail Drafts, labelled <code>/Finance/Chases/</code>; sent manually by the operator.</td><td>Auto-send via n8n; any third-party mailer.</td></tr>
+<tr><td><strong>Spend summaries</strong></td><td>Google Docs, Drive sharing set to specific named principals.</td><td>Public links; external sharing; pasted into consumer chat tools that train on data.</td></tr>
+<tr><td><strong>Todoist tasks</strong></td><td>Todoist project <code>Finance / Top-ups</code>; account name + amount only.</td><td>External integrations we do not control; per-account IBAN never goes into task title or description.</td></tr>
+<tr><td><strong>n8n execution logs</strong></td><td>UAE VPS: <code>/var/log/n8n/</code>; written to logrotate weekly, retained 12 months.</td><td>Off-VPS. Logs are pulled only by us, on demand, over SSH.</td></tr>
+</tbody>
+</table>
+
+<p><strong>One-sentence vetting rule before connecting any AI tool:</strong> read its data-handling and training policy, confirm it offers a no-train / zero-retention mode for Workspace data, and refuse to connect any tool that retains prompts or outputs on its own infrastructure for model improvement.</p>
+
+<h2>8 &mdash; Verbatim first prompt for the n8n build (step 1, statement ingestion)</h2>
+
+<p class="verbatim">You are building step 1 of the monthly-close pipeline for Quant Lab family office, a DMCC free-zone entity. This skill runs inside our self-hosted n8n on a UAE-region VPS at /var/n8n/data/finance/. The orchestrator is n8n, not Make.com; treat the Make.com references in any prior docs as superseded.
+
+Trigger: cron schedule firing on the 1st of every month at 07:30 UAE time, set up in the n8n workflow definition file workflow_01_ingest.json.
+
+Inputs the n8n workflow already has wired:
+- A Gmail OAuth credential authorised under the operator's Workspace account.
+- Google Drive with /Finance/Statements/YYYY-MM/ (created if missing) and /Finance/Close_Log/.
+- A Todoist API token for the operator's project Finance / Top-ups.
+- A vendor master Sheet called /Finance/_config/Vendor_Master listing the canonical account numbers we expect statements for. The three we always expect are: ACCT 3510 (operating account), CARD 1346 (corporate card primary), CARD 0951 (corporate card secondary). For now, ignore any statement that does not match these three.
+
+The skill's job in this step is to collect the statements. Specifically:
+1. Use the Gmail node to search for unread emails received since the 1st of the current month from the bank (sender matches the configured bank-sender pattern) and the known card issuers, where the email has a PDF attachment.
+2. For each PDF, save it to /Finance/Statements/YYYY-MM/ with filename pattern &lt;ACCOUNT&gt;_YYYY-MM.pdf. Use the account number parsed from the PDF first page if the email subject or attachment filename does not already match.
+3. After all statements are filed, append one row to /Finance/Close_Log/YYYY-MM with columns: timestamp (now ISO8601), expected_count (3), received_count, missing_accounts (list or 'none'), notes (free text).
+4. If any of the three known accounts is still missing after 24 hours of waiting, use the Todoist node to create a task in project 'Finance / Top-ups': title 'Chase missing statement for &lt;ACCOUNT&gt; for YYYY-MM', due today, assigned to the operator.
+
+Hard rules for this step:
+- Do NOT parse the PDF contents. That is step 2 and belongs to a different n8n workflow file.
+- Do NOT send any email. Chase emails for missing statements are step 5 and require a human click.
+- Do NOT initiate any payment or contact any vendor beyond the Todoist task in rule 4.
+- If a PDF arrives that matches none of the three known account numbers, save it as UNKNOWN_YYYY-MM_seqN.pdf and flag it in missing_accounts with a note. Do not silently drop it.
+- Every action must log to /var/log/n8n/finance/ingest-YYYY-MM.log with: timestamp, action, target, result, error if any. The audit trail stays with us on the VPS.
+
+Output: three (or four including unknown) standardised PDFs in /Finance/Statements/YYYY-MM/, exactly one row in /Finance/Close_Log/YYYY-MM, zero to three Todoist tasks, and a structured execution log entry. Nothing else.</p>
+
+<h2>9 &mdash; Honesty question</h2>
+
+<p>I have used Claude Code extensively to build and run the local AI agent orchestration stack under <code>C:/My_youtube_channel/rams_lab_silent_killer</code> &mdash; the hierarchical orchestrator with persistent memory that I have been operating for months.</p>
+
+<p>One concrete example: in mid-2026 I asked Claude Code to refactor the orchestrator's prompt-assembling function so it would fall back gracefully when memory lookups returned empty, rather than emitting the literal string "(No prior context recalled &mdash; this may be a new topic.)". The agent produced a working refactor across roughly 400 lines that correctly handled the empty fallback. I had to fix three things before it shipped: (1) it left a stale reference to a removed import that broke the build on first run; (2) it placed the new fallback branch in the wrong function &mdash; it modified the memory query helper instead of the prompt builder that consumed the result; (3) it duplicated an existing constant rather than reusing the one defined in the constants module. Net: Claude saved about an hour of careful editing, I spent about 15 minutes fixing &mdash; net positive, but two of the three fixes would have silently produced wrong output in production, which is why the prompt above insists on line_snippet, confidence and the vendor-master Sheet as ground truth.</p>
+
+<p>On n8n specifically: I have not yet stood up an n8n instance for monthly close, but the same running stack does operate an n8n instance at n8n.sgctech.ai for a separate workflow, so the failure modes described above (n8n instance errors during scheduled runs, hardcoded credentials inside HTTP Request nodes) are ones I have personally fixed and would build the right guardrails against on first deployment.</p>
+
+</div>
+
+</body>
+</html>
