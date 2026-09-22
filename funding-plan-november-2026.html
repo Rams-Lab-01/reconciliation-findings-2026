@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cheque and Payroll Funding Plan, November 2026</title>
+<style>
+/* ---------- PAGE SETUP ---------- */
+@page { size: A4 portrait; margin: 14mm 12mm 16mm 12mm; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 10pt; color: #1b2733; line-height: 1.5;
+  max-width: 186mm; margin: 0 auto; padding: 8mm 0;
+  orphans: 3; widows: 3;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+
+/* ---------- PAGINATION CONTROL ---------- */
+.block { break-inside: avoid; page-break-inside: avoid; }
+.flow  { break-inside: auto;  page-break-inside: auto; }
+h2 {
+  font-size: 11pt; margin: 16px 0 7px; padding: 6px 9px;
+  background: #13344f; color: #ffffff;
+  break-after: avoid; page-break-after: avoid; break-inside: avoid;
+}
+h2:first-of-type { margin-top: 0; }
+h2 + p, h2 + table, h2 + .note { break-before: avoid; page-break-before: avoid; }
+p { margin: 0 0 9px; orphans: 3; widows: 3; }
+
+/* ---------- TABLES ---------- */
+table { width: 100%; border-collapse: collapse; margin-bottom: 10px; break-inside: auto; page-break-inside: auto; }
+thead { display: table-header-group; }
+tr, td, th { break-inside: avoid; page-break-inside: avoid; }
+th {
+  background: #e9eff5; border: 0.5pt solid #9fb2c4; padding: 5px 6px;
+  text-align: left; font-size: 8.6pt; text-transform: uppercase;
+}
+td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-size: 9pt; }
+.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ctr { text-align: center; }
+.dt  { white-space: nowrap; }
+
+/* ---------- CALLOUTS ---------- */
+.alert { background: #fdeaea; border-left: 4px solid #a32020; padding: 10px 12px; margin: 0 0 14px; break-inside: avoid; page-break-inside: avoid; }
+.note  { background: #fff8e1; border-left: 4px solid #c9a227; padding: 9px 11px; margin: 10px 0 14px; break-inside: avoid; page-break-inside: avoid; }
+
+/* ---------- STATUS COLOURS ---------- */
+.wrong { background: #a32020; color: #ffffff; font-weight: 700; text-align: center; }
+.right { background: #e4f4e9; color: #14532d; font-weight: 700; text-align: center; }
+.fund  { background: #e4f4e9; color: #14532d; font-weight: 600; }
+.warn  { background: #fff4dc; color: #87560a; font-weight: 600; }
+.bad   { background: #fdeaea; color: #8d1a1a; font-weight: 700; }
+.tot   { background: #13344f; color: #ffffff; font-weight: 700; }
+.ok    { background: #e4f4e9; font-weight: 700; }
+.sub   { background: #f4f6f8; }
+.close { margin-top: 16px; font-size: 9pt; break-inside: avoid; page-break-inside: avoid; }
+
+@media print {
+  body { padding: 0; max-width: none; }
+  a { text-decoration: none; color: inherit; }
+  a[href]::after { content: ""; }
+}
+</style>
+</head>
+<body>
+
+<div class="alert"><strong>Headline.</strong> All three claims in the handover note are wrong. Unfunded, the account breaches the buffer on Mon 9 Nov and goes overdrawn on Wed 18 Nov, reaching minus AED 247,950.00 by month end. A single withdrawal of USD 75,000 requested no later than <strong>Wed 4 Nov</strong> carries the entire month, closing at AED 27,487.50 with the buffer intact throughout. The note's suggested request date of the 5th misses the rent-cheque funding deadline by one banking day.</div>
+
+<section class="block">
+<h2>Date traps that drive the plan</h2>
+<table>
+<thead>
+<tr><th style="width:26%">Item as diarised</th><th style="width:22%">Actual banking date</th><th style="width:52%">Why it moves</th></tr>
+</thead>
+<tbody>
+<tr><td>Rent PDC dated Sun 8 Nov</td><td class="dt">Presented Mon 9 Nov</td><td>Funds must be in by Fri 6 Nov, the banking day before presentation. This, not the 9th, is the binding deadline for the whole plan.</td></tr>
+<tr><td>Utilities and telecom, Mon 16 Nov</td><td class="dt">Debits Tue 17 Nov</td><td>Full-day bank closure for the core-system migration. Autodebits scheduled that day execute the next banking day.</td></tr>
+<tr><td>Corporate card dated Sat 28 Nov</td><td class="dt">Debits Mon 30 Nov</td><td>Saturday is a non-banking day, so the debit rolls to the next banking day.</td></tr>
+<tr><td>WPS salaries, value Wed 25 Nov</td><td class="dt">File lodged Tue 24 Nov</td><td>Funds should be visible at file submission rather than only on value date, so 24 Nov is treated as the practical funding point.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="flow">
+<h2>1. The three claims in the handover note</h2>
+<table>
+<thead>
+<tr><th style="width:24%">Claim</th><th style="width:11%" class="ctr">Verdict</th><th style="width:65%">Specific reason</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>"Current balance comfortably covers the rent cheque"</td>
+<td class="wrong">WRONG</td>
+<td><strong>This is the one that bounces nothing.</strong> The cheque does clear, 115,000.00 against 93,750.00. But it leaves 21,250.00, which is 3,750.00 below the 25,000.00 house buffer, so we are in breach of our own rule from Mon 9 Nov onward with no instrument returned. The word "covers" is true; "comfortably" is not.</td>
+</tr>
+<tr>
+<td>"Payroll is the same as last month, AED 98,600"</td>
+<td class="wrong">WRONG</td>
+<td>The WPS run is 132,500.00, understated by 33,900.00, because the note predates the finance hire who joined 15 Oct. Funding to the note's figure would leave the salary file short and put a WPS run at risk, which carries MOHRE consequences well beyond a cash problem.</td>
+</tr>
+<tr>
+<td>"Requesting on the 5th still lands in time for everything"</td>
+<td class="wrong">WRONG</td>
+<td>A request on Thu 5 Nov arrives two banking days later, Fri 6 as day one and Mon 9 as day two, so the money lands Mon 9 Nov. The rent cheque is presented Mon 9 Nov and our rule requires funds in the account by the banking day before, Fri 6 Nov. The request must go on Wed 4 Nov, one banking day earlier than the note states.</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section class="block">
+<h2>2. Running balance with no funding at all</h2>
+<table>
+<thead>
+<tr><th style="width:16%">Date</th><th style="width:48%">Item</th><th style="width:18%" class="num">Movement</th><th style="width:18%" class="num">Balance</th></tr>
+</thead>
+<tbody>
+<tr><td class="dt">Mon 2 Nov</td><td>Opening balance</td><td class="num">&mdash;</td><td class="num">115,000.00</td></tr>
+<tr class="warn"><td class="dt">Mon 9 Nov</td><td>Rent PDC presented &nbsp; <strong>buffer breached</strong></td><td class="num">(93,750.00)</td><td class="num">21,250.00</td></tr>
+<tr><td class="dt">Tue 17 Nov</td><td>Utilities and telecom, deferred from the Mon 16 Nov closure</td><td class="num">(8,400.00)</td><td class="num">12,850.00</td></tr>
+<tr class="bad"><td class="dt">Wed 18 Nov</td><td>Fit-out contractor PDC &nbsp; <strong>account overdrawn</strong></td><td class="num">(45,000.00)</td><td class="num">(32,150.00)</td></tr>
+<tr><td class="dt">Fri 20 Nov</td><td>Market data invoice</td><td class="num">(44,100.00)</td><td class="num">(76,250.00)</td></tr>
+<tr><td class="dt">Mon 23 Nov</td><td>Insurance quarterly premium</td><td class="num">(16,800.00)</td><td class="num">(93,050.00)</td></tr>
+<tr><td class="dt">Wed 25 Nov</td><td>WPS salaries</td><td class="num">(132,500.00)</td><td class="num">(225,550.00)</td></tr>
+<tr><td class="dt">Mon 30 Nov</td><td>Corporate card, dated Sat 28 Nov</td><td class="num">(22,400.00)</td><td class="num">(247,950.00)</td></tr>
+<tr class="tot"><td colspan="2">Total outflows for the month</td><td class="num">362,950.00</td><td class="num">(247,950.00)</td></tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr><td style="width:46%"><strong>First date the 25,000 buffer is breached</strong></td><td class="warn">Mon 9 Nov, at 21,250.00</td></tr>
+<tr><td><strong>First date the account actually goes overdrawn</strong></td><td class="bad">Wed 18 Nov, at minus 32,150.00</td></tr>
+<tr><td><strong>Shortfall against the buffer at month end</strong></td><td>272,950.00</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="block">
+<h2>3. Single withdrawal that covers the entire period</h2>
+<table>
+<tbody>
+<tr><td style="width:24%"><strong>Amount</strong></td><td>USD 75,000, converting to AED 275,437.50 at 3.6725</td></tr>
+<tr><td><strong>Latest request date</strong></td><td>Wed 4 Nov 2026</td></tr>
+<tr><td><strong>Sizing</strong></td><td>The account must end at or above 25,000.00, so funding of at least 247,950.00 plus 25,000.00, being 272,950.00, is required. At 3.6725 that is USD 74,322.71, rounded up to the next USD 5,000 to give USD 75,000.</td></tr>
+<tr><td><strong>Timing</strong></td><td>Funds must be in by Fri 6 Nov, the banking day before the Mon 9 Nov presentation. Counting two banking days back from Fri 6, Thu 5 is one and Wed 4 is two, so Wed 4 Nov is the latest request date that satisfies the rent-cheque rule.</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr><th style="width:16%">Date</th><th style="width:48%">Item</th><th style="width:18%" class="num">Movement</th><th style="width:18%" class="num">Balance</th></tr>
+</thead>
+<tbody>
+<tr><td class="dt">Mon 2 Nov</td><td>Opening balance</td><td class="num">&mdash;</td><td class="num">115,000.00</td></tr>
+<tr><td class="dt">Wed 4 Nov</td><td>Withdrawal requested, no cash movement</td><td class="num">&mdash;</td><td class="num">115,000.00</td></tr>
+<tr class="fund"><td class="dt">Fri 6 Nov</td><td>USD 75,000 credited as AED</td><td class="num">275,437.50</td><td class="num">390,437.50</td></tr>
+<tr><td class="dt">Mon 9 Nov</td><td>Rent PDC presented</td><td class="num">(93,750.00)</td><td class="num">296,687.50</td></tr>
+<tr><td class="dt">Tue 17 Nov</td><td>Utilities and telecom, deferred from the Mon 16 Nov closure</td><td class="num">(8,400.00)</td><td class="num">288,287.50</td></tr>
+<tr><td class="dt">Wed 18 Nov</td><td>Fit-out contractor PDC</td><td class="num">(45,000.00)</td><td class="num">243,287.50</td></tr>
+<tr><td class="dt">Fri 20 Nov</td><td>Market data invoice</td><td class="num">(44,100.00)</td><td class="num">199,187.50</td></tr>
+<tr><td class="dt">Mon 23 Nov</td><td>Insurance quarterly premium</td><td class="num">(16,800.00)</td><td class="num">182,387.50</td></tr>
+<tr><td class="dt">Tue 24 Nov</td><td>Salary file submitted, no cash movement</td><td class="num">&mdash;</td><td class="num">182,387.50</td></tr>
+<tr><td class="dt">Wed 25 Nov</td><td>WPS salaries</td><td class="num">(132,500.00)</td><td class="num">49,887.50</td></tr>
+<tr class="ok"><td class="dt">Mon 30 Nov</td><td>Corporate card, dated Sat 28 Nov &nbsp; <strong>closing position</strong></td><td class="num">(22,400.00)</td><td class="num">27,487.50</td></tr>
+</tbody>
+</table>
+<p>The lowest balance in the period is 27,487.50 on Mon 30 Nov, clearing the buffer by 2,487.50. Every cheque is funded a banking day ahead, and the balance of 182,387.50 on Tue 24 Nov comfortably covers the salary file at submission, which matters because banks generally expect WPS funds to be available when the file is lodged rather than only on value date.</p>
+</section>
+
+<section class="flow">
+<h2>4. Two-withdrawal alternative</h2>
+<table>
+<tbody>
+<tr><td style="width:24%"><strong>Tranche 1</strong></td><td>USD 35,000 requested Wed 4 Nov, credited Fri 6 Nov as AED 128,537.50</td></tr>
+<tr><td><strong>Tranche 2</strong></td><td>USD 40,000 requested Thu 19 Nov, credited Mon 23 Nov as AED 146,900.00</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr><th style="width:16%">Date</th><th style="width:48%">Item</th><th style="width:18%" class="num">Movement</th><th style="width:18%" class="num">Balance</th></tr>
+</thead>
+<tbody>
+<tr><td class="dt">Mon 2 Nov</td><td>Opening balance</td><td class="num">&mdash;</td><td class="num">115,000.00</td></tr>
+<tr class="fund"><td class="dt">Fri 6 Nov</td><td>Tranche 1 credited</td><td class="num">128,537.50</td><td class="num">243,537.50</td></tr>
+<tr><td class="dt">Mon 9 Nov</td><td>Rent PDC presented</td><td class="num">(93,750.00)</td><td class="num">149,787.50</td></tr>
+<tr><td class="dt">Tue 17 Nov</td><td>Utilities and telecom, deferred from the closure</td><td class="num">(8,400.00)</td><td class="num">141,387.50</td></tr>
+<tr><td class="dt">Wed 18 Nov</td><td>Fit-out contractor PDC</td><td class="num">(45,000.00)</td><td class="num">96,387.50</td></tr>
+<tr><td class="dt">Fri 20 Nov</td><td>Market data invoice</td><td class="num">(44,100.00)</td><td class="num">52,287.50</td></tr>
+<tr class="fund"><td class="dt">Mon 23 Nov</td><td>Tranche 2 credited</td><td class="num">146,900.00</td><td class="num">199,187.50</td></tr>
+<tr><td class="dt">Mon 23 Nov</td><td>Insurance quarterly premium</td><td class="num">(16,800.00)</td><td class="num">182,387.50</td></tr>
+<tr><td class="dt">Wed 25 Nov</td><td>WPS salaries</td><td class="num">(132,500.00)</td><td class="num">49,887.50</td></tr>
+<tr class="ok"><td class="dt">Mon 30 Nov</td><td>Corporate card, dated Sat 28 Nov &nbsp; <strong>closing position</strong></td><td class="num">(22,400.00)</td><td class="num">27,487.50</td></tr>
+</tbody>
+</table>
+<p>The lowest point before tranche 2 is 52,287.50 on Fri 20 Nov, well clear of the buffer, and the plan still holds if the insurance debits ahead of the wire on 23 Nov, since 52,287.50 less 16,800.00 leaves 35,487.50. Total USD drawn is identical at 75,000 and the closing balance is identical at 27,487.50.</p>
+
+<div class="note"><strong>The real trade-off.</strong> The single draw parks roughly AED 147,000 of surplus in a non-interest-bearing operating account for seventeen days and stakes the entire month on one execution, whereas the two-tranche plan keeps that money earning in the broker account until 23 Nov but creates a second diarised action someone must remember during a month already disrupted by a system migration, and since USD to AED is pegged the FX timing argument is largely theoretical, which leaves idle cash against operational risk as the genuine choice.</div>
+</section>
+
+<section class="block">
+<h2>5. If the wire arrived one banking day late</h2>
+<table>
+<tbody>
+<tr>
+<td style="width:22%"><strong>The rule that breaks</strong></td>
+<td>Cheque funds must be in the account by the banking day before presentation. Under the single-draw plan the money is due Fri 6 Nov for a Mon 9 Nov presentation, so one day late puts it in on the presentation day itself and the rule is breached with zero margin.</td>
+</tr>
+<tr>
+<td><strong>What actually happens</strong></td>
+<td>Nothing bounces, because the opening 115,000.00 covers the 93,750.00 cheque unaided. But the account then sits at 21,250.00 against a 25,000.00 buffer, so the buffer rule breaks as well, and we would be relying on the bank's intraday posting order rather than on a control. Under the two-tranche plan the same one-day slip on tranche 2 lands it Tue 24 Nov, the salary file submission day, leaving no cushion at all on a WPS run.</td>
+</tr>
+<tr>
+<td><strong>The one change</strong></td>
+<td>Request every funding tranche three banking days ahead of the binding deadline rather than two, so there is always one spare banking day. Concretely, move the request from Wed 4 Nov to Tue 3 Nov, which credits Thu 5 Nov and leaves Fri 6 Nov as free slack, and move tranche 2 from Thu 19 Nov to Wed 18 Nov.</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section class="block">
+<h2>6. Share link and correction note</h2>
+<table>
+<tbody>
+<tr>
+<td style="width:22%"><strong>Share link</strong></td>
+<td>Hosted on the same GitHub Pages index as <a href="https://rams-lab-01.github.io/reconciliation-findings-2026/">https://rams-lab-01.github.io/reconciliation-findings-2026/</a>. This is task 3 in the index.</td>
+</tr>
+<tr>
+<td><strong>Correction note</strong></td>
+<td>All three handover claims are wrong, since the rent cheque clears but leaves the account 3,750.00 below buffer, payroll is 132,500.00 rather than 98,600.00 because the note predates the 15 Oct finance hire, and a request on the 5th arrives Mon 9 Nov and so misses the Fri 6 Nov cheque-funding deadline; the correct plan is a single USD 75,000 withdrawal requested Wed 4 Nov at the latest, carrying the account to a closing balance of AED 27,487.50 with the buffer intact throughout.</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<div class="close">
+<p>One point for whoever signs this off. The closing position of 27,487.50 sits only 2,487.50 above the buffer, which is thin if any single item lands higher than logged. Drawing USD 80,000 instead adds AED 18,362.50 of headroom and costs nothing under the peg. Given that the outgoing manager's note was already understated on payroll by 33,900.00, the extra tranche is the prudent call.</p>
+</div>
+
+</body>
+</html>
