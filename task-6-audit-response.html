@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task 6 — Audit Response &amp; Corrections Diff</title>
+<style>
+@page { size: A4 portrait; margin: 13mm 12mm 14mm 12mm; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 9.4pt; color: #1b2733; line-height: 1.45;
+  max-width: 186mm; margin: 0 auto; padding: 6mm 0;
+  orphans: 3; widows: 3;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+h1 { font-size: 13pt; margin: 0 0 2px; }
+.sub { font-size: 8.4pt; color: #55677a; margin-bottom: 9px; }
+h2 {
+  font-size: 9.6pt; margin: 11px 0 5px; padding: 4px 8px;
+  background: #13344f; color: #ffffff;
+  break-after: avoid; page-break-after: avoid;
+}
+h3 { font-size: 9.2pt; margin: 10px 0 3px; color: #13344f; }
+p { margin: 0 0 7px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 7px; }
+thead { display: table-header-group; }
+tr, td, th { break-inside: avoid; page-break-inside: avoid; }
+th { background: #e9eff5; border: 0.5pt solid #9fb2c4; padding: 3px 5px; text-align: left; font-size: 7.8pt; text-transform: uppercase; }
+td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-size: 8.6pt; }
+.num { text-align: right; white-space: nowrap; }
+.ctr { text-align: center; }
+.was { background: #fdeaea; }
+.now { background: #e4f4e9; }
+.unchanged { background: #f9fafb; }
+.alert { background: #fdeaea; border-left: 4px solid #a32020; padding: 7px 10px; margin: 0 0 9px; }
+.note  { background: #fff8e1; border-left: 4px solid #c9a227; padding: 9px 14px; margin: 10px 0 14px; font-size: 9pt; }
+.ok-box { background: #e4f4e9; border-left: 4px solid #0f7b4f; padding: 9px 14px; margin: 10px 0 14px; font-size: 9pt; }
+.tag-was { background: #a32020; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-size: 7.6pt; font-weight: 700; }
+.tag-now { background: #0f7b4f; color: #ffffff; padding: 1px 6px; border-radius: 2px; font-size: 7.6pt; font-weight: 700; }
+
+/* ---------- TOP NAVIGATION BAR ---------- */
+.topnav {
+  background: #13344f;
+  color: #ffffff;
+  padding: 10px 14px;
+  margin: 0 0 14mm 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 10pt;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border-radius: 4px 4px 0 0;
+}
+.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; }
+.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; }
+.topnav a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-size: 9.5pt;
+  transition: background 0.15s;
+}
+.topnav a:hover { background: rgba(255,255,255,0.18); }
+.topnav a.active { background: #0b3d91; font-weight: 700; }
+.topnav a.back { background: #6b7c8c; }
+.topnav a.back:hover { background: #475569; }
+@media print {
+  .topnav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="brand">Finance Reviews</span>
+  <div class="links">
+    <a href="index.html" class="back">&larr; Index</a>
+    <a href="reconciliation-findings.html">Task 1 &middot; Reconciliation</a>
+    <a href="payables-review.html">Task 2 &middot; Payables</a>
+    <a href="funding-plan-november-2026.html">Task 3 &middot; Funding Plan</a>
+    <a href="spend-review.html">Task 4 &middot; Dashboard</a>
+    <a href="spend-review-memorandum.html">Task 4 &middot; Memo</a>
+    <a href="task-5-automation-design.html">Task 5 &middot; Automation</a>
+    <a href="task-6-finance-rules-check.html">Task 6 &middot; Rules</a>
+    <a href="task-6-audit-response.html" class="active">Task 6 &middot; Audit</a>
+  </div>
+</nav>
+
+<h1>Task 6 &mdash; Audit Response &amp; Corrections Diff</h1>
+<div class="sub">Response to the adversarial forensic accuracy audit. This page documents which verdicts changed, what the corrected verdicts now are, and the underlying sources. It exists so that the change history is auditable rather than silently overwritten in the main Task 6 page.</div>
+
+<div class="alert"><strong>Summary of corrections.</strong> The adversarial audit caught three of my twelve verdicts. Two were outright wrong (one accept-as-correct turned out to be wrong, one wrong-but-for-the-wrong-reason), and one was imprecise on a specific date. All three have been re-verified against primary UAE sources. Tasks 1&ndash;5 and Task 6 statements 1, 3, 4, 5, 6, 7, 9, 10, 11 are unchanged.</div>
+
+<h2>1 &mdash; What changed and what did not</h2>
+
+<table>
+<thead>
+<tr><th style="width:7%;" class="ctr">Stmt</th><th style="width:18%;" class="ctr">My original verdict</th><th style="width:18%;" class="ctr">Revised verdict</th><th style="width:57%;">Status</th></tr>
+</thead>
+<tbody>
+<tr class="was"><td class="ctr">2</td><td class="ctr"><span class="tag-was">CORRECT</span></td><td class="ctr"><span class="tag-now">WRONG</span></td><td><strong>Reversed.</strong> I accepted the memo's claim that the mandatory VAT threshold was reduced from AED 375,000 to AED 187,500 in April 2022. The current FTA position and Article 13 of Federal Decree-Law No. 8 of 2017 keep the mandatory threshold at <strong>AED 375,000</strong>; AED 187,500 is the <em>voluntary</em> registration threshold under Article 17 / Executive Regulation Article 15.</td></tr>
+<tr class="was"><td class="ctr">8</td><td class="ctr"><span class="tag-was">WRONG</span></td><td class="ctr"><span class="tag-now">WRONG (corrected reason)</span></td><td>The verdict stays WRONG on the cheque-bouncing criminal-offence point, but the second clause needed flipping. I asserted "banks do not make partial payments on cheques". That is the opposite of the law. Article 667 of Federal Decree-Law No. 50 of 2022 <strong>legally mandates drawee banks to make partial payment</strong> of available funds unless the bearer refuses. The bearer keeps the marked cheque as an enforceable executive instrument for the unpaid balance.</td></tr>
+<tr class="was"><td class="ctr">12</td><td class="ctr"><span class="tag-was">WRONG</span></td><td class="ctr"><span class="tag-now">WRONG (corrected dates)</span></td><td>The verdict stays WRONG but for a more precise reason. <strong>1 July 2026 was the voluntary pilot launch</strong>, not mandatory Phase 1. <strong>Mandatory Phase 1 begins 1 January 2027</strong> for businesses with annual revenue &ge; AED 50M. The ASP (Accredited Service Provider) appointment deadline is 30/31 October 2026.</td></tr>
+<tr class="unchanged"><td class="ctr">1</td><td class="ctr"><span class="tag-now">CORRECT</span></td><td class="ctr"><span class="tag-now">CORRECT</span></td><td>Unchanged.</td></tr>
+<tr class="unchanged"><td class="ctr">3</td><td class="ctr"><span class="tag-now">WRONG</span></td><td class="ctr"><span class="tag-now">WRONG</span></td><td>Unchanged. Quarterly default, 28-day deadline.</td></tr>
+<tr class="unchanged"><td class="ctr">4</td><td class="ctr"><span class="tag-now">CORRECT</span></td><td class="ctr"><span class="tag-now">CORRECT</span></td><td>Unchanged. AED 20,000 late-VAT-registration penalty.</td></tr>
+<tr class="unchanged"><td class="ctr">5</td><td class="ctr"><span class="tag-now">CORRECT, incomplete</span></td><td class="ctr"><span class="tag-now">CORRECT, incomplete</span></td><td>Unchanged. QFZP regime still the critical omission.</td></tr>
+<tr class="unchanged"><td class="ctr">6</td><td class="ctr"><span class="tag-now">WRONG</span></td><td class="ctr"><span class="tag-now">WRONG</span></td><td>Unchanged. 9-month CT return deadline.</td></tr>
+<tr class="unchanged"><td class="ctr">7</td><td class="ctr"><span class="tag-now">WRONG</span></td><td class="ctr"><span class="tag-now">WRONG</span></td><td>Unchanged. SBR threshold is AED 3M, not 5M.</td></tr>
+<tr class="unchanged"><td class="ctr">9</td><td class="ctr"><span class="tag-now">WRONG</span></td><td class="ctr"><span class="tag-now">WRONG</span></td><td>Unchanged. WPS applies to all MOHRE-registered companies.</td></tr>
+<tr class="unchanged"><td class="ctr">10</td><td class="ctr"><span class="tag-now">CORRECT</span></td><td class="ctr"><span class="tag-now">CORRECT</span></td><td>Unchanged. 7-year record retention under CT law.</td></tr>
+<tr class="unchanged"><td class="ctr">11</td><td class="ctr"><span class="tag-now">CORRECT, incomplete</span></td><td class="ctr"><span class="tag-now">CORRECT, incomplete</span></td><td>Unchanged. Natural person threshold plus AED 375k 0% band.</td></tr>
+</tbody>
+</table>
+
+<h2>2 &mdash; Detailed corrections</h2>
+
+<h3>Correction 1 &mdash; Statement 2: VAT registration threshold</h3>
+<table>
+<tbody>
+<tr><td style="width:18%;"><strong>What I said before</strong></td><td>"Mandatory threshold is AED 187,500 (reduced from AED 375,000 effective 1 April 2022). CORRECT."</td></tr>
+<tr><td><strong>What is actually true</strong></td><td>The mandatory threshold under Article 13 of Federal Decree-Law No. 8 of 2017 is <strong>AED 375,000</strong>. AED 187,500 is the <em>voluntary</em> registration threshold under Article 17 / Cabinet Decision No. 52/2017 Art 15.</td></tr>
+<tr><td><strong>How the audit caught it</strong></td><td>The audit cited Article 13 and flagged that I had accepted a false claim about a threshold reduction.</td></tr>
+<tr><td><strong>How I re-verified</strong></td><td>Web search of FTA primary guidance &mdash; confirmed AED 375,000 mandatory, AED 187,500 voluntary. Multiple UAE tax-advisory sources concur.</td></tr>
+<tr><td><strong>Source</strong></td><td><a href="https://www.tax.gov.ae">FTA: tax.gov.ae</a>; Federal Decree-Law No. 8 of 2017 Arts 13 and 17; Cabinet Decision No. 52 of 2017 Art 15.</td></tr>
+<tr><td><strong>Why the original error happened</strong></td><td>I was probably pattern-matching a 2022-era news cycle that conflated the voluntary threshold with a mandatory reduction. Should have re-read Article 13 instead of relying on the secondary summary.</td></tr>
+</tbody>
+</table>
+
+<h3>Correction 2 &mdash; Statement 8: Cheque partial payments</h3>
+<table>
+<tbody>
+<tr><td style="width:18%;"><strong>What I said before</strong></td><td>"Cheque bouncing can still be criminal &hellip; Banks do not make partial payments on cheques."</td></tr>
+<tr><td><strong>What is actually true</strong></td><td>Cheque bouncing can still be criminal &mdash; that part was right. The partial-payment part was wrong. Article 667 of Federal Decree-Law No. 50 of 2022 <strong>legally mandates</strong> the drawee bank to make partial payment from available funds unless the bearer refuses. The cheque is marked on the back, returned to the bearer, and the bearer can use the partially paid cheque as an executive instrument to recover the balance.</td></tr>
+<tr><td><strong>How the audit caught it</strong></td><td>The audit cited Article 667 of the Commercial Transactions Law directly.</td></tr>
+<tr><td><strong>How I re-verified</strong></td><td>CBUAE cheques FAQ + the full text of Federal Decree-Law No. 50 of 2022 + commentary from UAE legal practitioners. All confirm mandatory partial-payment.</td></tr>
+<tr><td><strong>Source</strong></td><td><a href="https://www.centralbank.ae/media/nknfbci1/cheques-faq-commercial-transaction-law-en.pdf">CBUAE cheques FAQ</a>; <a href="https://assets.u.ae/api/public/content/79793d384f884bccb59171817ba1e9d4?v=a51ac7b6">Federal Decree-Law No. 50 of 2022</a>; <a href="https://leaders-advocates.ae/bounced-cheque-law-in-the-uae/">Leaders Advocates</a></td></tr>
+<tr><td><strong>Why the original error happened</strong></td><td>I assumed "bouncing" and "partial payment" were both undefined or informal bank practices, when in fact Article 667 codifies them. Should have searched the Central Bank FAQ before writing.</td></tr>
+</tbody>
+</table>
+
+<h3>Correction 3 &mdash; Statement 12: E-invoicing rollout dates</h3>
+<table>
+<tbody>
+<tr><td style="width:18%;"><strong>What I said before</strong></td><td>"Phase 1 mandatory from 1 July 2026 for businesses with revenue &gt; AED 50M."</td></tr>
+<tr><td><strong>What is actually true</strong></td><td>1 July 2026 was the <strong>voluntary pilot launch</strong> / Taxpayer Working Group onboarding. The <strong>mandatory</strong> Phase 1 begins <strong>1 January 2027</strong> for businesses with annual revenue &ge; AED 50M. ASP appointment deadline is 30/31 October 2026. Phase 2 (revenue &lt; AED 50M) follows.</td></tr>
+<tr><td><strong>How the audit caught it</strong></td><td>The audit distinguished "pilot" from "mandatory" and pointed at the 1 January 2027 effective date.</td></tr>
+<tr><td><strong>How I re-verified</strong></td><td>KPMG, Deloitte, MoF all confirm: 1 July 2026 = pilot/voluntary; 1 January 2027 = mandatory Phase 1 for revenue &ge; AED 50M.</td></tr>
+<tr><td><strong>Source</strong></td><td><a href="https://www.mof.gov.ae/einvoicing">MoF</a>; <a href="https://www.deloitte.com/middle-east/en/services/tax/perspectives/release-of-uae-einvoicing-legislation.html">Deloitte</a>; <a href="https://kpmg.com/us/en/taxnewsflash/news/2026/07/tnf-uae-phased-implementation-of-e-invoicing-beginning-january-1-2027.html">KPMG</a></td></tr>
+<tr><td><strong>Why the original error happened</strong></td><td>Earlier secondary sources reported "Phase 1 from 1 July 2026" without distinguishing pilot from mandatory. Should have cross-checked the MoF primary release rather than repeating the secondary framing.</td></tr>
+</tbody>
+</table>
+
+<h2>3 &mdash; Final verdict count after corrections</h2>
+
+<table>
+<thead>
+<tr><th class="ctr">Bucket</th><th class="ctr">Count</th><th style="width:60%;">Examples</th></tr>
+</thead>
+<tbody>
+<tr><td>CORRECT</td><td class="ctr"><strong>3</strong></td><td>#1, #4, #10</td></tr>
+<tr><td>WRONG</td><td class="ctr"><strong>7</strong></td><td>#2, #3, #6, #7, #8, #9, #12</td></tr>
+<tr><td>CORRECT but incomplete (matters for DMCC)</td><td class="ctr"><strong>2</strong></td><td>#5 (QFZP), #11 (natural-person AED 375k band)</td></tr>
+<tr><td>TOTAL</td><td class="ctr"><strong>12</strong></td><td>&mdash;</td></tr>
+</tbody>
+</table>
+
+<h2>4 &mdash; Lessons for future regulatory verifications</h2>
+
+<div class="ok-box"><strong>1.</strong> When a secondary source gives a specific figure or date, cross-check against the primary statute or regulator before treating it as the right answer. The 187.5k-vs-375k error came from relying on a secondary summary.</div>
+<div class="ok-box"><strong>2.</strong> When the memo makes a confident-sounding claim about a specific article or section ("the threshold is now 187.5k", "banks do not pay partials"), quote and verify the exact article number against the law. The 2022 Cabinet Decision 100 is real but amends voluntary registration, not mandatory.</div>
+<div class="ok-box"><strong>3.</strong> Distinguish pilot / voluntary phases from mandatory phases. Phased rollouts (e.g. e-invoicing) have a confusing news cycle where "Phase 1 starting July" is repeated even when "Phase 1" means different things in different sources. The MoF press release is the canonical source.</div>
+<div class="ok-box"><strong>4.</strong> Treat any confident assertion that contradicts a primary statute citation (Article 13, Article 617, Article 667) as a signal to dig further. The audit's value was exactly this &mdash; it forced me back to the articles.</div>
+
+<h2>5 &mdash; Updated conclusion for a DMCC family office</h2>
+
+<div class="note"><strong>The seven wrong statements and two omissions that matter for a DMCC family office are listed in the corrected Task 6 page.</strong> The two omissions remain the same as before &mdash; the QFZP regime in #5 and the AED 375,000 natural-person 0% band in #11. The single wrong statement that would have cost real money first is unchanged: #6, the CT return deadline of 9 months (not 12). The audit response does not change that conclusion.</div>
+
+</body>
+</html>
