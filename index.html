@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finance Reviews — Index</title>
+<style>
+@page { size: A4 portrait; margin: 14mm 12mm 16mm 12mm; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 11pt; color: #1b2733; line-height: 1.55;
+  max-width: 186mm; margin: 0 auto; padding: 12mm 8mm;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+h1 {
+  font-size: 18pt; margin: 0 0 6px; padding: 12px 14px;
+  background: #13344f; color: #ffffff;
+  border-bottom: 3px solid #0b3d91;
+}
+h2 {
+  font-size: 12pt; margin: 22px 0 8px; padding: 6px 9px;
+  background: #13344f; color: #ffffff;
+}
+.subtitle { color: #5b6678; font-size: 9.5pt; margin-bottom: 16px; }
+.intro { background: #fff8e1; border-left: 4px solid #c9a227; padding: 10px 14px; margin: 0 0 18px; font-size: 10pt; }
+
+.nav-grid { width: 100%; border-collapse: collapse; margin: 6px 0 18px; }
+.nav-grid th {
+  background: #e9eff5; border: 0.5pt solid #9fb2c4; padding: 8px 10px;
+  text-align: left; font-size: 9pt; text-transform: uppercase; color: #1b2733;
+}
+.nav-grid td {
+  border: 0.5pt solid #bfcbd8; padding: 12px 10px; vertical-align: top; font-size: 10pt;
+}
+.nav-grid tr.task-1 td { background: #f7faff; }
+.nav-grid tr.task-2 td { background: #f7faff; }
+
+.task-no {
+  display: inline-block; width: 38px; height: 38px; line-height: 38px;
+  text-align: center; background: #13344f; color: #ffffff;
+  font-weight: 700; border-radius: 50%; font-size: 13pt;
+}
+.task-title { font-weight: 700; font-size: 11pt; margin-bottom: 4px; color: #13344f; }
+.task-meta { font-size: 9pt; color: #5b6678; margin-bottom: 8px; }
+.task-desc { font-size: 9.5pt; color: #1b2733; line-height: 1.5; }
+.task-link { display: inline-block; margin-top: 8px; padding: 6px 14px; background: #0b3d91; color: #ffffff; text-decoration: none; font-weight: 700; border-radius: 3px; font-size: 9.5pt; }
+.task-link:hover { background: #13344f; }
+.task-link.alt { background: #475569; }
+.task-link.alt:hover { background: #1e293b; }
+
+footer {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid #d7dce5;
+  font-size: 8.5pt; color: #5b6678; text-align: center;
+}
+
+@media print {
+  body { padding: 0; max-width: none; }
+  .task-link { background: transparent; color: #0b3d91; padding: 0; text-decoration: underline; }
+  a[href]::after { content: ""; }
+}
+</style>
+</head>
+<body>
+
+<h1>Finance Reviews — Document Index</h1>
+<p class="subtitle">Rams-Lab-01 · Public repository · Updated 22 September 2026</p>
+
+<div class="intro">
+  <strong>Purpose.</strong> This page indexes the financial review documents published in this repository. Each task is a self-contained review with findings, journal entries, recovery actions and corrective controls. The repository is configured for open public access via GitHub Pages.
+</div>
+
+<h2>Review tasks</h2>
+
+<table class="nav-grid">
+<thead>
+<tr>
+<th style="width:8%;" class="ctr">Task</th>
+<th style="width:62%;">Document</th>
+<th style="width:30%;" class="ctr">Open</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="task-1">
+<td><span class="task-no">1</span></td>
+<td>
+  <div class="task-title">August 2026 Reconciliation Findings</div>
+  <div class="task-meta">Period: 02-Aug-2026 to 22-Aug-2026 · Currency: AED · Closing balance: 229,281.25</div>
+  <div class="task-desc">
+    Bank reconciliation review of the August 2026 cashbook against the bank statement.
+    Covers five reconciling items totalling AED 13,063.75, the duplicate payment of
+    AED 12,600 to Nimbus IT Services, and the AED 93,750 post-dated cheque that the
+    bank honoured thirteen days before its stated date.
+  </div>
+  <a class="task-link" href="reconciliation-findings.html">Open task 1 →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="reconciliation-findings.html">View</a>
+</td>
+</tr>
+
+<tr class="task-2">
+<td><span class="task-no">2</span></td>
+<td>
+  <div class="task-title">Payables Review before Payment Run</div>
+  <div class="task-meta">Ten documents reviewed · Proposed run: AED 166,743.38 · Corrected release: AED 74,905.00</div>
+  <div class="task-desc">
+    Pre-release review of ten documents queued for payment tonight. Reduces the
+    proposed run by AED 91,838.38 by holding a duplicate of D1 (D7), a quotation
+    rather than invoice (D8), a suspected payment diversion attempt with a
+    structurally invalid IBAN (D9), and a credit note logged as an outflow (D10).
+    Input VAT claimable reset to AED 2,717.50.
+  </div>
+  <a class="task-link" href="payables-review.html">Open task 2 →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="payables-review.html">View</a>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<h2>Repository</h2>
+<table class="nav-grid">
+<tbody>
+<tr>
+<td style="width:22%;"><strong>GitHub repository</strong></td>
+<td>
+  <a href="https://github.com/Rams-Lab-01/reconciliation-findings-2026">https://github.com/Rams-Lab-01/reconciliation-findings-2026</a>
+</td>
+</tr>
+<tr>
+<td><strong>Published via</strong></td>
+<td>GitHub Pages · default github.io domain · HTTPS enforced</td>
+</tr>
+<tr>
+<td><strong>Visibility</strong></td>
+<td>Public · open to anyone with the link</td>
+</tr>
+</tbody>
+</table>
+
+<footer>
+  Maintained as a living index. Add new tasks by extending the table above with a new row and linking to the corresponding HTML page.
+</footer>
+
+</body>
+</html>
