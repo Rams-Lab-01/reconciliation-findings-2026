@@ -1,0 +1,803 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QuantLabFinanceReview_NormalizedTruthModel",
+  "version": "1.0.0",
+  "generated_at": "2026-09-22T07:35:00Z",
+  "metadata": {
+    "entity_name": "Quant Lab Family Office",
+    "jurisdiction": "DMCC, Dubai, United Arab Emirates",
+    "assessment_title": "Financial Operations Manager — Adversarial Assessment Audit",
+    "reporting_currency": "AED",
+    "fx_peg_usd_aed": 3.6725,
+    "accounts_in_scope": [
+      {
+        "account_id": "ACCT 3510",
+        "description": "Operating Current Account (Commercial Bank)",
+        "currency": "AED"
+      },
+      {
+        "account_id": "CARD 1346",
+        "description": "Corporate Credit Card (Primary Executive / Operations)",
+        "currency": "AED"
+      },
+      {
+        "account_id": "CARD 0951",
+        "description": "Corporate Credit Card (Secondary Operations / SaaS)",
+        "currency": "AED"
+      }
+    ],
+    "evidence_status_vocabulary": {
+      "VERIFIED": "Directly supported by uncontradicted primary records or verified source files.",
+      "CALCULATED": "Derived via exact mathematical or accounting calculation from verified numbers.",
+      "SOURCE-DERIVED": "Extracted directly from transaction journals, statements, or ledger rows.",
+      "EXTERNAL-SOURCE-VERIFIED": "Grounded in official primary legislation, Cabinet Decisions, or regulatory releases (FTA, MoF, CBUAE, MOHRE).",
+      "ASSESSMENT-RULE": "Hard constraint or operational policy specified by the Level 1 assessment brief.",
+      "CANDIDATE-CLAIM": "Original claim submitted by candidate, preserved for audit contrast.",
+      "UNVERIFIED": "Lacks sufficient documentation to establish as an objective truth.",
+      "SOURCE-MISSING": "Required source voucher or documentation is missing from the packet.",
+      "CORRECTION-REQ": "Original candidate submission was factually, legally, or mathematically erroneous and must be corrected in UI presentation."
+    }
+  },
+  "tasks": {
+    "task_1_bank_reconciliation": {
+      "task_title": "August 2026 Bank Reconciliation & Adjusting Entries",
+      "period": "02-Aug-2026 to 22-Aug-2026",
+      "account_id": "ACCT 3510",
+      "opening_balances": {
+        "cashbook_aed": 300000.0,
+        "bank_statement_aed": 300000.0,
+        "variance_aed": 0.0,
+        "evidence_status": "VERIFIED",
+        "source": "Bank Statement ACCT 3510 & Cashbook opening ledger as of 02-Aug-2026"
+      },
+      "unadjusted_closing_balances": {
+        "cashbook_aed": 242345.0,
+        "bank_statement_aed": 229281.25,
+        "variance_aed": 13063.75,
+        "evidence_status": "SOURCE-DERIVED",
+        "source": "Cashbook ledger closing at 22-Aug-2026 vs Bank Statement line 22-Aug-2026"
+      },
+      "reconciling_items": [
+        {
+          "item_id": "T1-REC-01",
+          "reference": "RC 051",
+          "date": "2026-08-04",
+          "counterparty": "Overseas Broker (US)",
+          "description": "FX spread on USD 25,000 remittance booked at official peg 3.6725 (AED 91,812.50) vs bank credit of AED 91,562.50 (rate 3.6625)",
+          "gross_amount_aed": 250.0,
+          "cashbook_adjustment_aed": -250.0,
+          "adjustment_type": "DEDUCT_FROM_CASHBOOK",
+          "target_account": "Finance Cost / Realized FX Expense",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "vat_applicable": false,
+          "statutory_basis": "Bank commercial FX spread embedded in dealt rate (no tax invoice exists)"
+        },
+        {
+          "item_id": "T1-REC-02",
+          "reference": "PV 204 / NIM 102",
+          "date": "2026-08-11",
+          "counterparty": "Nimbus IT Services FZE",
+          "description": "Duplicate debit executed by bank for Invoice NIM 102 (AED 12,600.00 debited twice on 11-Aug; cashbook only recorded one payment)",
+          "gross_amount_aed": 12600.0,
+          "cashbook_adjustment_aed": -12600.0,
+          "adjustment_type": "DEDUCT_FROM_CASHBOOK",
+          "target_account": "Other Receivables — Nimbus IT Services FZE",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "vat_applicable": false,
+          "statutory_basis": "Duplicate bank payment; no secondary taxable supply occurred. Input VAT strictly prohibited on duplicate disbursement."
+        },
+        {
+          "item_id": "T1-REC-03",
+          "reference": "PV 206 / HOR 556",
+          "date": "2026-08-18",
+          "counterparty": "Horizon Office Supplies LLC",
+          "description": "Transposition error in cashbook: invoice and bank debit AED 9,795.00 recorded by clerk as AED 9,975.00",
+          "gross_amount_aed": 180.0,
+          "cashbook_adjustment_aed": 180.0,
+          "adjustment_type": "ADD_TO_CASHBOOK",
+          "target_account": "Office Supplies Expense (Correction of Overstatement)",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "vat_applicable": false,
+          "statutory_basis": "Corrects internal clerical expense overstatement to agree with valid tax invoice."
+        },
+        {
+          "item_id": "T1-REC-04",
+          "reference": "BANK-CHG-AUG26",
+          "date": "2026-08-22",
+          "counterparty": "Commercial Drawee Bank",
+          "description": "Unrecorded monthly bank service charges (AED 375.00) and 5% UAE VAT (AED 18.75)",
+          "gross_amount_aed": 393.75,
+          "fee_portion_aed": 375.0,
+          "vat_portion_aed": 18.75,
+          "cashbook_adjustment_aed": -393.75,
+          "adjustment_type": "DEDUCT_FROM_CASHBOOK",
+          "target_account": "Bank Service Charges (AED 375.00) & Input VAT Recoverable (AED 18.75)",
+          "evidence_status": "SOURCE-DERIVED",
+          "audit_status": "VERIFIED",
+          "vat_applicable": true,
+          "statutory_basis": "Federal Decree-Law No. 8 of 2017; VAT recoverable upon receipt of compliant tax invoice / bank statement."
+        }
+      ],
+      "adjusted_closing_balances": {
+        "net_cashbook_adjustments_aed": -13063.75,
+        "adjusted_cashbook_balance_aed": 229281.25,
+        "adjusted_bank_balance_aed": 229281.25,
+        "final_unreconciled_difference_aed": 0.0,
+        "evidence_status": "CALCULATED",
+        "audit_status": "VERIFIED"
+      },
+      "zero_variance_critical_finding": {
+        "finding_id": "T1-CRIT-01",
+        "instrument": "Cheque #0470",
+        "stated_face_date": "2026-09-01",
+        "cashbook_booking_date": "2026-08-16",
+        "bank_clearing_debit_date": "2026-08-19",
+        "amount_aed": 93750.0,
+        "days_paid_ahead_of_face_date": 13,
+        "reconciliation_variance_created_aed": 0.0,
+        "evidence_status": "SOURCE-DERIVED",
+        "audit_status": "VERIFIED",
+        "finding_type": "SYSTEMIC_TREASURY_CONTROL_FAILURE",
+        "technical_analysis": "Post-dated cheque honored 13 days early without clearing return reversal. Cashbook prematurely credited cash on issue rather than holding in PDC Payable. Ledgers matched identically, masking early cash drain of AED 93,750.00.",
+        "preventive_remedy": "Enforce automated Positive Pay cheque registration with drawee bank; maintain dedicated 'PDC Payable' balance sheet clearing account."
+      },
+      "journal_entries": [
+        {
+          "entry_id": "J1",
+          "date": "2026-08-22",
+          "narration": "To record realized foreign exchange spread loss on USD 25,000 remittance (RC 051)",
+          "debit_account": "Finance Cost: Realized FX Loss",
+          "debit_amount_aed": 250.0,
+          "credit_account": "Bank Current Account (ACCT 3510)",
+          "credit_amount_aed": 250.0,
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED"
+        },
+        {
+          "entry_id": "J2",
+          "date": "2026-08-22",
+          "narration": "To record other receivable for duplicate payment of INV NIM 102 to Nimbus IT Services FZE",
+          "debit_account": "Other Receivables: Nimbus IT Services FZE",
+          "debit_amount_aed": 12600.0,
+          "credit_account": "Bank Current Account (ACCT 3510)",
+          "credit_amount_aed": 12600.0,
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED"
+        },
+        {
+          "entry_id": "J3",
+          "date": "2026-08-22",
+          "narration": "To correct transposition error on PV 206 (Horizon Supplies INV HOR 556 recorded at 9,975 vs 9,795)",
+          "debit_account": "Bank Current Account (ACCT 3510)",
+          "debit_amount_aed": 180.0,
+          "credit_account": "Office Supplies Expense",
+          "credit_amount_aed": 180.0,
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED"
+        },
+        {
+          "entry_id": "J4",
+          "date": "2026-08-22",
+          "narration": "To record monthly bank service charges and 5% input VAT for August 2026",
+          "debit_account": "Bank Charges Expense (AED 375.00) & Input VAT Recoverable (AED 18.75)",
+          "debit_amount_aed": 393.75,
+          "credit_account": "Bank Current Account (ACCT 3510)",
+          "credit_amount_aed": 393.75,
+          "evidence_status": "SOURCE-DERIVED",
+          "audit_status": "VERIFIED"
+        }
+      ]
+    },
+    "task_2_payables_review": {
+      "task_title": "Payables Review Before Payment Run",
+      "batch_summary": {
+        "total_documents_reviewed": 10,
+        "clerk_proposed_release_aed": 166743.38,
+        "audited_release_tonight_aed": 74905.0,
+        "unowed_or_fraudulent_prevented_aed": 91838.38,
+        "audited_input_vat_claimable_aed": 2717.5,
+        "evidence_status": "CALCULATED",
+        "audit_status": "VERIFIED"
+      },
+      "documents": [
+        {
+          "doc_ref": "D1",
+          "supplier_name": "Gulf Data Systems LLC",
+          "doc_number": "INV 5101",
+          "doc_type": "Tax Invoice",
+          "clerk_gross_aed": 44100.0,
+          "clerk_vat_aed": 2100.0,
+          "audited_action": "PAY",
+          "audited_pay_amount_aed": 44100.0,
+          "audited_claimable_vat_aed": 2100.0,
+          "vat_treatment": "RECOVERABLE_IN_FULL",
+          "statutory_reference": "Article 54, Federal Decree-Law No. 8 of 2017",
+          "evidence_status": "VERIFIED",
+          "audit_status": "VERIFIED",
+          "notes": "Valid tax invoice; core IT infrastructure supply; verified supplier TRN."
+        },
+        {
+          "doc_ref": "D2",
+          "supplier_name": "Desert Palm Events LLC",
+          "doc_number": "INV 1290",
+          "doc_type": "Tax Invoice",
+          "clerk_gross_aed": 5670.0,
+          "clerk_vat_aed": 270.0,
+          "audited_action": "PAY",
+          "audited_pay_amount_aed": 5670.0,
+          "audited_claimable_vat_aed": 0.0,
+          "vat_treatment": "BLOCKED_ENTERTAINMENT",
+          "statutory_reference": "Article 53(1)(a), Cabinet Decision No. 52 of 2017 (VAT Executive Regulations)",
+          "evidence_status": "EXTERNAL-SOURCE-VERIFIED",
+          "audit_status": "VERIFIED",
+          "notes": "Pay supplier gross AED 5,670.00. Input VAT is strictly blocked from recovery because hospitality/entertainment was provided to non-employees/clients. Expense gross in P&L."
+        },
+        {
+          "doc_ref": "D3",
+          "supplier_name": "CloudMetrics Inc. (USA)",
+          "doc_number": "CM 99812",
+          "doc_type": "Foreign Electronic Service Invoice",
+          "clerk_gross_aed": 11568.38,
+          "clerk_vat_aed": 550.88,
+          "audited_action": "PAY",
+          "audited_pay_amount_aed": 11017.5,
+          "audited_claimable_vat_aed": 0.0,
+          "vat_treatment": "REVERSE_CHARGE_MECHANISM",
+          "statutory_reference": "Article 48, Federal Decree-Law No. 8 of 2017 (Import of Services)",
+          "evidence_status": "EXTERNAL-SOURCE-VERIFIED",
+          "audit_status": "VERIFIED",
+          "notes": "USD 3,000.00 @ 3.6725 peg = AED 11,017.50 net. Foreign SaaS entity has no UAE establishment or TRN and cannot charge UAE VAT. Pay net AED 11,017.50 only (withhold 550.88). Quant Lab accounts for VAT via Reverse Charge (Box 3 output, Box 9 input; cash-neutral)."
+        },
+        {
+          "doc_ref": "D4",
+          "supplier_name": "Al Noor Facilities Mgmt LLC",
+          "doc_number": "INV 2290",
+          "doc_type": "Tax Invoice",
+          "clerk_gross_aed": 7717.5,
+          "clerk_vat_aed": 367.5,
+          "audited_action": "PAY",
+          "audited_pay_amount_aed": 3307.5,
+          "audited_claimable_vat_aed": 367.5,
+          "vat_treatment": "RECOVERABLE_ON_GROSS_SUPPLY",
+          "statutory_reference": "Article 54, Federal Decree-Law No. 8 of 2017",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "notes": "Valid tax invoice for AED 7,717.50 netted against valid credit note D10 (AED 4,410.00) from same vendor. Net disbursement: AED 3,307.50. Full supply VAT of AED 367.50 is recognized."
+        },
+        {
+          "doc_ref": "D5",
+          "supplier_name": "Horizon Office Supplies LLC",
+          "doc_number": "INV 9142",
+          "doc_type": "Tax Invoice",
+          "clerk_gross_aed": 9670.0,
+          "clerk_vat_aed": 470.0,
+          "audited_action": "PAY",
+          "audited_pay_amount_aed": 9660.0,
+          "audited_claimable_vat_aed": 460.0,
+          "vat_treatment": "RECOVERABLE_AS_CORRECTED",
+          "statutory_reference": "Article 54, Federal Decree-Law No. 8 of 2017",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "notes": "Mathematical error on supplier invoice: Net AED 9,200.00 * 5% = AED 460.00 (not AED 470.00). Corrected gross payable: AED 9,660.00. Corrected claimable VAT: AED 460.00."
+        },
+        {
+          "doc_ref": "D6",
+          "supplier_name": "Emirates Secure Couriers",
+          "doc_number": "ESC 4471",
+          "doc_type": "Commercial Invoice (Missing TRN)",
+          "clerk_gross_aed": 1207.5,
+          "clerk_vat_aed": 57.5,
+          "audited_action": "PAY",
+          "audited_pay_amount_aed": 1150.0,
+          "audited_claimable_vat_aed": 0.0,
+          "vat_treatment": "WITHHELD_NON_COMPLIANT",
+          "statutory_reference": "Article 59, Cabinet Decision No. 52 of 2017 (Tax Invoice Mandates)",
+          "evidence_status": "EXTERNAL-SOURCE-VERIFIED",
+          "audit_status": "VERIFIED",
+          "notes": "Invoice omits supplier's Tax Registration Number (TRN). Pay net AED 1,150.00; withhold VAT AED 57.50 pending re-issuance of compliant tax invoice."
+        },
+        {
+          "doc_ref": "D7",
+          "supplier_name": "Gulf Data Systems LLC",
+          "doc_number": "INV 5101",
+          "doc_type": "Duplicate Invoice Copy",
+          "clerk_gross_aed": 44100.0,
+          "clerk_vat_aed": 2100.0,
+          "audited_action": "HOLD",
+          "audited_pay_amount_aed": 0.0,
+          "audited_claimable_vat_aed": 0.0,
+          "vat_treatment": "DISALLOWED_DUPLICATE",
+          "statutory_reference": "General Accounting Principles / Dual Payment Prevention",
+          "evidence_status": "VERIFIED",
+          "audit_status": "VERIFIED",
+          "notes": "Exact duplicate of D1. Disallowing prevents cash leakage of AED 44,100.00."
+        },
+        {
+          "doc_ref": "D8",
+          "supplier_name": "Apex Engineering & Works",
+          "doc_number": "QTN 0881",
+          "doc_type": "Price Quotation",
+          "clerk_gross_aed": 31500.0,
+          "clerk_vat_aed": 1500.0,
+          "audited_action": "HOLD",
+          "audited_pay_amount_aed": 0.0,
+          "audited_claimable_vat_aed": 0.0,
+          "vat_treatment": "DISALLOWED_NON_INVOICE",
+          "statutory_reference": "Article 59, Executive Regulations (Quotation is not a Tax Invoice)",
+          "evidence_status": "VERIFIED",
+          "audit_status": "VERIFIED",
+          "notes": "Document is an unexecuted price quotation. No services rendered, no legal liability. Disallowing prevents cash leakage of AED 31,500.00."
+        },
+        {
+          "doc_ref": "D9",
+          "supplier_name": "Oasis Facilities Services LLC",
+          "doc_number": "OFS 1174",
+          "doc_type": "BEC Fraud Diversion Attempt",
+          "clerk_gross_aed": 6800.0,
+          "clerk_vat_aed": 300.0,
+          "audited_action": "HOLD",
+          "audited_pay_amount_aed": 0.0,
+          "audited_claimable_vat_aed": 0.0,
+          "vat_treatment": "DISALLOWED_FRAUD",
+          "statutory_reference": "CBUAE IBAN Validation Regulations & Anti-Fraud Governance",
+          "evidence_status": "EXTERNAL-SOURCE-VERIFIED",
+          "audit_status": "VERIFIED",
+          "notes": "High-severity BEC diversion. 12 concrete red flags including an invalid 22-character IBAN (UAE mandates 23 chars), fictitious audit pretext, and inflated amount (+AED 500.00). Disallowing prevents fraud loss of AED 6,800.00."
+        },
+        {
+          "doc_ref": "D10",
+          "supplier_name": "Al Noor Facilities Mgmt LLC",
+          "doc_number": "CN 118",
+          "doc_type": "Credit Note",
+          "clerk_gross_aed": -4410.0,
+          "clerk_vat_aed": -210.0,
+          "audited_action": "HOLD_NETTED_AGAINST_D4",
+          "audited_pay_amount_aed": -4410.0,
+          "audited_claimable_vat_aed": -210.0,
+          "vat_treatment": "INPUT_TAX_REDUCTION",
+          "statutory_reference": "Article 60, Federal Decree-Law No. 8 of 2017",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "notes": "Clerk treated this credit note as a positive disbursement outflow (+AED 4,410.00). Correcting this sign inversion swings the ledger by AED 8,820.00 in Quant Lab's favor. Netted cleanly against D4."
+        }
+      ],
+      "fraud_email_audit": {
+        "sender_claimed": "Imran S. (Accounts Supervisor)",
+        "claimed_vendor": "Oasis Facilities Services LLC",
+        "red_flags_identified_count": 12,
+        "key_flags": [
+          {
+            "flag": "Structurally invalid IBAN length",
+            "evidence": "AE29 0400 0123 4567 8901 23 is 22 alphanumeric characters. UAE IBAN standard strictly requires 23 characters.",
+            "evidence_status": "EXTERNAL-SOURCE-VERIFIED"
+          },
+          {
+            "flag": "Sequential placeholder digits",
+            "evidence": "Account sequence 0123 4567 8901 23 is an ascending test sequence.",
+            "evidence_status": "VERIFIED"
+          },
+          {
+            "flag": "Amount discrepancy",
+            "evidence": "Demanded AED 6,800.00 vs approved invoice amount of AED 6,300.00 (+AED 500.00 inflation).",
+            "evidence_status": "SOURCE-DERIVED"
+          },
+          {
+            "flag": "Unauthorized contact & mobile callback",
+            "evidence": "Meera Pillai is the sole authorized liaison. Provided mobile 055 882 4471 vs official landline 04 452 8810.",
+            "evidence_status": "VERIFIED"
+          }
+        ],
+        "vendor_reply_audit": {
+          "status": "APPROVED",
+          "word_count": 92,
+          "word_limit": 120,
+          "adherence_rules": "Commits to nothing, preserves commercial relationship, reveals no internal security protocols, initiates out-of-band verification via official phone.",
+          "evidence_status": "VERIFIED"
+        }
+      }
+    },
+    "task_3_funding_plan": {
+      "task_title": "Cheque and Payroll Funding Plan, November 2026",
+      "simulation_parameters": {
+        "start_date": "2026-11-02",
+        "end_date": "2026-11-30",
+        "opening_cash_balance_aed": 115000.0,
+        "mandatory_operating_buffer_aed": 25000.0,
+        "scheduled_outflows_total_aed": 362950.0,
+        "evidence_status": "ASSESSMENT-RULE",
+        "audit_status": "VERIFIED"
+      },
+      "calendar_and_clearing_rules": {
+        "uae_banking_days": "Monday through Friday (Saturday & Sunday are non-banking days)",
+        "bank_closure_exception": "Monday 16 November 2026 (Scheduled bank core-banking migration closure)",
+        "autodebit_roll_rule": "Autodebits scheduled on 16-Nov roll forward to Tuesday 17-Nov",
+        "wire_settlement_timeline": "T+2 banking days from request to value credit",
+        "cheque_funding_house_rule": "Cleared funds must be present in account by banking day PRIOR to presentation",
+        "evidence_status": "EXTERNAL-SOURCE-VERIFIED",
+        "audit_status": "VERIFIED"
+      },
+      "handover_claims_forensic_audit": [
+        {
+          "claim_number": 1,
+          "claim_text": "The current balance comfortably covers the rent cheque.",
+          "candidate_verdict": "FALSE",
+          "forensic_verdict": "FALSE",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "detailed_reasoning": "Opening balance AED 115,000.00 less Rent PDC of AED 93,750.00 leaves AED 21,250.00 on Mon 9 Nov. While the cheque does not bounce, the closing balance breaches the mandatory AED 25,000.00 buffer by AED 3,750.00."
+        },
+        {
+          "claim_number": 2,
+          "claim_text": "Payroll is the same as last month, AED 98,600.",
+          "candidate_verdict": "FALSE",
+          "forensic_verdict": "FALSE",
+          "evidence_status": "SOURCE-DERIVED",
+          "audit_status": "VERIFIED",
+          "detailed_reasoning": "Ignores the senior finance hire joining 15 October 2026. November WPS salaries total AED 132,500.00, an understatement of AED 33,900.00. Funding to handover figure would cause WPS rejection on lodgement (Tue 24 Nov)."
+        },
+        {
+          "claim_number": 3,
+          "claim_text": "Requesting funding on the 5th still lands in time for everything.",
+          "candidate_verdict": "FALSE",
+          "forensic_verdict": "FALSE",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "detailed_reasoning": "Wire requested Thu 5 Nov lands Mon 9 Nov (T+2 banking days: Fri 6 Nov Day 1, Sat/Sun non-banking, Mon 9 Nov Day 2). House rule mandates cleared funds on Friday 6 Nov (day before presentation). Latest compliant date is Wed 4 Nov."
+        }
+      ],
+      "unfunded_runway": {
+        "buffer_breach_date": "2026-11-09",
+        "buffer_breach_balance_aed": 21250.0,
+        "first_overdraft_date": "2026-11-18",
+        "overdrawn_balance_aed": -32150.0,
+        "month_end_deficit_aed": -247950.0,
+        "shortfall_against_buffer_aed": 272950.0,
+        "evidence_status": "CALCULATED",
+        "audit_status": "VERIFIED"
+      },
+      "funding_solution_single": {
+        "type": "SINGLE_WITHDRAWAL",
+        "recommended": true,
+        "required_inflow_minimum_aed": 272950.0,
+        "calculated_usd_exact": 74322.71,
+        "sized_withdrawal_usd": 75000.0,
+        "converted_aed_at_peg": 275437.5,
+        "latest_request_date": "2026-11-04",
+        "settlement_date": "2026-11-06",
+        "projected_month_end_balance_aed": 27487.5,
+        "minimum_balance_in_month_aed": 27487.5,
+        "buffer_maintained_throughout": true,
+        "evidence_status": "CALCULATED",
+        "audit_status": "VERIFIED"
+      },
+      "one_day_late_stress_test": {
+        "scenario": "USD wire requested on Thu 5 Nov instead of Wed 4 Nov (lands Mon 9 Nov instead of Fri 6 Nov)",
+        "rule_broken": "Quant Lab Cheque Funding Rule (cleared funds required banking day before presentation)",
+        "cheque_honoured_at_counter": true,
+        "day_end_balance_9_nov_aed": 296687.5,
+        "breach_nature": "Operational policy breach on Fri 6 Nov (account un-topped-up entering weekend); zero overdraft or bounce.",
+        "evidence_status": "CALCULATED",
+        "audit_status": "VERIFIED"
+      }
+    },
+    "task_4_spend_review": {
+      "task_title": "Spend Review Jun–Aug 2026 / 3 Months of Transactions",
+      "dataset_dimensions": {
+        "total_rows": 74,
+        "accounts_included": ["ACCT 3510", "CARD 1346", "CARD 0951"],
+        "period": "01-Jun-2026 to 31-Aug-2026",
+        "evidence_status": "SOURCE-DERIVED",
+        "audit_status": "VERIFIED"
+      },
+      "macro_control_totals": {
+        "gross_disbursements_aed": 565386.9,
+        "monthly_disbursements": {
+          "june_2026_aed": 200991.43,
+          "july_2026_aed": 185512.54,
+          "august_2026_aed": 178882.93
+        },
+        "capital_call_inflows_aed": 407075.0,
+        "vat_liability_settlement_balance_sheet_aed": 12460.0,
+        "operating_spend_pnl_aed": 552926.9,
+        "net_cash_movement_aed": -158311.9,
+        "evidence_status": "CALCULATED",
+        "audit_status": "VERIFIED"
+      },
+      "anomalies": [
+        {
+          "anomaly_id": "A1",
+          "classification": "CONFIRMED_ANOMALY",
+          "title": "Duplicate Payment to Nimbus IT Services",
+          "channel": "ACCT 3510",
+          "vendor": "Nimbus IT Services FZE",
+          "amount_at_stake_aed": 4830.0,
+          "annualized_exposure_aed": 0.0,
+          "recoverable_cash": true,
+          "recovery_probability": "HIGH",
+          "evidence_status": "SOURCE-DERIVED",
+          "audit_status": "VERIFIED",
+          "notes": "Paid twice via electronic wire transfer. Written demand for credit or cash refund issued."
+        },
+        {
+          "anomaly_id": "A2",
+          "classification": "CONFIRMED_ANOMALY",
+          "title": "Duplicate Dropbox Subscription Seats",
+          "channel": "CARD 1346 & CARD 0951",
+          "vendor": "Dropbox Inc.",
+          "amount_at_stake_aed": 96.36,
+          "annualized_exposure_aed": 1156.32,
+          "recoverable_cash": false,
+          "recovery_probability": "NEGLIGIBLE",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "notes": "Two active recurring subscriptions on separate cards. Cancel redundant seat immediately."
+        },
+        {
+          "anomaly_id": "A3",
+          "classification": "CONFIRMED_ANOMALY",
+          "title": "Cross-Channel Duplicate Payment (Al Reem)",
+          "channel": "ACCT 3510",
+          "vendor": "Al Reem Facilities Management",
+          "amount_at_stake_aed": 3150.0,
+          "annualized_exposure_aed": 0.0,
+          "recoverable_cash": true,
+          "recovery_probability": "HIGH",
+          "evidence_status": "SOURCE-DERIVED",
+          "audit_status": "VERIFIED",
+          "notes": "Direct debit and manual transfer executed for the identical maintenance bill. Credit against future month."
+        },
+        {
+          "anomaly_id": "A4",
+          "classification": "CONTROL_CONCERN",
+          "title": "Unvouched ATM Cash Withdrawals",
+          "channel": "ACCT 3510",
+          "vendor": "ATM Branch",
+          "amount_at_stake_aed": 15000.0,
+          "annualized_exposure_aed": 60000.0,
+          "recoverable_cash": false,
+          "recovery_probability": "UNVERIFIED",
+          "evidence_status": "SOURCE-DERIVED",
+          "audit_status": "VERIFIED",
+          "notes": "Three round debits of AED 5,000.00 each without receipts, expense reports, or petty cash log. Requires formal investigation."
+        },
+        {
+          "anomaly_id": "A5",
+          "classification": "CONTROL_CONCERN",
+          "title": "Unsubstantiated Yacht Club Hospitality / Blocked VAT",
+          "channel": "CARD 1346",
+          "vendor": "Marina Yacht Club",
+          "amount_at_stake_aed": 6400.0,
+          "annualized_exposure_aed": 0.0,
+          "recoverable_cash": false,
+          "recovery_probability": "NEGLIGIBLE",
+          "evidence_status": "EXTERNAL-SOURCE-VERIFIED",
+          "audit_status": "VERIFIED",
+          "notes": "No business purpose or attendee log provided. Input VAT AED 304.76 must be blocked under Article 53 of VAT Regulations."
+        },
+        {
+          "anomaly_id": "A6",
+          "classification": "CONTROL_CONCERN",
+          "title": "Three-Way Match Discrepancy (DEWA)",
+          "channel": "ACCT 3510",
+          "vendor": "DEWA (Dubai Electricity & Water Authority)",
+          "amount_at_stake_aed": 473.0,
+          "annualized_exposure_aed": 0.0,
+          "recoverable_cash": false,
+          "recovery_probability": "NEGLIGIBLE",
+          "evidence_status": "SOURCE-DERIVED",
+          "audit_status": "VERIFIED",
+          "notes": "Direct debit deduction did not match internal monthly utility estimate/invoice. True up against actual meter bill."
+        },
+        {
+          "anomaly_id": "A7",
+          "classification": "CONTROL_CONCERN",
+          "title": "Foreign Exchange Markup on Card Spend",
+          "channel": "CARD 1346",
+          "vendor": "GlobalData Inc.",
+          "amount_at_stake_aed": 78.0,
+          "annualized_exposure_aed": 468.0,
+          "recoverable_cash": false,
+          "recovery_probability": "NEGLIGIBLE",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "notes": "USD charge converted at 3.867 vs official 3.6725 peg (5.31% bank card spread). Route via USD corporate account."
+        },
+        {
+          "anomaly_id": "A8",
+          "classification": "ACCOUNTING_RECLASSIFICATION",
+          "title": "Capital Furniture Expensed in P&L Without PO",
+          "channel": "CARD 1346",
+          "vendor": "Crate & Barrel / Virgin",
+          "amount_at_stake_aed": 13911.5,
+          "annualized_exposure_aed": 0.0,
+          "recoverable_cash": false,
+          "is_excluded_from_leakage_total": true,
+          "evidence_status": "SOURCE-DERIVED",
+          "audit_status": "VERIFIED",
+          "notes": "Office furniture assets misclassified as operating expenses. Reclassify from P&L to Balance Sheet Fixed Assets; not a lost cash leak."
+        },
+        {
+          "anomaly_id": "A9",
+          "classification": "CONFIRMED_ANOMALY",
+          "title": "Unapproved SaaS Price Increase (Datastream Pro)",
+          "channel": "CARD 1346",
+          "vendor": "Datastream Pro",
+          "amount_at_stake_aed": 734.5,
+          "annualized_exposure_aed": 8814.0,
+          "recoverable_cash": false,
+          "recovery_probability": "LOW",
+          "evidence_status": "CALCULATED",
+          "audit_status": "VERIFIED",
+          "notes": "Monthly billing increased from AED 1,836.25 to AED 2,570.75 (+40.0% / AED 734.50 monthly increase) without prior contract amendment."
+        }
+      ],
+      "leakage_totals": {
+        "actionable_leakage_at_stake_aed": 30761.86,
+        "annualized_recurring_exposure_aed": 70438.32,
+        "direct_cash_recoverable_aed": 7980.0,
+        "evidence_status": "CALCULATED",
+        "audit_status": "VERIFIED"
+      }
+    },
+    "task_5_automation_design": {
+      "task_title": "Monthly-Close Automation Design & Architecture",
+      "architecture": {
+        "orchestration_platform": "Self-Hosted n8n on UAE-Region VPS",
+        "rejection_of_make_com": "Make.com hosted cloud rejected due to UAE banking secrecy, data sovereignty, non-deterministic SaaS logs, and cost volatility.",
+        "storage_layer": "Google Workspace (Google Drive + Google Sheets)",
+        "task_management": "Todoist",
+        "evidence_status": "ASSESSMENT-RULE",
+        "audit_status": "VERIFIED"
+      },
+      "human_gates": [
+        {
+          "gate_id": "G1",
+          "step": "Statement Ingestion Verification",
+          "mechanism": "Human confirms all 4 expected statements are deposited before OCR/text extraction pipeline triggers."
+        },
+        {
+          "gate_id": "G2",
+          "step": "Categorization Sign-Off",
+          "mechanism": "Human reviews Google Sheet. Categorizations with AI confidence < 0.70 highlighted amber for manual assignment."
+        },
+        {
+          "gate_id": "G3",
+          "step": "Vendor Validation Gate",
+          "mechanism": "Validates missing-invoice rows against verified ERP vendor master prior to drafting chase emails."
+        },
+        {
+          "gate_id": "G4",
+          "step": "Outbound Email Dispatch",
+          "mechanism": "Strict non-negotiable rule: Gmail Drafts only. Human inspects and manually clicks 'Send'."
+        },
+        {
+          "gate_id": "G5",
+          "step": "Executive Close Sign-Off",
+          "mechanism": "Principals review Google Doc close memorandum before publishing and archiving."
+        }
+      ],
+      "prohibited_actions": [
+        "Automated release of outbound bank payments",
+        "Automated signing or counter-signature of bank reconciliation certificates",
+        "Autonomous email dispatch to suppliers without human review",
+        "Write access tokens granted to external LLMs on corporate bank portals"
+      ]
+    },
+    "task_6_regulatory_rules_audit": {
+      "task_title": "UAE Finance & Regulatory Rules Verification",
+      "audited_statements": [
+        {
+          "statement_id": 1,
+          "topic": "Standard VAT Rate",
+          "memo_claim": "UAE VAT standard rate is 5%.",
+          "candidate_claim": "CORRECT",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Article 3, Federal Decree-Law No. 8 of 2017 on Value Added Tax",
+          "verified_fact": "The standard VAT rate is 5% across all mainland and free-zone taxable supplies."
+        },
+        {
+          "statement_id": 2,
+          "topic": "Mandatory VAT Registration Threshold",
+          "memo_claim": "VAT registration is mandatory when taxable supplies exceed AED 187,500 over the prior 12 months.",
+          "candidate_claim": "CORRECT (reduced from 375k effective 1 April 2022)",
+          "normalized_status": "CORRECTION-REQ",
+          "statute": "Article 13 & Article 17, Federal Decree-Law No. 8 of 2017",
+          "verified_fact": "CRITICAL CANDIDATE ERROR: The mandatory threshold remains fixed at AED 375,000.00. AED 187,500.00 is the voluntary registration threshold. It was never reduced."
+        },
+        {
+          "statement_id": 3,
+          "topic": "VAT Return Deadlines",
+          "memo_claim": "VAT returns are filed annually within 3 months of year-end.",
+          "candidate_claim": "WRONG IN MEMO",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Article 64, Federal Decree-Law No. 8 of 2017",
+          "verified_fact": "Standard VAT return period is quarterly; filing and payment are due by the 28th day following the end of the tax period."
+        },
+        {
+          "statement_id": 4,
+          "topic": "Late VAT Registration Penalty",
+          "memo_claim": "Late VAT registration incurs an administrative penalty of AED 20,000.",
+          "candidate_claim": "CORRECT",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Cabinet Decision No. 40 of 2017 as amended by Cabinet Decision No. 49 of 2021",
+          "verified_fact": "Fixed penalty of AED 20,000 applies for failing to submit a registration application within the statutory timeframe."
+        },
+        {
+          "statement_id": 5,
+          "topic": "Corporate Tax Rates & Free Zone Regime",
+          "memo_claim": "Corporate tax is 9% on all business profits; free zones are fully exempt at 0%.",
+          "candidate_claim": "CORRECT BUT INCOMPLETE",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Federal Decree-Law No. 47 of 2022; Cabinet Decisions No. 55/2023 & 139/2023",
+          "verified_fact": "CT rate is 0% on taxable income up to AED 375,000 and 9% above. Free Zone entities pay 0% only if they qualify as a Qualifying Free Zone Person (QFZP) earning Qualifying Income and maintaining adequate substance."
+        },
+        {
+          "statement_id": 6,
+          "topic": "Corporate Tax Return Filing Deadline",
+          "memo_claim": "Corporate tax return is due within 12 months of the financial year end.",
+          "candidate_claim": "WRONG IN MEMO",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Article 53, Federal Decree-Law No. 47 of 2022 on the Taxation of Corporations and Businesses",
+          "verified_fact": "Tax return and settlement are due within 9 months following the end of the relevant tax period."
+        },
+        {
+          "statement_id": 7,
+          "topic": "Small Business Relief",
+          "memo_claim": "Small Business Relief applies to businesses with turnover up to AED 5,000,000.",
+          "candidate_claim": "WRONG IN MEMO",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Ministerial Decision No. 73 of 2023",
+          "verified_fact": "Small Business Relief applies only where gross revenue does not exceed AED 3,000,000 in the relevant and previous tax periods (available through 31 Dec 2026)."
+        },
+        {
+          "statement_id": 8,
+          "topic": "Cheque Decriminalisation & Partial Payments",
+          "memo_claim": "Cheque bouncing is completely decriminalized; banks reject unpaid cheques entirely.",
+          "candidate_claim": "WRONG IN MEMO (Candidate asserted: 'Banks do not make partial payments')",
+          "normalized_status": "CORRECTION-REQ",
+          "statute": "Article 617, Federal Decree-Law No. 14 of 2020; Article 667, Federal Decree-Law No. 50 of 2022",
+          "verified_fact": "CRITICAL CANDIDATE ERROR: UAE banks ARE LEGALLY OBLIGATED to execute partial payments on cheques if available funds are insufficient, unless the bearer refuses. The endorsed cheque acts as an enforceable executive instrument."
+        },
+        {
+          "statement_id": 9,
+          "topic": "Wages Protection System (WPS) Scope",
+          "memo_claim": "WPS only applies to companies with more than 50 employees.",
+          "candidate_claim": "WRONG IN MEMO",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Ministerial Resolution No. 43 of 2022 & No. 598 of 2022",
+          "verified_fact": "WPS applies to all private-sector establishments registered with MOHRE, regardless of employee headcount."
+        },
+        {
+          "statement_id": 10,
+          "topic": "Statutory Record Retention",
+          "memo_claim": "Financial records must be retained for at least 7 years.",
+          "candidate_claim": "CORRECT",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Article 56, Federal Decree-Law No. 47 of 2022",
+          "verified_fact": "Corporate Tax records and documentation must be maintained for a minimum of 7 years following the end of the tax period."
+        },
+        {
+          "statement_id": 11,
+          "topic": "Corporate Taxation of Natural Persons",
+          "memo_claim": "Individuals are never subject to UAE corporate tax.",
+          "candidate_claim": "CORRECT BUT INCOMPLETE",
+          "normalized_status": "EXTERNAL-SOURCE-VERIFIED",
+          "statute": "Cabinet Decision No. 49 of 2023",
+          "verified_fact": "Natural persons conducting business/commercial activities in the UAE are subject to CT if their gross turnover exceeds AED 1,000,000 in a calendar year."
+        },
+        {
+          "statement_id": 12,
+          "topic": "Mandatory E-Invoicing Rollout",
+          "memo_claim": "E-invoicing is already fully mandatory for all UAE businesses.",
+          "candidate_claim": "WRONG IN MEMO (Candidate claimed: 'Mandatory Phase 1 from 1 July 2026')",
+          "normalized_status": "CORRECTION-REQ",
+          "statute": "Cabinet Decision No. 43 of 2025; Ministry of Finance Technical Guidance",
+          "verified_fact": "TIMING CORRECTION: 1 July 2026 marks the voluntary pilot launch / working group. Mandatory Phase 1 (revenue >= AED 50M) takes effect on 1 January 2027."
+        }
+      ]
+    }
+  }
+}

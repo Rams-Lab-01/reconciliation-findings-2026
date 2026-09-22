@@ -149,37 +149,129 @@ td {
 .topnav {
   background: #13344f;
   color: #ffffff;
-  padding: 10px 14px;
-  margin: 0 0 14mm 0;
+  padding: 8px 14px;
+  margin: 0 0 14px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px 12px;
   font-family: Calibri, "Segoe UI", Arial, sans-serif;
   font-size: 10pt;
   position: sticky;
   top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  border-radius: 4px 4px 0 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  border-radius: 4px;
 }
-.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; }
-.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; }
-.topnav a {
+.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; white-space: nowrap; }
+.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.topnav a, .topnav .dropdown-btn {
   color: #ffffff;
   text-decoration: none;
-  padding: 5px 12px;
+  padding: 5px 10px;
   border-radius: 3px;
   font-size: 9.5pt;
-  transition: background 0.15s;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  line-height: 1.3;
+  transition: background 0.15s ease, color 0.15s ease;
 }
-.topnav a:hover { background: rgba(255,255,255,0.18); }
-.topnav a.active { background: #0b3d91; font-weight: 700; }
-.topnav a.back { background: #6b7c8c; }
-.topnav a.back:hover { background: #475569; }
+.topnav a:hover, .topnav .dropdown-btn:hover { background: rgba(255,255,255,0.18); }
+.topnav a.active, .topnav .dropdown.active > .dropdown-btn { background: #0b3d91; font-weight: 700; }
+.topnav a.back { background: #475569; }
+.topnav a.back:hover { background: #334155; }
+.topnav .dropdown-caret { font-size: 7.5pt; opacity: 0.8; margin-left: 2px; }
+
+/* Dropdown Container */
+.topnav .dropdown {
+  position: relative;
+  display: inline-block;
+}
+.topnav .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 3px;
+  background: #0f273d;
+  min-width: 180px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 4px 0;
+  z-index: 1050;
+}
+.topnav .dropdown:hover .dropdown-menu,
+.topnav .dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+.topnav .dropdown-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  font-size: 9pt;
+  color: #e2e8f0;
+  border-radius: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.topnav .dropdown-menu a:hover {
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+}
+.topnav .dropdown-menu a.active {
+  background: #0b3d91;
+  color: #ffffff;
+  font-weight: 700;
+}
 @media print {
   .topnav { display: none; }
+}
+</style>
+<!-- Chart.js local with fallback to CDN -->
+<script src="/node_modules/chart.js/dist/chart.umd.min.js"></script>
+<script>
+  if (typeof Chart === 'undefined') {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"><\/script>');
+  }
+</script>
+<style>
+/* Visual KPI and Chart Enhancements */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+.kpi-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-top: 3px solid #0b3d91;
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+.kpi-box.danger { border-top-color: #dc2626; }
+.kpi-box.success { border-top-color: #059669; }
+.kpi-box-label { font-size: 8pt; text-transform: uppercase; color: #64748b; font-weight: 700; }
+.kpi-box-val { font-size: 13pt; font-weight: 800; color: #0f172a; margin: 3px 0; font-family: ui-monospace, Menlo, Consolas, monospace; }
+.kpi-box-sub { font-size: 7.8pt; color: #475569; }
+.chart-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 14px;
+  margin: 16px 0;
+}
+@media print {
+  .chart-card, .kpi-row { break-inside: avoid; }
 }
 </style>
 </head>
@@ -188,13 +280,105 @@ td {
 <nav class="topnav">
   <span class="brand">Finance Reviews</span>
   <div class="links">
-    <a href="index.html" class="back">&larr; Index</a>
+    <a href="index.html" class="back">&larr; Dashboard</a>
     <a href="reconciliation-findings.html" class="active">Task 1 &middot; Reconciliation</a>
     <a href="payables-review.html">Task 2 &middot; Payables</a>
     <a href="funding-plan-november-2026.html">Task 3 &middot; Funding Plan</a>
-    <a href="spend-review.html">Task 4 &middot; Spend Review</a>
+    <div class="dropdown">
+      <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        Task 4 &middot; Spend <span class="dropdown-caret">&#9662;</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="spend-review.html">Spend Dashboard</a>
+        <a href="spend-review-memorandum.html">Executive Memo</a>
+      </div>
+    </div>
+    <a href="task-5-automation-design.html">Task 5 &middot; Automation</a>
+    <div class="dropdown">
+      <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        Task 6 &middot; Rules <span class="dropdown-caret">&#9662;</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="task-6-finance-rules-check.html">Rules Verification</a>
+        <a href="task-6-audit-response.html">Audit Response</a>
+      </div>
+    </div>
   </div>
 </nav>
+
+<div class="kpi-row">
+  <div class="kpi-box">
+    <div class="kpi-box-label">Initial Cashbook</div>
+    <div class="kpi-box-val">AED 242,345.00</div>
+    <div class="kpi-box-sub">Pre-audit ledger balance</div>
+  </div>
+  <div class="kpi-box">
+    <div class="kpi-box-label">Bank Statement</div>
+    <div class="kpi-box-val">AED 229,281.25</div>
+    <div class="kpi-box-sub">Closing bank extract (22 Aug)</div>
+  </div>
+  <div class="kpi-box">
+    <div class="kpi-box-label">Net Variance</div>
+    <div class="kpi-box-val">AED 13,063.75</div>
+    <div class="kpi-box-sub">Reconciled to zero difference</div>
+  </div>
+  <div class="kpi-box danger">
+    <div class="kpi-box-label">Premature Cheque</div>
+    <div class="kpi-box-val" style="color:#dc2626;">AED 93,750.00</div>
+    <div class="kpi-box-sub">CHQ 0470 cleared 13 days early</div>
+  </div>
+  <div class="kpi-box success">
+    <div class="kpi-box-label">Cash Clawback</div>
+    <div class="kpi-box-val" style="color:#059669;">AED 12,600.00</div>
+    <div class="kpi-box-sub">Nimbus duplicate wire recall</div>
+  </div>
+</div>
+
+<div class="chart-card">
+  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:8px;">Visual Breakdown of Reconciling Items &amp; Early Cheque Exposure</div>
+  <div style="height: 180px; position:relative;">
+    <canvas id="task1Chart"></canvas>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const ctx = document.getElementById('task1Chart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Nimbus Duplicate Wire', 'Bank Service Charges & VAT', 'FX Remittance Spread', 'Horizon Transposition', 'CHQ 0470 (Early Clearing Risk)'],
+      datasets: [{
+        label: 'Amount (AED)',
+        data: [12600.00, 393.75, 250.00, 180.00, 93750.00],
+        backgroundColor: ['#2563eb', '#64748b', '#0891b2', '#f59e0b', '#dc2626'],
+        borderRadius: 3
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 800 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` Amount: AED ${ctx.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { family: 'ui-monospace, monospace', size: 9 }, callback: (v) => 'AED ' + v.toLocaleString() }
+        },
+        y: {
+          ticks: { font: { size: 9.5 } }
+        }
+      }
+    }
+  });
+});
+</script>
 
 
 <div class="alert"><strong>Principal finding.</strong> The statement shows cheque 0470 for AED 93,750.00 clearing on 19 Aug 2026 as one clean debit. The cheque is dated 01 Sep 2026, so it was paid thirteen days before the date written on its face. In UAE clearing practice a postdated cheque presented early is normally returned, and a return never appears as a single tidy line. It appears as a debit, then a reversing credit, then a narration carrying the return reason. This statement shows no reversal and no reason narration. That does not by itself prove wrongdoing, but it is the first item to put to the bank in writing, and the entity is meanwhile out of pocket by AED 93,750.00 almost two weeks early.</div>

@@ -45,35 +45,89 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 .topnav {
   background: #13344f;
   color: #ffffff;
-  padding: 10px 14px;
-  margin: 0 0 14mm 0;
+  padding: 8px 14px;
+  margin: 0 0 14px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px 12px;
   font-family: Calibri, "Segoe UI", Arial, sans-serif;
   font-size: 10pt;
   position: sticky;
   top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  border-radius: 4px 4px 0 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  border-radius: 4px;
 }
-.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; }
-.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; }
-.topnav a {
+.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; white-space: nowrap; }
+.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.topnav a, .topnav .dropdown-btn {
   color: #ffffff;
   text-decoration: none;
-  padding: 5px 12px;
+  padding: 5px 10px;
   border-radius: 3px;
   font-size: 9.5pt;
-  transition: background 0.15s;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  line-height: 1.3;
+  transition: background 0.15s ease, color 0.15s ease;
 }
-.topnav a:hover { background: rgba(255,255,255,0.18); }
-.topnav a.active { background: #0b3d91; font-weight: 700; }
-.topnav a.back { background: #6b7c8c; }
-.topnav a.back:hover { background: #475569; }
+.topnav a:hover, .topnav .dropdown-btn:hover { background: rgba(255,255,255,0.18); }
+.topnav a.active, .topnav .dropdown.active > .dropdown-btn { background: #0b3d91; font-weight: 700; }
+.topnav a.back { background: #475569; }
+.topnav a.back:hover { background: #334155; }
+.topnav .dropdown-caret { font-size: 7.5pt; opacity: 0.8; margin-left: 2px; }
+
+/* Dropdown Container */
+.topnav .dropdown {
+  position: relative;
+  display: inline-block;
+}
+.topnav .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 3px;
+  background: #0f273d;
+  min-width: 180px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 4px 0;
+  z-index: 1050;
+}
+.topnav .dropdown:hover .dropdown-menu,
+.topnav .dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+.topnav .dropdown-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  font-size: 9pt;
+  color: #e2e8f0;
+  border-radius: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.topnav .dropdown-menu a:hover {
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+}
+.topnav .dropdown-menu a.active {
+  background: #0b3d91;
+  color: #ffffff;
+  font-weight: 700;
+}
 @media print {
   .topnav { display: none; }
 }
@@ -84,15 +138,29 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 <nav class="topnav">
   <span class="brand">Finance Reviews</span>
   <div class="links">
-    <a href="index.html" class="back">&larr; Index</a>
+    <a href="index.html" class="back">&larr; Dashboard</a>
     <a href="reconciliation-findings.html">Task 1 &middot; Reconciliation</a>
     <a href="payables-review.html">Task 2 &middot; Payables</a>
     <a href="funding-plan-november-2026.html">Task 3 &middot; Funding Plan</a>
-    <a href="spend-review.html">Task 4 &middot; Dashboard</a>
-    <a href="spend-review-memorandum.html">Task 4 &middot; Memo</a>
+    <div class="dropdown">
+      <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        Task 4 &middot; Spend <span class="dropdown-caret">&#9662;</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="spend-review.html">Spend Dashboard</a>
+        <a href="spend-review-memorandum.html">Executive Memo</a>
+      </div>
+    </div>
     <a href="task-5-automation-design.html">Task 5 &middot; Automation</a>
-    <a href="task-6-finance-rules-check.html">Task 6 &middot; Rules</a>
-    <a href="task-6-audit-response.html" class="active">Task 6 &middot; Audit</a>
+    <div class="dropdown active">
+      <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        Task 6 &middot; Rules <span class="dropdown-caret">&#9662;</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="task-6-finance-rules-check.html">Rules Verification</a>
+        <a href="task-6-audit-response.html" class="active">Audit Response</a>
+      </div>
+    </div>
   </div>
 </nav>
 

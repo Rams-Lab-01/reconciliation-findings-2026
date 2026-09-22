@@ -53,48 +53,244 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
 .tag-m { background: #1d4ed8; }
 .tag-g { background: #0f7b4f; }
 
-/* ---------- MERMAID ---------- */
-.chart-card { background: #ffffff; border: 0.5pt solid #9fb2c4; border-radius: 2px; padding: 8px 10px; margin: 0 0 8px 0; }
-.chart-title { font-size: 8.6pt; font-weight: 700; color: #13344f; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; padding-bottom: 3px; border-bottom: 0.5pt solid #bfcbd8; }
-.chart-sub { font-size: 7.6pt; color: #55677a; margin-bottom: 4px; font-style: italic; }
-.mermaid { font-family: Calibri, "Segoe UI", Arial, sans-serif !important; background: #ffffff; display: flex; justify-content: center; margin: 4px 0; }
-.mermaid svg { max-width: 100% !important; height: auto !important; }
-.mermaid .nodeLabel, .mermaid .edgeLabel, .mermaid .label, .mermaid .node rect, .mermaid .node circle, .mermaid .node ellipse, .mermaid .node polygon { font-family: Calibri, "Segoe UI", Arial, sans-serif !important; }
-@media print { .mermaid { break-inside: avoid; page-break-inside: avoid; } }
+/* ---------- MERMAID & ZOOMABLE CONTAINER ---------- */
+.chart-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin: 14px 0 16px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.chart-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.chart-title {
+  font-size: 9.5pt;
+  font-weight: 700;
+  color: #13344f;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+.chart-sub {
+  font-size: 8.2pt;
+  color: #55677a;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  padding: 2px 4px;
+}
+.zoom-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #13344f;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  line-height: 1.2;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.zoom-btn:hover {
+  background: #e2e8f0;
+  color: #0b3d91;
+}
+.zoom-badge {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: #475569;
+  padding: 0 4px;
+  min-width: 38px;
+  text-align: center;
+}
+.diagram-viewport {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  background: radial-gradient(#e2e8f0 1px, transparent 1px) 0 0 / 16px 16px, #ffffff;
+  cursor: grab;
+  touch-action: none;
+}
+.diagram-viewport.panning {
+  cursor: grabbing;
+  user-select: none;
+}
+.diagram-content-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.05s ease-out;
+}
+.diagram-viewport.animating .diagram-content-stage {
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.diagram-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  background: rgba(15, 23, 42, 0.75);
+  color: #ffffff;
+  font-size: 9.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+.mermaid {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif !important;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.mermaid svg {
+  max-width: none !important;
+  height: auto !important;
+}
+.mermaid .nodeLabel, .mermaid .edgeLabel, .mermaid .label, .mermaid .node rect, .mermaid .node circle, .mermaid .node ellipse, .mermaid .node polygon {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif !important;
+}
+/* Fullscreen modal support if needed */
+.chart-card:fullscreen, .chart-card:-webkit-full-screen {
+  background: #ffffff;
+  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.chart-card:fullscreen .diagram-viewport, .chart-card:-webkit-full-screen .diagram-viewport {
+  flex: 1;
+  height: auto;
+}
+@media print {
+  .chart-card { break-inside: avoid; page-break-inside: avoid; }
+  .zoom-controls, .diagram-hint { display: none !important; }
+  .diagram-viewport { height: auto !important; overflow: visible !important; border: none !important; }
+  .diagram-content-stage { position: static !important; transform: none !important; }
+  .mermaid svg { max-width: 100% !important; }
+}
 
 /* ---------- TOP NAVIGATION BAR ---------- */
 .topnav {
   background: #13344f;
   color: #ffffff;
-  padding: 10px 14px;
-  margin: 0 0 8mm 0;
+  padding: 8px 14px;
+  margin: 0 0 14px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px 12px;
   font-family: Calibri, "Segoe UI", Arial, sans-serif;
   font-size: 10pt;
   position: sticky;
   top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  border-radius: 2px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  border-radius: 4px;
 }
-.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; }
-.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; }
-.topnav a {
+.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; white-space: nowrap; }
+.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.topnav a, .topnav .dropdown-btn {
   color: #ffffff;
   text-decoration: none;
-  padding: 5px 12px;
+  padding: 5px 10px;
   border-radius: 3px;
   font-size: 9.5pt;
-  transition: background 0.15s;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  line-height: 1.3;
+  transition: background 0.15s ease, color 0.15s ease;
 }
-.topnav a:hover { background: rgba(255,255,255,0.18); }
-.topnav a.active { background: #0b3d91; font-weight: 700; }
-.topnav a.back { background: #6b7c8c; }
-.topnav a.back:hover { background: #475569; }
+.topnav a:hover, .topnav .dropdown-btn:hover { background: rgba(255,255,255,0.18); }
+.topnav a.active, .topnav .dropdown.active > .dropdown-btn { background: #0b3d91; font-weight: 700; }
+.topnav a.back { background: #475569; }
+.topnav a.back:hover { background: #334155; }
+.topnav .dropdown-caret { font-size: 7.5pt; opacity: 0.8; margin-left: 2px; }
+
+/* Dropdown Container */
+.topnav .dropdown {
+  position: relative;
+  display: inline-block;
+}
+.topnav .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 3px;
+  background: #0f273d;
+  min-width: 180px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 4px 0;
+  z-index: 1050;
+}
+.topnav .dropdown:hover .dropdown-menu,
+.topnav .dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+.topnav .dropdown-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  font-size: 9pt;
+  color: #e2e8f0;
+  border-radius: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.topnav .dropdown-menu a:hover {
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+}
+.topnav .dropdown-menu a.active {
+  background: #0b3d91;
+  color: #ffffff;
+  font-weight: 700;
+}
 @media print {
   .topnav { display: none; }
   body { background: #ffffff; }
@@ -124,21 +320,55 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
     });
   });
 </script>
+<style>
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 14px 0 16px;
+}
+.kpi-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-top: 3px solid #0b3d91;
+  border-radius: 4px;
+  padding: 9px 12px;
+}
+.kpi-box.success { border-top-color: #059669; }
+.kpi-box.navy { border-top-color: #0b2545; }
+.kpi-box-label { font-size: 8pt; text-transform: uppercase; color: #64748b; font-weight: 700; }
+.kpi-box-val { font-size: 13pt; font-weight: 800; color: #0f172a; margin: 3px 0; font-family: ui-monospace, Menlo, Consolas, monospace; }
+.kpi-box-sub { font-size: 7.8pt; color: #475569; }
+</style>
 </head>
 <body>
 
 <nav class="topnav">
   <span class="brand">Finance Reviews</span>
   <div class="links">
-    <a href="index.html" class="back">&larr; Index</a>
+    <a href="index.html" class="back">&larr; Dashboard</a>
     <a href="reconciliation-findings.html">Task 1 &middot; Reconciliation</a>
     <a href="payables-review.html">Task 2 &middot; Payables</a>
     <a href="funding-plan-november-2026.html">Task 3 &middot; Funding Plan</a>
-    <a href="spend-review.html">Task 4 &middot; Dashboard</a>
-    <a href="spend-review-memorandum.html">Task 4 &middot; Memo</a>
+    <div class="dropdown">
+      <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        Task 4 &middot; Spend <span class="dropdown-caret">&#9662;</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="spend-review.html">Spend Dashboard</a>
+        <a href="spend-review-memorandum.html">Executive Memo</a>
+      </div>
+    </div>
     <a href="task-5-automation-design.html" class="active">Task 5 &middot; Automation</a>
-    <a href="task-6-finance-rules-check.html">Task 6 &middot; Rules</a>
-    <a href="task-6-audit-response.html">Task 6 &middot; Audit</a>
+    <div class="dropdown">
+      <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        Task 6 &middot; Rules <span class="dropdown-caret">&#9662;</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="task-6-finance-rules-check.html">Rules Verification</a>
+        <a href="task-6-audit-response.html">Audit Response</a>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -146,6 +376,34 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
 
 <h1>Task 5 &mdash; Design of the monthly-close automation</h1>
 <div class="sub">Brief: monthly close is currently two days of manual work (statement download &rarr; categorise &rarr; match invoices &rarr; chase missing &rarr; create top-up tasks &rarr; draft principals summary). Stack: Make.com for orchestration, Claude (API + Cowork + Code) for intelligence, Google Workspace as system of record, Todoist for human task tracking. Below is the proposed pipeline, Mermaid architecture diagram, approval gates, failure modes, security posture, and the verbatim first prompt.</div>
+
+<div class="kpi-row">
+  <div class="kpi-box success">
+    <div class="kpi-box-label">Close Velocity</div>
+    <div class="kpi-box-val" style="color:#059669;">2 Days &rarr; 4 Hrs</div>
+    <div class="kpi-box-sub">75% time compression</div>
+  </div>
+  <div class="kpi-box navy">
+    <div class="kpi-box-label">Pipeline Scope</div>
+    <div class="kpi-box-val">8 Steps</div>
+    <div class="kpi-box-sub">End-to-end close workflow</div>
+  </div>
+  <div class="kpi-box">
+    <div class="kpi-box-label">Human Gates</div>
+    <div class="kpi-box-val">3 Checkpoints</div>
+    <div class="kpi-box-sub">Rec, Payables, Vendor chase</div>
+  </div>
+  <div class="kpi-box">
+    <div class="kpi-box-label">Reconciliation Logic</div>
+    <div class="kpi-box-val">Deterministic</div>
+    <div class="kpi-box-sub">Code-level 0-variance gate</div>
+  </div>
+  <div class="kpi-box">
+    <div class="kpi-box-label">Data Privacy</div>
+    <div class="kpi-box-val">Zero Retention</div>
+    <div class="kpi-box-sub">PII redacted prior to LLM</div>
+  </div>
+</div>
 
 <div class="alert"><strong>Stack rationale: Make.com for orchestration, not n8n.</strong> Make.com is the right layer for this office at its current size: deterministic, retryable, audit-logged, and it stays out of the data plane &mdash; nothing customer-confidential flows through it. From step 3 onward a redaction step in Make.com strips account numbers, IBANs and PANs from every payload before the call to Claude, so the model sees transaction lines labelled by account rather than real identifiers. The one exception is the statement PDF at step 2, which carries the account number in its header and is handled contractually rather than technically &mdash; see point 5. The pipeline may prepare and reconcile; payment execution and any change to vendor bank details stay human-only (see point 4).</div>
 
@@ -168,10 +426,25 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
 </table>
 
 <h3>Mermaid pipeline diagram</h3>
-<div class="chart-card">
-  <div class="chart-title">Pipeline &mdash; monthly close, with three human gates</div>
-  <div class="chart-sub">Blue boxes = automated step; amber boxes = human review; red boxes = halt-or-escalate; grey-green boxes = human-performed step</div>
-  <div class="mermaid">
+<div class="chart-card" id="diagramCard">
+  <div class="chart-header-row">
+    <div>
+      <div class="chart-title">Pipeline &mdash; monthly close, with three human gates</div>
+      <div class="chart-sub" style="margin:0;">Blue = automated &middot; Amber = human review &middot; Red = halt-or-escalate &middot; Grey-green = manual execution</div>
+    </div>
+    <div class="zoom-controls">
+      <button type="button" class="zoom-btn" id="zoomOutBtn" title="Zoom out">&minus;</button>
+      <span class="zoom-badge" id="zoomLevelText">100%</span>
+      <button type="button" class="zoom-btn" id="zoomInBtn" title="Zoom in">+</button>
+      <button type="button" class="zoom-btn" id="zoomFitBtn" title="Fit to container">Fit</button>
+      <button type="button" class="zoom-btn" id="zoomResetBtn" title="Reset view">1:1</button>
+      <button type="button" class="zoom-btn" id="zoomFullscreenBtn" title="Toggle Fullscreen">&#x26F6; Full</button>
+    </div>
+  </div>
+
+  <div class="diagram-viewport" id="diagramViewport">
+    <div class="diagram-content-stage" id="diagramStage">
+      <div class="mermaid" id="pipelineMermaid">
 flowchart LR
     H1[1. FinOps Manager<br/>downloads 4 PDFs] --> D1[Drive:<br/>01_Statements]
     D1 --> S2[2. Make + Claude<br/>Parse to strict JSON]
@@ -202,8 +475,212 @@ flowchart LR
     style G3 fill:#fff4dc,color:#1b2733
     style REV fill:#fff4dc,color:#1b2733
     style TODOIST fill:#13344f,color:#fff
+      </div>
+    </div>
+    <div class="diagram-hint">&bull; Scroll or pinch to zoom &bull; Drag to pan &bull; Double click to fit</div>
   </div>
 </div>
+
+<script>
+(function() {
+  let scale = 1;
+  let translateX = 0;
+  let translateY = 0;
+  let isPanning = false;
+  let startX = 0;
+  let startY = 0;
+  let isInitialFitDone = false;
+
+  const viewport = document.getElementById('diagramViewport');
+  const stage = document.getElementById('diagramStage');
+  const badge = document.getElementById('zoomLevelText');
+  const card = document.getElementById('diagramCard');
+
+  function updateTransform(animate = false) {
+    if (animate) {
+      viewport.classList.add('animating');
+      setTimeout(() => viewport.classList.remove('animating'), 260);
+    }
+    stage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    if (badge) {
+      badge.textContent = Math.round(scale * 100) + '%';
+    }
+  }
+
+  function setZoom(newScale, focalX, focalY, animate = true) {
+    const minScale = 0.35;
+    const maxScale = 3.5;
+    const targetScale = Math.min(Math.max(newScale, minScale), maxScale);
+    if (targetScale === scale) return;
+
+    const rect = viewport.getBoundingClientRect();
+    const cx = focalX !== undefined ? focalX - rect.left : rect.width / 2;
+    const cy = focalY !== undefined ? focalY - rect.top : rect.height / 2;
+
+    // Adjust translation so zoom happens around pointer or center
+    translateX = cx - ((cx - translateX) / scale) * targetScale;
+    translateY = cy - ((cy - translateY) / scale) * targetScale;
+    scale = targetScale;
+
+    updateTransform(animate);
+  }
+
+  function fitToContainer(animate = true) {
+    const svg = stage.querySelector('svg');
+    if (!svg) {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      updateTransform(animate);
+      return;
+    }
+
+    const vWidth = viewport.clientWidth;
+    const vHeight = viewport.clientHeight;
+    const sBBox = svg.getBBox ? svg.getBBox() : { width: svg.clientWidth || 900, height: svg.clientHeight || 400 };
+    const svgWidth = (sBBox.width > 0 ? sBBox.width : 950) + 40;
+    const svgHeight = (sBBox.height > 0 ? sBBox.height : 420) + 40;
+
+    const scaleX = (vWidth - 30) / svgWidth;
+    const scaleY = (vHeight - 30) / svgHeight;
+    scale = Math.min(Math.max(Math.min(scaleX, scaleY), 0.45), 1.25);
+
+    // Center inside viewport
+    translateX = (vWidth - svgWidth * scale) / 2;
+    translateY = (vHeight - svgHeight * scale) / 2;
+
+    updateTransform(animate);
+  }
+
+  // Mouse wheel zoom
+  viewport.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    const delta = -e.deltaY;
+    const factor = delta > 0 ? 1.15 : 0.85;
+    setZoom(scale * factor, e.clientX, e.clientY, false);
+  }, { passive: false });
+
+  // Pan dragging
+  viewport.addEventListener('mousedown', function(e) {
+    if (e.button !== 0) return; // left click only
+    isPanning = true;
+    viewport.classList.add('panning');
+    startX = e.clientX - translateX;
+    startY = e.clientY - translateY;
+  });
+
+  window.addEventListener('mousemove', function(e) {
+    if (!isPanning) return;
+    translateX = e.clientX - startX;
+    translateY = e.clientY - startY;
+    updateTransform(false);
+  });
+
+  window.addEventListener('mouseup', function() {
+    if (isPanning) {
+      isPanning = false;
+      viewport.classList.remove('panning');
+    }
+  });
+
+  // Touch support (pinch to zoom and drag)
+  let touchStartDist = 0;
+  let initialScale = 1;
+  viewport.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      isPanning = true;
+      startX = e.touches[0].clientX - translateX;
+      startY = e.touches[0].clientY - translateY;
+    } else if (e.touches.length === 2) {
+      isPanning = false;
+      initialScale = scale;
+      touchStartDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    }
+  }, { passive: true });
+
+  viewport.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 1 && isPanning) {
+      translateX = e.touches[0].clientX - startX;
+      translateY = e.touches[0].clientY - startY;
+      updateTransform(false);
+    } else if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      if (touchStartDist > 0) {
+        const factor = dist / touchStartDist;
+        const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        setZoom(initialScale * factor, midX, midY, false);
+      }
+    }
+  }, { passive: true });
+
+  viewport.addEventListener('touchend', function() {
+    isPanning = false;
+    touchStartDist = 0;
+  });
+
+  // Double click resets to fit
+  viewport.addEventListener('dblclick', function() {
+    fitToContainer(true);
+  });
+
+  // Buttons
+  document.getElementById('zoomInBtn').addEventListener('click', () => setZoom(scale * 1.25, undefined, undefined, true));
+  document.getElementById('zoomOutBtn').addEventListener('click', () => setZoom(scale * 0.8, undefined, undefined, true));
+  document.getElementById('zoomResetBtn').addEventListener('click', () => {
+    scale = 1;
+    const vWidth = viewport.clientWidth;
+    const vHeight = viewport.clientHeight;
+    const svg = stage.querySelector('svg');
+    const svgWidth = svg ? svg.clientWidth || 900 : 900;
+    const svgHeight = svg ? svg.clientHeight || 400 : 400;
+    translateX = (vWidth - svgWidth) / 2;
+    translateY = (vHeight - svgHeight) / 2;
+    updateTransform(true);
+  });
+  document.getElementById('zoomFitBtn').addEventListener('click', () => fitToContainer(true));
+
+  // Fullscreen
+  document.getElementById('zoomFullscreenBtn').addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      if (card.requestFullscreen) {
+        card.requestFullscreen();
+      } else if (card.webkitRequestFullscreen) {
+        card.webkitRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    setTimeout(() => fitToContainer(true), 150);
+  });
+
+  // Auto-fit on mermaid completion
+  const observer = new MutationObserver(() => {
+    if (stage.querySelector('svg') && !isInitialFitDone) {
+      isInitialFitDone = true;
+      setTimeout(() => fitToContainer(false), 200);
+    }
+  });
+  observer.observe(stage, { childList: true, subtree: true });
+
+  window.addEventListener('resize', () => {
+    if (isInitialFitDone) {
+      fitToContainer(false);
+    }
+  });
+})();
+</script>
 
 <h2>2 &mdash; Three human approval gates</h2>
 
