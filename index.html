@@ -3,1650 +3,297 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Finance Reviews — FinOps Executive Dashboard</title>
-<meta name="description" content="FinOps Executive Dashboard and supervisory finance repository covering bank reconciliation, payables review, treasury funding plan, spend analysis, close automation, and UAE statutory rules verification.">
-
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- Chart.js local with fallback to CDN -->
-<script src="/node_modules/chart.js/dist/chart.umd.min.js"></script>
-<script>
-  if (typeof Chart === 'undefined') {
-    document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"><\/script>');
-  }
-</script>
-
+<title>Finance Reviews — Index</title>
 <style>
-/* -------------------------------------------------------------
-   DESIGN SYSTEM & CSS VARIABLES
-   Adhering to Frontend Design Constitution:
-   - 60% Dominant Neutral Canvas (#0b1320 dark / #f8fafc light)
-   - 30% Structural Surfaces (#ffffff cards, #e2e8f0 borders)
-   - 10% Intentional Accent Budget (Institutional Navy, Emerald, Crimson)
-   - Tabular figures for all currency and financial metrics
-   - Zero static pill enclosures (clean typographic metadata)
-------------------------------------------------------------- */
-:root {
-  --bg-canvas: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-surface-subtle: #f1f5f9;
-  --border-subtle: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --navy-brand: #0b2545;
-  --navy-dark: #13344f;
-  --navy-light: #1e3a5f;
-  --accent-blue: #1d4ed8;
-  --accent-emerald: #059669;
-  --accent-crimson: #dc2626;
-  --accent-amber: #d97706;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+@page { size: A4 portrait; margin: 14mm 12mm 16mm 12mm; }
+html, body { margin: 0; padding: 0; }
 body {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--text-primary);
-  background-color: var(--bg-canvas);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 11pt; color: #1b2733; line-height: 1.55;
+  max-width: 186mm; margin: 0 auto; padding: 12mm 8mm;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+h1 {
+  font-size: 18pt; margin: 0 0 6px; padding: 12px 14px;
+  background: #13344f; color: #ffffff;
+  border-bottom: 3px solid #0b3d91;
+}
+h2 {
+  font-size: 12pt; margin: 22px 0 8px; padding: 6px 9px;
+  background: #13344f; color: #ffffff;
+}
+.subtitle { color: #5b6678; font-size: 9.5pt; margin-bottom: 16px; }
+.intro { background: #fff8e1; border-left: 4px solid #c9a227; padding: 10px 14px; margin: 0 0 18px; font-size: 10pt; }
+
+.nav-grid { width: 100%; border-collapse: collapse; margin: 6px 0 18px; }
+.nav-grid th {
+  background: #e9eff5; border: 0.5pt solid #9fb2c4; padding: 8px 10px;
+  text-align: left; font-size: 9pt; text-transform: uppercase; color: #1b2733;
+}
+.nav-grid td {
+  border: 0.5pt solid #bfcbd8; padding: 12px 10px; vertical-align: top; font-size: 10pt;
+}
+.nav-grid tr.task-1 td { background: #f7faff; }
+.nav-grid tr.task-2 td { background: #f7faff; }
+.nav-grid tr.task-3 td { background: #f7faff; }
+.nav-grid tr.task-4 td { background: #f7faff; }
+.nav-grid tr.task-5 td { background: #f7faff; }
+.nav-grid tr.task-6 td { background: #f7faff; }
+
+.task-no {
+  display: inline-block; width: 38px; height: 38px; line-height: 38px;
+  text-align: center; background: #13344f; color: #ffffff;
+  font-weight: 700; border-radius: 50%; font-size: 13pt;
+}
+.task-title { font-weight: 700; font-size: 11pt; margin-bottom: 4px; color: #13344f; }
+.task-meta { font-size: 9pt; color: #5b6678; margin-bottom: 8px; }
+.task-desc { font-size: 9.5pt; color: #1b2733; line-height: 1.5; }
+.task-link { display: inline-block; margin-top: 8px; padding: 6px 14px; background: #0b3d91; color: #ffffff; text-decoration: none; font-weight: 700; border-radius: 3px; font-size: 9.5pt; }
+.task-link:hover { background: #13344f; }
+
+footer {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid #d7dce5;
+  font-size: 8.5pt; color: #5b6678; text-align: center;
 }
 
-.num, .tabular, .amount {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
+@media print {
+  body { padding: 0; max-width: none; }
+  .task-link { background: transparent; color: #0b3d91; padding: 0; text-decoration: underline; }
+  a[href]::after { content: ""; }
 }
 
-/* ---------- TOP BAR CONTRACT (Strict 3-Zone Contract) ---------- */
-.topbar {
-  background: var(--navy-brand);
+/* ---------- TOP NAVIGATION BAR ---------- */
+.topnav {
+  background: #13344f;
   color: #ffffff;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 14px;
+  margin: 0 0 14mm 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 10pt;
   position: sticky;
   top: 0;
-  z-index: 1000;
-  backdrop-filter: blur(8px);
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border-radius: 4px 4px 0 0;
 }
-
-.topbar-container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 24px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Zone 1: Single text element wordmark */
-.brand-wordmark {
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; }
+.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; }
+.topnav a {
   color: #ffffff;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-emblem {
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: 0;
-}
-
-/* Zone 2: 4-6 clean text navigation links */
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-link {
-  color: #cbd5e1;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 2px;
-  position: relative;
-  transition: color 0.15s ease;
-  white-space: nowrap;
-}
-
-.nav-link:hover {
-  color: #ffffff;
-}
-
-.nav-link.active {
-  color: #ffffff;
-}
-
-.nav-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: -18px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #38bdf8;
-  border-radius: 2px;
-}
-
-/* Zone 3: 1-2 primary actions */
-.topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.action-btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 7px 14px;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 6px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.action-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.action-btn-primary {
-  background: #2563eb;
-  color: #ffffff;
-  border: none;
-  padding: 7px 15px;
-  font-size: 12px;
-  font-weight: 700;
-  border-radius: 6px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: background 0.15s ease;
-  white-space: nowrap;
-}
-
-.action-btn-primary:hover {
-  background: #1d4ed8;
-}
-
-/* ---------- MAIN LAYOUT CONTAINER ---------- */
-.main-wrapper {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 32px 24px 64px;
-}
-
-/* ---------- HERO BANNER ---------- */
-.hero-card {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 32px;
-  margin-bottom: 28px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
-}
-
-.hero-header {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.hero-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.hero-meta .separator {
-  color: var(--border-strong);
-}
-
-.hero-title {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--navy-brand);
-  line-height: 1.25;
-  text-wrap: balance;
-}
-
-.hero-desc {
-  font-size: 15px;
-  color: var(--text-secondary);
-  max-width: 980px;
-  line-height: 1.6;
-}
-
-/* ---------- EXECUTIVE KPI GRID ---------- */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-  margin-bottom: 32px;
-}
-
-.kpi-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.kpi-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.08);
-}
-
-.kpi-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-}
-
-.kpi-card.blue::before { background: var(--accent-blue); }
-.kpi-card.emerald::before { background: var(--accent-emerald); }
-.kpi-card.crimson::before { background: var(--accent-crimson); }
-.kpi-card.amber::before { background: var(--accent-amber); }
-.kpi-card.navy::before { background: var(--navy-brand); }
-
-.kpi-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.kpi-label {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-}
-
-.kpi-badge-text {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.kpi-value {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--navy-brand);
-  margin-bottom: 6px;
-}
-
-.kpi-subtext {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-
-.kpi-footer-note {
-  margin-top: 14px;
-  padding-top: 10px;
-  border-top: 1px dashed var(--border-subtle);
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.text-emerald { color: var(--accent-emerald); }
-.text-crimson { color: var(--accent-crimson); }
-.text-blue { color: var(--accent-blue); }
-.text-amber { color: var(--accent-amber); }
-
-/* ---------- VISUALIZATION & CHART STATION ---------- */
-.chart-section {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 28px;
-  margin-bottom: 36px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
-}
-
-.section-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.section-title-wrap h2 {
-  font-size: 19px;
-  font-weight: 800;
-  color: var(--navy-brand);
-  letter-spacing: -0.02em;
-  margin-bottom: 4px;
-}
-
-.section-title-wrap p {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-/* Segmented Control Tabs */
-.segmented-control {
-  display: inline-flex;
-  background: var(--bg-surface-subtle);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 3px;
-  gap: 2px;
-}
-
-.segmented-btn {
-  background: transparent;
-  border: none;
-  padding: 8px 14px;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.segmented-btn:hover {
-  color: var(--text-primary);
-}
-
-.segmented-btn.active {
-  background: #ffffff;
-  color: var(--navy-brand);
-  font-weight: 700;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-/* Chart Canvas Area */
-.chart-container-box {
-  position: relative;
-  width: 100%;
-  height: 380px;
-  margin-bottom: 20px;
-}
-
-.chart-insight-strip {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.insight-card {
-  background: var(--bg-surface-subtle);
-  border-radius: 8px;
-  padding: 14px 16px;
-}
-
-.insight-title {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-  margin-bottom: 4px;
-}
-
-.insight-val {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--navy-brand);
-  margin-bottom: 4px;
-}
-
-.insight-desc {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-
-/* ---------- TASK CATALOG & CONTROLS ---------- */
-.tasks-section {
-  margin-bottom: 48px;
-}
-
-.tasks-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.search-box {
-  position: relative;
-  width: 320px;
-  max-width: 100%;
-}
-
-.search-input {
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 9px 12px 9px 36px;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  color: var(--text-primary);
-  outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.search-input:focus {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 15px;
-  height: 15px;
-  color: var(--text-muted);
-  pointer-events: none;
-}
-
-.task-filter-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.filter-chip {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.filter-chip:hover {
-  background: var(--bg-surface-subtle);
-  color: var(--text-primary);
-}
-
-.filter-chip.active {
-  background: var(--navy-brand);
-  color: #ffffff;
-  border-color: var(--navy-brand);
-}
-
-/* Task Cards Grid */
-.tasks-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: 20px;
-}
-
-.task-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
-  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.task-card:hover {
-  border-color: var(--border-strong);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
-}
-
-.task-card-top {
-  margin-bottom: 18px;
-}
-
-.task-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.task-editorial-id {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent-blue);
-  background: #eff6ff;
-  border: 1px solid #dbeafe;
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
-.task-status-tag {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.task-card-title {
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--navy-brand);
-  line-height: 1.35;
-  margin-bottom: 6px;
-}
-
-.task-card-meta {
-  font-size: 12px;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-
-.task-card-meta .sep {
-  color: var(--border-strong);
-}
-
-.task-card-desc {
-  font-size: 13.5px;
-  color: var(--text-secondary);
-  line-height: 1.55;
-  margin-bottom: 18px;
-}
-
-/* Metric Highlight within Task Card */
-.task-metrics-callout {
-  background: var(--bg-surface-subtle);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 12px 14px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.callout-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.callout-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 2px;
-}
-
-.callout-val {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--navy-brand);
-}
-
-/* Task Action Buttons */
-.task-card-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.btn-open-task {
-  flex: 1;
-  background: var(--navy-brand);
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 12.5px;
-  font-weight: 700;
-  padding: 9px 16px;
-  border-radius: 6px;
-  text-align: center;
-  transition: background 0.15s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.btn-open-task:hover {
-  background: var(--navy-light);
-}
-
-.btn-sub-action {
-  background: #ffffff;
-  color: var(--text-primary);
-  border: 1px solid var(--border-strong);
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.btn-sub-action:hover {
-  background: var(--bg-surface-subtle);
-  border-color: var(--navy-brand);
-}
-
-/* ---------- REPOSITORY DETAILS & FOOTER ---------- */
-.repo-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 36px;
-}
-
-.repo-card h3 {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--navy-brand);
-  margin-bottom: 14px;
-}
-
-.repo-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.repo-table td {
-  padding: 8px 12px;
-  font-size: 13px;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.repo-table tr:last-child td {
-  border-bottom: none;
-}
-
-.repo-table td:first-child {
-  font-weight: 600;
-  color: var(--text-secondary);
-  width: 200px;
-}
-
-.repo-table a {
-  color: var(--accent-blue);
-  text-decoration: none;
-  word-break: break-all;
-}
-
-.repo-table a:hover {
-  text-decoration: underline;
-}
-
-.portal-footer {
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.footer-links {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.footer-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-}
-
-.footer-links a:hover {
-  color: var(--navy-brand);
-}
-
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  .topbar-container {
-    height: auto;
-    padding: 12px 16px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .nav-links {
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-  .tasks-grid {
-    grid-template-columns: 1fr;
-  }
-  .chart-container-box {
-    height: 300px;
-  }
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-size: 9.5pt;
+  transition: background 0.15s;
+}
+.topnav a:hover { background: rgba(255,255,255,0.18); }
+.topnav a.active { background: #0b3d91; font-weight: 700; }
+.topnav a.back { background: #6b7c8c; }
+.topnav a.back:hover { background: #475569; }
+@media print {
+  .topnav { display: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- TOP NAVIGATION BAR (Strict Top Bar Contract) -->
-<header class="topbar">
-  <div class="topbar-container">
-    <!-- Zone 1: Single text element wordmark -->
-    <a href="index.html" class="brand-wordmark">
-      <span class="brand-emblem">FP</span>
-      FinOps Executive Portal
-    </a>
-
-    <!-- Zone 2: 4-6 clean text navigation links -->
-    <nav class="nav-links">
-      <a href="index.html" class="nav-link active">Dashboard</a>
-      <a href="reconciliation-findings.html" class="nav-link">Task 1 · Reconciliation</a>
-      <a href="payables-review.html" class="nav-link">Task 2 · Payables</a>
-      <a href="funding-plan-november-2026.html" class="nav-link">Task 3 · Funding Plan</a>
-      <a href="spend-review.html" class="nav-link">Task 4 · Spend Review</a>
-      <a href="task-5-automation-design.html" class="nav-link">Task 5 · Automation</a>
-      <a href="task-6-finance-rules-check.html" class="nav-link">Task 6 · Rules</a>
-    </nav>
-
-    <!-- Zone 3: 1-2 primary actions -->
-    <div class="topbar-actions">
-      <a href="https://github.com/Rams-Lab-01/reconciliation-findings-2026" target="_blank" rel="noopener" class="action-btn-secondary">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        GitHub Repo
-      </a>
-      <a href="#tasks-catalog" class="action-btn-primary">
-        Explore Tasks
-      </a>
-    </div>
+<nav class="topnav">
+  <span class="brand">Finance Reviews</span>
+  <div class="links">
+    <a href="index.html" class="active">Index</a>
+    <a href="reconciliation-findings.html">Task 1 &middot; Reconciliation</a>
+    <a href="payables-review.html">Task 2 &middot; Payables</a>
+    <a href="funding-plan-november-2026.html">Task 3 &middot; Funding Plan</a>
+    <a href="spend-review.html">Task 4 &middot; Dashboard</a>
+    <a href="spend-review-memorandum.html">Task 4 &middot; Memo</a>
+    <a href="task-5-automation-design.html">Task 5 &middot; Automation</a>
+    <a href="task-6-finance-rules-check.html">Task 6 &middot; Rules</a>
+    <a href="task-6-audit-response.html">Task 6 &middot; Audit</a>
   </div>
-</header>
+</nav>
 
-<div class="main-wrapper">
 
-  <!-- HERO SECTION -->
-  <section class="hero-card">
-    <div class="hero-header">
-      <div class="hero-meta">
-        <span>DMCC Free-Zone Family Office</span>
-        <span class="separator">·</span>
-        <span>Supervisory Review Q3 & November 2026</span>
-        <span class="separator">·</span>
-        <span>Currency: AED & USD</span>
-        <span class="separator">·</span>
-        <span>6 Core Tasks Completed</span>
-      </div>
-      <h1 class="hero-title">Executive Financial Review &amp; Governance Portal</h1>
-    </div>
-    <p class="hero-desc">
-      Independent financial review, treasury liquidity modeling, payables fraud interception, Q3 spend decomposition, monthly close automation architecture, and UAE statutory tax and regulatory verification. All findings are grounded in bank statements, supplier ledger entries, and official UAE federal legislation.
-    </p>
-  </section>
+<h1>Finance Reviews — Document Index</h1>
+<p class="subtitle">Rams-Lab-01 · Public repository · Updated 22 September 2026</p>
 
-  <!-- EXECUTIVE KPI METRIC GRID -->
-  <section class="kpi-grid">
-    <!-- KPI 1 -->
-    <div class="kpi-card blue">
-      <div class="kpi-header">
-        <span class="kpi-label">Task 1 · Bank Rec</span>
-        <span class="kpi-badge-text">Aug 2026</span>
-      </div>
-      <div class="kpi-value num">AED 13,063.75</div>
-      <div class="kpi-subtext">Net cashbook variance reconciled to bank statement balance of AED 229,281.25.</div>
-      <div class="kpi-footer-note">
-        <span>Cheque #0470 early honour</span>
-        <span class="text-crimson num">AED 93,750.00</span>
-      </div>
-    </div>
-
-    <!-- KPI 2 -->
-    <div class="kpi-card crimson">
-      <div class="kpi-header">
-        <span class="kpi-label">Task 2 · Payables Leakage</span>
-        <span class="kpi-badge-text">28 Aug Run</span>
-      </div>
-      <div class="kpi-value num text-crimson">AED 91,838.38</div>
-      <div class="kpi-subtext">Improper/unowed outflow prevented (55.1% of proposed AED 166,743.38 run held).</div>
-      <div class="kpi-footer-note">
-        <span>Approved Tonight</span>
-        <span class="text-emerald num">AED 74,905.00</span>
-      </div>
-    </div>
-
-    <!-- KPI 3 -->
-    <div class="kpi-card emerald">
-      <div class="kpi-header">
-        <span class="kpi-label">Task 3 · Treasury Call</span>
-        <span class="kpi-badge-text">Nov 2026</span>
-      </div>
-      <div class="kpi-value num text-emerald">USD 75,000.00</div>
-      <div class="kpi-subtext">Required single capital call yielding AED 275,437.50 to cover AED 362,950.00 outflows.</div>
-      <div class="kpi-footer-note">
-        <span>Ending Balance vs Buffer</span>
-        <span class="text-emerald num">AED 27,487.50 (&gt;25k)</span>
-      </div>
-    </div>
-
-    <!-- KPI 4 -->
-    <div class="kpi-card amber">
-      <div class="kpi-header">
-        <span class="kpi-label">Task 4 · Q3 Net Deficit</span>
-        <span class="kpi-badge-text">Jun–Aug 2026</span>
-      </div>
-      <div class="kpi-value num text-amber">AED (158,311.90)</div>
-      <div class="kpi-subtext">Total gross spend AED 565,386.90 against funding calls of AED 407,075.00.</div>
-      <div class="kpi-footer-note">
-        <span>8 Anomalies at Stake</span>
-        <span class="num">AED 30,761.86</span>
-      </div>
-    </div>
-
-    <!-- KPI 5 -->
-    <div class="kpi-card navy">
-      <div class="kpi-header">
-        <span class="kpi-label">Tasks 1 &amp; 4 · Cash Recovery</span>
-        <span class="kpi-badge-text">Immediate</span>
-      </div>
-      <div class="kpi-value num">AED 20,580.00</div>
-      <div class="kpi-subtext">Hard cash recoverable from duplicate supplier wire transfers (Nimbus &amp; Al Reem).</div>
-      <div class="kpi-footer-note">
-        <span>Annualised Rec. Protection</span>
-        <span class="text-emerald num">AED 70,438.32/yr</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- INTERACTIVE VISUALIZATION & ANIMATED CHART STATION -->
-  <section class="chart-section" id="visualizations">
-    <div class="section-head">
-      <div class="section-title-wrap">
-        <h2>Interactive FinOps Visualizations</h2>
-        <p>Dynamic analytical modeling across quarterly burn, payables audit disposition, liquidity trajectories, and risk exposure.</p>
-      </div>
-
-      <!-- Segmented Control Tab Switcher -->
-      <div class="segmented-control" role="tablist">
-        <button class="segmented-btn active" onclick="switchChartTab('q3flow', this)">Q3 Cash Burn &amp; Deficit</button>
-        <button class="segmented-btn" onclick="switchChartTab('payables', this)">Payables Run Audit</button>
-        <button class="segmented-btn" onclick="switchChartTab('novtreasury', this)">November Liquidity Trajectory</button>
-        <button class="segmented-btn" onclick="switchChartTab('spendmix', this)">Spend Concentration</button>
-        <button class="segmented-btn" onclick="switchChartTab('anomalies', this)">Leakage Risk Register</button>
-      </div>
-    </div>
-
-    <!-- Canvas Container -->
-    <div class="chart-container-box">
-      <canvas id="activeFinanceChart"></canvas>
-    </div>
-
-    <!-- Dynamic Insight Strip Below Chart -->
-    <div class="chart-insight-strip" id="chartInsightStrip">
-      <!-- Injected by JavaScript based on active tab -->
-    </div>
-  </section>
-
-  <!-- TASK CATALOG SECTION -->
-  <section class="tasks-section" id="tasks-catalog">
-    <div class="tasks-toolbar">
-      <div class="search-box">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="taskSearchInput" class="search-input" placeholder="Search tasks, vendors, rules..." oninput="handleSearch(this.value)">
-      </div>
-
-      <div class="task-filter-group">
-        <button class="filter-chip active" onclick="filterTasks('all', this)">All Tasks (6)</button>
-        <button class="filter-chip" onclick="filterTasks('operations', this)">Operations (Tasks 1 &amp; 2)</button>
-        <button class="filter-chip" onclick="filterTasks('treasury', this)">Treasury &amp; Funding (Task 3)</button>
-        <button class="filter-chip" onclick="filterTasks('spend', this)">Spend &amp; Governance (Task 4)</button>
-        <button class="filter-chip" onclick="filterTasks('systems', this)">Automation &amp; Rules (Tasks 5 &amp; 6)</button>
-      </div>
-    </div>
-
-    <!-- Tasks Grid -->
-    <div class="tasks-grid" id="tasksGrid">
-
-      <!-- TASK 1 CARD -->
-      <article class="task-card" data-category="operations" data-keywords="bank reconciliation nimbus cashbook cheque postdated fx spread charges horizon">
-        <div class="task-card-top">
-          <div class="task-card-header">
-            <span class="task-editorial-id">TASK 01</span>
-            <span class="task-status-tag">Reconciliation Review</span>
-          </div>
-          <h3 class="task-card-title">August 2026 Bank Reconciliation &amp; Control Findings</h3>
-          <div class="task-card-meta">
-            <span>Period: 02-Aug to 22-Aug-2026</span>
-            <span class="sep">·</span>
-            <span>Currency: AED</span>
-            <span class="sep">·</span>
-            <span>Ref: FIN/REC/2026/08</span>
-          </div>
-          <p class="task-card-desc">
-            Independent audit of the August 2026 cashbook against the bank statement. Solves four book reconciling differences totalling AED 13,063.75, plus uncovers a fifth non-variance finding: the AED 93,750.00 post-dated cheque honoured thirteen days before its stated date without bank reversal or return narration.
-          </p>
-
-          <div class="task-metrics-callout">
-            <div class="callout-item">
-              <span class="callout-label">Reconciled Variance</span>
-              <span class="callout-val num">AED 13,063.75</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Immediate Clawback</span>
-              <span class="callout-val num text-emerald">AED 12,600.00</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Closing Balance</span>
-              <span class="callout-val num">AED 229,281.25</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Cheque Inquired</span>
-              <span class="callout-val num text-crimson">AED 93,750.00</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="task-card-actions">
-          <a href="reconciliation-findings.html" class="btn-open-task">
-            Open Task 1 Deep-Dive →
-          </a>
-        </div>
-      </article>
-
-      <!-- TASK 2 CARD -->
-      <article class="task-card" data-category="operations" data-keywords="payables run payment disbursement duplicate fraud iban quotation credit note vat hospitality">
-        <div class="task-card-top">
-          <div class="task-card-header">
-            <span class="task-editorial-id">TASK 02</span>
-            <span class="task-status-tag">Payables Gate Review</span>
-          </div>
-          <h3 class="task-card-title">Payables Review Before 28 August Payment Run</h3>
-          <div class="task-card-meta">
-            <span>Ten Invoices Reviewed</span>
-            <span class="sep">·</span>
-            <span>Prevented: 55.1%</span>
-            <span class="sep">·</span>
-            <span>VAT Input Claim Blocked</span>
-          </div>
-          <p class="task-card-desc">
-            Pre-release audit of ten queued documents. Slashes the clerk's proposed AED 166,743.38 disbursement down to an approved AED 74,905.00 by intercepting duplicate invoice D7, unperformed quote D8, diversion fraud D9 with an invalid IBAN, and netting credit note D10. Input VAT reset to AED 2,717.50 under Art 53 / VATP005.
-          </p>
-
-          <div class="task-metrics-callout">
-            <div class="callout-item">
-              <span class="callout-label">Outflow Prevented</span>
-              <span class="callout-val num text-crimson">AED 91,838.38</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Verified Released</span>
-              <span class="callout-val num text-emerald">AED 74,905.00</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Duplicate Blocked (D7)</span>
-              <span class="callout-val num">AED 44,100.00</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Fraud Blocked (D9)</span>
-              <span class="callout-val num">AED 6,800.00</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="task-card-actions">
-          <a href="payables-review.html" class="btn-open-task">
-            Open Task 2 Deep-Dive →
-          </a>
-        </div>
-      </article>
-
-      <!-- TASK 3 CARD -->
-      <article class="task-card" data-category="treasury" data-keywords="treasury funding plan november 2026 cash flow wps salaries rent pdc fit out buffer 75000">
-        <div class="task-card-top">
-          <div class="task-card-header">
-            <span class="task-editorial-id">TASK 03</span>
-            <span class="task-status-tag">Treasury &amp; Liquidity</span>
-          </div>
-          <h3 class="task-card-title">Cheque &amp; Payroll Funding Plan, November 2026</h3>
-          <div class="task-card-meta">
-            <span>Period: Nov 2026</span>
-            <span class="sep">·</span>
-            <span>Funding: USD 75k</span>
-            <span class="sep">·</span>
-            <span>Buffer: &gt; AED 25,000.00</span>
-          </div>
-          <p class="task-card-desc">
-            30-day liquidity model refuting all three claims in the outgoing manager's handover note. Consolidates proposed split calls into a single USD 75,000 withdrawal (AED 275,437.50) initiated Wed 4 Nov to meet rent PDC coverage rules, funding AED 362,950.00 in obligations while maintaining a safe closing buffer of AED 27,487.50.
-          </p>
-
-          <div class="task-metrics-callout">
-            <div class="callout-item">
-              <span class="callout-label">Funding Required</span>
-              <span class="callout-val num text-emerald">USD 75,000.00</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Total Outflows</span>
-              <span class="callout-val num">AED 362,950.00</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Closing Cash</span>
-              <span class="callout-val num">AED 27,487.50</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Mandatory Call Date</span>
-              <span class="callout-val" style="font-size:13px; font-weight:700;">Wed 04 Nov</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="task-card-actions">
-          <a href="funding-plan-november-2026.html" class="btn-open-task">
-            Open Task 3 Deep-Dive →
-          </a>
-        </div>
-      </article>
-
-      <!-- TASK 4 CARD -->
-      <article class="task-card" data-category="spend" data-keywords="spend review q3 burn deficit anomalies datastream dropbox nimbus al reem yacht atm cash">
-        <div class="task-card-top">
-          <div class="task-card-header">
-            <span class="task-editorial-id">TASK 04</span>
-            <span class="task-status-tag">Spend &amp; Governance</span>
-          </div>
-          <h3 class="task-card-title">Executive Spend Review &amp; Anomaly Register (Q3)</h3>
-          <div class="task-card-meta">
-            <span>Period: Jun–Aug 2026</span>
-            <span class="sep">·</span>
-            <span>Spend: AED 565k</span>
-            <span class="sep">·</span>
-            <span>9 Anomalies</span>
-          </div>
-          <p class="task-card-desc">
-            Executive review of AED 565,386.90 gross spend against AED 407,075.00 capital calls. Registers AED 30,761.86 at stake across eight leakage anomalies (A1 to A9, excluding misfiled A8 capex AED 13,911.50): AED 7,980.00 recoverable from duplicate wires, AED 15,000.00 undocumented ATM withdrawals, and a 40% Datastream hike.
-          </p>
-
-          <div class="task-metrics-callout">
-            <div class="callout-item">
-              <span class="callout-label">Net Q3 Deficit</span>
-              <span class="callout-val num text-amber">AED (158,311.90)</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">At Stake (8 items)</span>
-              <span class="callout-val num">AED 30,761.86</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Duplicate Recoverable</span>
-              <span class="callout-val num text-emerald">AED 7,980.00</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Annual Leakage</span>
-              <span class="callout-val num text-crimson">AED 70,438.32/yr</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="task-card-actions">
-          <a href="spend-review.html" class="btn-open-task">
-            Open Dashboard →
-          </a>
-          <a href="spend-review-memorandum.html" class="btn-sub-action">
-            Board Memo
-          </a>
-        </div>
-      </article>
-
-      <!-- TASK 5 CARD -->
-      <article class="task-card" data-category="systems" data-keywords="automation monthly close pipeline make n8n claude json ocr gates todoist">
-        <div class="task-card-top">
-          <div class="task-card-header">
-            <span class="task-editorial-id">TASK 05</span>
-            <span class="task-status-tag">Systems &amp; Architecture</span>
-          </div>
-          <h3 class="task-card-title">Design of the Monthly-Close Automation Pipeline</h3>
-          <div class="task-card-meta">
-            <span>Stack: Claude + Make.com</span>
-            <span class="sep">·</span>
-            <span>8 Stages</span>
-            <span class="sep">·</span>
-            <span>3 Human Gates</span>
-          </div>
-          <p class="task-card-desc">
-            Production blueprint replacing two days of manual monthly close work. Feeds statement PDFs through strict schema parsing into a deterministic zero-variance bank gate, followed by AI enum-constrained expense coding, three-way invoice matching, vendor reconciliation drafts, and liquidity alerting with three human sign-off gates.
-          </p>
-
-          <div class="task-metrics-callout">
-            <div class="callout-item">
-              <span class="callout-label">Close Time Reduction</span>
-              <span class="callout-val text-emerald">2 Days → 4 Hrs</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Mandatory Gates</span>
-              <span class="callout-val">3 Human Checks</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Bank Rec Logic</span>
-              <span class="callout-val">Deterministic (No-AI)</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Security Posture</span>
-              <span class="callout-val">Zero Data Retention</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="task-card-actions">
-          <a href="task-5-automation-design.html" class="btn-open-task">
-            Open Architecture Blueprint →
-          </a>
-        </div>
-      </article>
-
-      <!-- TASK 6 CARD -->
-      <article class="task-card" data-category="systems" data-keywords="uae finance rules corporate tax vat wps cheques e-invoicing audit sbr small business relief">
-        <div class="task-card-top">
-          <div class="task-card-header">
-            <span class="task-editorial-id">TASK 06</span>
-            <span class="task-status-tag">Statutory Compliance</span>
-          </div>
-          <h3 class="task-card-title">Verification of the AI Briefing Memo on UAE Finance Rules</h3>
-          <div class="task-card-meta">
-            <span>12 Statements Audited</span>
-            <span class="sep">·</span>
-            <span>7 Wrong · 3 Correct · 2 Incomplete</span>
-            <span class="sep">·</span>
-            <span>SBR Extended to 2029</span>
-          </div>
-          <p class="task-card-desc">
-            Rigorous legal verification of an internal AI briefing memo against official UAE legislation (FTA, MoF, MOHRE, and Central Bank). Catches hallucinated filing windows, obsolete AED 20,000 late penalties, MOHRE vs DMCC WPS jurisdictional boundaries, decriminalised cheque enforcement, and mandated e-invoicing timelines.
-          </p>
-
-          <div class="task-metrics-callout">
-            <div class="callout-item">
-              <span class="callout-label">Erroneous Statements</span>
-              <span class="callout-val text-crimson num">7 of 12 Wrong</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">DMCC Incomplete</span>
-              <span class="callout-val text-amber num">2 of 12 Incomplete</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Strictly Correct</span>
-              <span class="callout-val text-emerald num">3 of 12 Correct</span>
-            </div>
-            <div class="callout-item">
-              <span class="callout-label">Statutory Basis</span>
-              <span class="callout-val">Federal Decrees</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="task-card-actions">
-          <a href="task-6-finance-rules-check.html" class="btn-open-task">
-            Open Verification Table →
-          </a>
-          <a href="task-6-audit-response.html" class="btn-sub-action">
-            Audit Diff
-          </a>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- REPOSITORY METADATA & HOSTING -->
-  <section class="repo-card">
-    <h3>Repository &amp; Publishing Controls</h3>
-    <table class="repo-table">
-      <tbody>
-        <tr>
-          <td>GitHub Repository</td>
-          <td><a href="https://github.com/Rams-Lab-01/reconciliation-findings-2026" target="_blank" rel="noopener">https://github.com/Rams-Lab-01/reconciliation-findings-2026</a></td>
-        </tr>
-        <tr>
-          <td>Hosting Platform</td>
-          <td>GitHub Pages &amp; Dedicated Express Engine · HTTPS Enforced · Open Access</td>
-        </tr>
-        <tr>
-          <td>Audit Baseline</td>
-          <td>Re-verified against UAE Federal Decree-Law No. 47 of 2022, Decree-Law No. 50 of 2022, Cabinet Decision No. 49 of 2021, and MoF SBR Extension.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- PORTAL FOOTER -->
-  <footer class="portal-footer">
-    <div>
-      FinOps Supervisory Architecture &middot; Maintained as a living executive dashboard.
-    </div>
-    <div class="footer-links">
-      <a href="index.html">Index</a>
-      <a href="reconciliation-findings.html">Task 1</a>
-      <a href="payables-review.html">Task 2</a>
-      <a href="funding-plan-november-2026.html">Task 3</a>
-      <a href="spend-review.html">Task 4</a>
-      <a href="task-5-automation-design.html">Task 5</a>
-      <a href="task-6-finance-rules-check.html">Task 6</a>
-    </div>
-  </footer>
-
+<div style="background:#f9fafb;border:0.5pt solid #cbd5e1;border-left:3px solid #475569;padding:10px 14px;margin:0 0 16px 0;font-size:9pt;color:#1b2733;border-radius:2px;">
+  <strong style="text-transform:uppercase;letter-spacing:0.5px;font-size:8pt;color:#475569;">Errata and post-submission verification &mdash; 22 September 2026</strong>
+  <p style="margin:6px 0 0 0;line-height:1.45;">These working papers were submitted on 22 September 2026 and have been independently re-verified since. Three items were corrected after submission and the corrected positions appear on this site: the VAT 201 reverse-charge recovery box on Task 2 is Box 10, not Box 9 (FTA VAT Returns User Guide); the e-invoicing accredited service provider deadline on Task 6 is 30 October 2026, moved from 31 July 2026 by Ministerial Resolution No. 66 of 2026; and Small Business Relief on Task 6 has been extended to tax periods ending on or before 31 December 2029 by Ministerial Decision No. 131 of 2026, announced 7 August 2026, with the AED 3 million threshold unchanged. No computed figure changed. The arithmetic in all four numeric tasks is unchanged and ties as submitted.</p>
 </div>
 
-<!-- JAVASCRIPT: ANIMATED CHARTS & INTERACTIVE FILTERS -->
-<script>
-let currentChart = null;
+<div class="intro">
+  <strong>Purpose.</strong> This page indexes the financial review documents published in this repository. Each task is a self-contained review with findings, journal entries, recovery actions and corrective controls. The repository is configured for open public access via GitHub Pages.
+</div>
 
-// CHART DATASETS DEFINITION
-const chartConfigs = {
-  // TAB 1: Q3 Cash Flow Dynamics (Spend vs Funding & Deficit)
-  q3flow: {
-    type: 'bar',
-    data: {
-      labels: ['June 2026', 'July 2026', 'August 2026', 'Q3 Total'],
-      datasets: [
-        {
-          label: 'Gross Cash Outflow (AED)',
-          data: [200991.43, 185512.54, 178882.93, 565386.90],
-          backgroundColor: '#1e3a5f',
-          borderRadius: 4,
-          order: 2
-        },
-        {
-          label: 'Funding Inflows (AED)',
-          data: [150000.00, 146900.00, 110175.00, 407075.00],
-          backgroundColor: '#059669',
-          borderRadius: 4,
-          order: 3
-        },
-        {
-          label: 'Net Deficit (AED)',
-          data: [-50991.43, -38612.54, -68707.93, -158311.90],
-          type: 'line',
-          borderColor: '#dc2626',
-          backgroundColor: '#dc2626',
-          borderWidth: 3,
-          pointRadius: 5,
-          pointBackgroundColor: '#ffffff',
-          pointBorderColor: '#dc2626',
-          pointBorderWidth: 2,
-          order: 1
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 900, easing: 'easeOutQuart' },
-      plugins: {
-        legend: { position: 'top', labels: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } } },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.dataset.label}: AED ${Math.abs(ctx.raw).toLocaleString('en-US', { minimumFractionDigits: 2 })} ${ctx.raw < 0 ? '(Deficit)' : ''}`
-          }
-        }
-      },
-      scales: {
-        y: {
-          grid: { color: '#f1f5f9' },
-          ticks: {
-            font: { family: 'JetBrains Mono', size: 11 },
-            callback: (v) => 'AED ' + (v / 1000).toFixed(0) + 'k'
-          }
-        },
-        x: {
-          grid: { display: false },
-          ticks: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } }
-        }
-      }
-    },
-    insights: [
-      { title: 'Gross Cash Outflow', val: 'AED 565,386.90', desc: 'Highest in June (200.9k), settling to 178.8k in August.' },
-      { title: 'Capital Calls Funded', val: 'AED 407,075.00', desc: 'Covered 72% of quarterly spend; August funding slowed to 110.1k.' },
-      { title: 'Cumulative Deficit', val: 'AED (158,311.90)', desc: 'Funded out of prior reserves; highlights burn acceleration.' }
-    ]
-  },
+<h2>Review tasks</h2>
 
-  // TAB 2: Payables Run Audit (Approved vs Blocked)
-  payables: {
-    type: 'bar',
-    data: {
-      labels: ['D7 Duplicate Invoice', 'D8 Stale Quotation', 'D9 Fraudulent IBAN', 'D10 Credit Offset', 'D1-D6 Approved Tonight'],
-      datasets: [
-        {
-          label: 'Outflow Intercepted (Blocked)',
-          data: [44100.00, 33600.00, 6800.00, 8820.00, 0],
-          backgroundColor: '#dc2626',
-          borderRadius: 4
-        },
-        {
-          label: 'Authorized for Release Tonight',
-          data: [0, 0, 0, 0, 74905.00],
-          backgroundColor: '#059669',
-          borderRadius: 4
-        }
-      ]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 900, easing: 'easeOutQuart' },
-      plugins: {
-        legend: { position: 'top', labels: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } } },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.dataset.label}: AED ${ctx.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
-          }
-        }
-      },
-      scales: {
-        x: {
-          stacked: true,
-          grid: { color: '#f1f5f9' },
-          ticks: {
-            font: { family: 'JetBrains Mono', size: 11 },
-            callback: (v) => 'AED ' + (v / 1000).toFixed(0) + 'k'
-          }
-        },
-        y: {
-          stacked: true,
-          grid: { display: false },
-          ticks: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } }
-        }
-      }
-    },
-    insights: [
-      { title: 'Proposed Run', val: 'AED 166,743.38', desc: '10 supplier payment requests queued by clerk before audit.' },
-      { title: 'Waste & Fraud Prevented', val: 'AED 91,838.38', desc: '55.1% of proposed disbursement prevented from leaving the account.' },
-      { title: 'Approved & Released', val: 'AED 74,905.00', desc: 'Verified vendors released: D1, D2 (VAT blocked), D3, D4 net of D10, D5, D6.' }
-    ]
-  },
+<table class="nav-grid">
+<thead>
+<tr>
+<th style="width:8%;" class="ctr">Task</th>
+<th style="width:62%;">Document</th>
+<th style="width:30%;" class="ctr">Open</th>
+</tr>
+</thead>
+<tbody>
 
-  // TAB 3: November Daily Liquidity & Buffer Simulation
-  novtreasury: {
-    type: 'line',
-    data: {
-      labels: ['Mon 2 (Open)', 'Wed 4 (Call)', 'Fri 6 (Inflow)', 'Mon 9 (Rent PDC)', 'Wed 11 (Util)', 'Mon 16 (Fit-out)', 'Thu 19 (Data)', 'Tue 24 (Ins)', 'Thu 26 (WPS)', 'Mon 30 (Close)'],
-      datasets: [
-        {
-          label: 'Projected Cash Balance (Wed 4 Call: Compliant)',
-          data: [115000.00, 115000.00, 390437.50, 296687.50, 288287.50, 243287.50, 199187.50, 182387.50, 49887.50, 27487.50],
-          borderColor: '#1d4ed8',
-          backgroundColor: 'rgba(29, 78, 216, 0.08)',
-          fill: true,
-          tension: 0.2,
-          borderWidth: 3,
-          pointRadius: 5,
-          pointHoverRadius: 7
-        },
-        {
-          label: 'House Policy Minimum Buffer Floor',
-          data: [25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000],
-          borderColor: '#dc2626',
-          borderDash: [6, 6],
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: false
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 900, easing: 'easeOutQuart' },
-      plugins: {
-        legend: { position: 'top', labels: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } } },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.dataset.label}: AED ${ctx.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
-          }
-        }
-      },
-      scales: {
-        y: {
-          grid: { color: '#f1f5f9' },
-          ticks: {
-            font: { family: 'JetBrains Mono', size: 11 },
-            callback: (v) => 'AED ' + (v / 1000).toFixed(0) + 'k'
-          }
-        },
-        x: {
-          grid: { display: false },
-          ticks: { font: { family: 'Plus Jakarta Sans', weight: '500', size: 11 } }
-        }
-      }
-    },
-    insights: [
-      { title: 'Inflow Timing', val: 'USD 75,000.00', desc: 'Call initiated Wed 4 Nov lands Fri 6 Nov (T+2), ahead of Mon 9 Rent PDC.' },
-      { title: 'Buffer Protection', val: 'AED 27,487.50', desc: 'Maintains policy buffer > AED 25,000 throughout entire month.' },
-      { title: 'Handover Refutation', val: 'Thu 5 Call Fails', desc: 'Thu 5 call lands Mon 9, causing balance to dip to 21,250 (breaching policy).' }
-    ]
-  },
+<tr class="task-1">
+<td><span class="task-no">1</span></td>
+<td>
+  <div class="task-title">August 2026 Reconciliation Findings</div>
+  <div class="task-meta">Period: 02-Aug-2026 to 22-Aug-2026 · Currency: AED · Closing balance: 229,281.25</div>
+  <div class="task-desc">
+    Bank reconciliation review of the August 2026 cashbook against the bank statement.
+    Covers four reconciling items totalling AED 13,063.75, plus a fifth finding
+    that produces no difference at all — the AED 93,750 post-dated cheque the
+    bank honoured thirteen days before its stated date.
+  </div>
+  <a class="task-link" href="reconciliation-findings.html">Open task 1 →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="reconciliation-findings.html">View</a>
+</td>
+</tr>
 
-  // TAB 4: Spend Concentration
-  spendmix: {
-    type: 'doughnut',
-    data: {
-      labels: ['Payroll and related (52.3%)', 'Premises & utilities (19.9%)', 'Regulatory & licensing (7.5%)', 'Insurance (3.0%)', 'Unclassified cash risk (2.6%)', 'Capital equipment (2.5%)', 'Facilities & cleaning (2.4%)', 'IT SaaS subscriptions (2.3%)', 'Office supplies (2.2%)', 'All other categories (5.3%)'],
-      datasets: [
-        {
-          data: [295831.50, 112380.50, 42460.00, 16800.00, 15000.00, 13911.50, 13545.00, 12930.90, 12600.00, 22828.00],
-          backgroundColor: [
-            '#0b2545', '#1e3a5f', '#2563eb', '#38bdf8', '#dc2626', '#d97706', '#059669', '#10b981', '#64748b', '#cbd5e1'
-          ],
-          borderWidth: 2,
-          borderColor: '#ffffff'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 900, easing: 'easeOutQuart' },
-      plugins: {
-        legend: { position: 'right', labels: { font: { family: 'Plus Jakarta Sans', weight: '500', size: 11 }, boxWidth: 14 } },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.label}: AED ${ctx.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
-          }
-        }
-      }
-    },
-    insights: [
-      { title: 'Core Operating Base', val: '72.2% of Spend', desc: 'Payroll (AED 295.8k) and premises (AED 112.4k) dominate quarterly outflow.' },
-      { title: 'Unclassified Cash Risk', val: 'AED 15,000.00', desc: 'Branch ATM cash withdrawals with zero supporting receipts on file.' },
-      { title: 'Silently Compounding', val: 'AED 22,190.15', desc: 'IT SaaS and market data subscriptions inflating without contract review.' }
-    ]
-  },
+<tr class="task-2">
+<td><span class="task-no">2</span></td>
+<td>
+  <div class="task-title">Payables Review before Payment Run</div>
+  <div class="task-meta">Ten documents reviewed · Proposed run: AED 166,743.38 · Corrected release: AED 74,905.00</div>
+  <div class="task-desc">
+    Pre-release review of ten documents queued for payment tonight. Reduces the
+    proposed run by AED 91,838.38 by holding a duplicate of D1 (D7), a quotation
+    rather than invoice (D8), a suspected payment diversion attempt with a
+    structurally invalid IBAN (D9), and a credit note logged as an outflow (D10).
+    Input VAT claimable reset to AED 2,717.50.
+  </div>
+  <a class="task-link" href="payables-review.html">Open task 2 →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="payables-review.html">View</a>
+</td>
+</tr>
 
-  // TAB 5: Anomaly Risk Register
-  anomalies: {
-    type: 'bar',
-    data: {
-      labels: ['A4 Undocumented ATM Cash', 'A5 Marina Yacht Club', 'A1 Nimbus Wire Duplicate', 'A3 Al Reem Direct Debit Dup', 'A9 Datastream 40% Increase', 'A6 Late VAT Settlement Pen', 'A2 Dropbox Seat Duplicate', 'A7 GlobalData FX Margin'],
-      datasets: [
-        {
-          label: 'Immediate Outflow at Stake (AED)',
-          data: [15000.00, 6400.00, 4830.00, 3150.00, 734.50, 473.00, 96.36, 78.00],
-          backgroundColor: '#dc2626',
-          borderRadius: 4
-        },
-        {
-          label: 'Annualised Forward Exposure (AED/yr)',
-          data: [60000.00, 0, 0, 0, 8814.00, 0, 1156.32, 468.00],
-          backgroundColor: '#d97706',
-          borderRadius: 4
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 900, easing: 'easeOutQuart' },
-      plugins: {
-        legend: { position: 'top', labels: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } } },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.dataset.label}: AED ${ctx.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
-          }
-        }
-      },
-      scales: {
-        y: {
-          grid: { color: '#f1f5f9' },
-          ticks: {
-            font: { family: 'JetBrains Mono', size: 11 },
-            callback: (v) => 'AED ' + (v / 1000).toFixed(0) + 'k'
-          }
-        },
-        x: {
-          grid: { display: false },
-          ticks: { font: { family: 'Plus Jakarta Sans', weight: '600', size: 10 } }
-        }
-      }
-    },
-    insights: [
-      { title: 'Immediate At Stake', val: 'AED 30,761.86', desc: 'Across 8 findings (A8 capex AED 13,911.50 misfiled rather than lost).' },
-      { title: 'Forward Annual Run-Rate', val: 'AED 70,438.32/yr', desc: 'Recurring drain if ATM cash, Datastream, and SaaS seats remain unfixed.' },
-      { title: 'Direct Cash Recovery', val: 'AED 7,980.00', desc: 'Nimbus (4,830) and Al Reem (3,150) duplicate wires clawed back.' }
-    ]
-  }
-};
+<tr class="task-3">
+<td><span class="task-no">3</span></td>
+<td>
+  <div class="task-title">Cheque and Payroll Funding Plan, November 2026</div>
+  <div class="task-meta">Period: Mon 2 Nov to Mon 30 Nov 2026 · Funding: USD 75,000 required, USD 80,000 recommended · Closing balance: AED 27,487.50 or 45,850.00</div>
+  <div class="task-desc">
+    Cash-flow and funding plan for November 2026. Refutes all three claims in the
+    outgoing manager's handover note, sizes a single USD 75,000 withdrawal to
+    replace the proposed two-tranche plan, and sets the request date at Wed 4 Nov
+    so the rent-cheque funding rule is met. Includes a one-day-late stress test
+    and the rule change that prevents recurrence.
+  </div>
+  <a class="task-link" href="funding-plan-november-2026.html">Open task 3 →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="funding-plan-november-2026.html">View</a>
+</td>
+</tr>
 
-// INITIALIZE AND SWITCH CHART
-function switchChartTab(tabKey, btnElement) {
-  // Update button active state
-  document.querySelectorAll('.segmented-btn').forEach(btn => btn.classList.remove('active'));
-  if (btnElement) btnElement.classList.add('active');
+<tr class="task-4">
+<td><span class="task-no">4</span></td>
+<td>
+  <div class="task-title">Memo to Principals &mdash; Spend Review Jun to Aug 2026</div>
+  <div class="task-meta">Period: Jun, Jul, Aug 2026 · Total spend: AED 565,386.90 · Net cash movement: (158,311.90)</div>
+  <div class="task-desc">
+    Quarterly memo to principals covering total spend of AED 565,386.90 against
+    funding of AED 407,075.00. Highlights AED 30,761.86 at stake across eight
+    in-total findings (ninth finding, A8 capex of AED 13,911.50, is misfiled
+    rather than lost): AED 7,980.00 recoverable from two suppliers paid twice,
+    AED 15,000.00 in undocumented cash withdrawals, and a 40 percent rise in
+    Datastream Pro with no contract variation. Closes with three decisions for
+    principal sign-off.
+  </div>
+  <a class="task-link" href="spend-review.html">Open task 4 →</a>
+  &nbsp;
+  <a class="task-link" href="spend-review-memorandum.html" style="background:#475569;">Memo →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="spend-review.html">Dashboard</a>
+  <br><br>
+  <a class="task-link" href="spend-review-memorandum.html" style="background:#475569;">Memo</a>
+</td>
+</tr>
 
-  const config = chartConfigs[tabKey];
-  if (!config) return;
+<tr class="task-5">
+<td><span class="task-no">5</span></td>
+<td>
+  <div class="task-title">Design of the Monthly-Close Automation</div>
+  <div class="task-meta">Stack: Claude (Cowork + Code + API) · Make.com · Google Workspace · Todoist · 8-step pipeline with 3 human gates</div>
+  <div class="task-desc">
+    Replaces two days of monthly close work with an 8-step pipeline: human statement
+    capture, PDF parsing to strict JSON, a no-model reconciliation gate that halts on any
+    variance, AI categorisation against a closed enum, three-way invoice matching, vendor
+    chase drafts that are never auto-sent, funding and top-up alerts, and a principals'
+    summary. Three human approval gates, four failure modes with mitigations, a declared
+    data-security posture, and a verbatim first prompt for Claude Cowork.
+  </div>
+  <a class="task-link" href="task-5-automation-design.html">Open task 5 →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="task-5-automation-design.html">View</a>
+</td>
+</tr>
 
-  const ctx = document.getElementById('activeFinanceChart').getContext('2d');
-  if (currentChart) {
-    currentChart.destroy();
-  }
+<tr class="task-6">
+<td><span class="task-no">6</span></td>
+<td>
+  <div class="task-title">Verification of the AI Briefing Memo on UAE Finance Rules</div>
+  <div class="task-meta">12 statements checked · 7 wrong · 3 correct · 2 correct-but-incomplete (matters for DMCC)</div>
+  <div class="task-desc">
+    Independent verification of an internal AI-generated briefing to principals on
+    UAE VAT, Corporate Tax, WPS, cheque law and e-invoicing rules. Every verdict
+    is backed by a citation to an official UAE source (FTA, u.ae, MOHRE, MoF).
+    After an adversarial audit caught three verdicts (2, 8, 12) and a later independent pass caught a fourth (4), this
+    page is the revised version with the correct positions. A dedicated
+    audit-response page documents the diff.
+  </div>
+  <a class="task-link" href="task-6-finance-rules-check.html">Open task 6 →</a>
+  &nbsp;
+  <a class="task-link" href="task-6-audit-response.html" style="background:#475569;">Audit response →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="task-6-finance-rules-check.html">View</a>
+  <br><br>
+  <a class="task-link" href="task-6-audit-response.html" style="background:#475569;">Audit</a>
+</td>
+</tr>
 
-  currentChart = new Chart(ctx, {
-    type: config.type,
-    data: config.data,
-    options: config.options
-  });
 
-  // Render insights strip
-  const strip = document.getElementById('chartInsightStrip');
-  strip.innerHTML = config.insights.map(item => `
-    <div class="insight-card">
-      <div class="insight-title">${item.title}</div>
-      <div class="insight-val num">${item.val}</div>
-      <div class="insight-desc">${item.desc}</div>
-    </div>
-  `).join('');
-}
+</tbody>
+</table>
 
-// TASK SEARCH FILTER
-function handleSearch(query) {
-  const q = query.toLowerCase().trim();
-  const cards = document.querySelectorAll('.task-card');
-  cards.forEach(card => {
-    const text = card.innerText.toLowerCase();
-    const keywords = card.getAttribute('data-keywords') || '';
-    if (!q || text.includes(q) || keywords.includes(q)) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
+<h2>Repository</h2>
+<table class="nav-grid">
+<tbody>
+<tr>
+<td style="width:22%;"><strong>GitHub repository</strong></td>
+<td>
+  <a href="https://github.com/Rams-Lab-01/reconciliation-findings-2026">https://github.com/Rams-Lab-01/reconciliation-findings-2026</a>
+</td>
+</tr>
+<tr>
+<td><strong>Published via</strong></td>
+<td>GitHub Pages · default github.io domain · HTTPS enforced</td>
+</tr>
+<tr>
+<td><strong>Visibility</strong></td>
+<td>Public · open to anyone with the link</td>
+</tr>
+</tbody>
+</table>
 
-// TASK CATEGORY FILTER CHIPS
-function filterTasks(category, chipElement) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  if (chipElement) chipElement.classList.add('active');
-
-  const cards = document.querySelectorAll('.task-card');
-  cards.forEach(card => {
-    const cardCat = card.getAttribute('data-category');
-    if (category === 'all' || cardCat === category) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
-
-// On DOM Loaded
-document.addEventListener('DOMContentLoaded', () => {
-  switchChartTab('q3flow', document.querySelector('.segmented-btn.active'));
-});
-</script>
+<footer>
+  Maintained as a living index. Add new tasks by extending the table above with a new row and linking to the corresponding HTML page.
+</footer>
 
 </body>
 </html>
