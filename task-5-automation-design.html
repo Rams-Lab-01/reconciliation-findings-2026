@@ -46,31 +46,21 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
 .ctr { text-align: center; }
 .alert { background: #fdeaea; border-left: 4px solid #a32020; padding: 7px 10px; margin: 0 0 9px; }
 .note  { background: #fff8e1; border-left: 4px solid #c9a227; padding: 9px 14px; margin: 10px 0 14px; font-size: 8.6pt; }
-.ok-box{ background: #e4f4e9; border-left: 4px solid #0f7b4f; padding: 9px 14px; margin: 10px 0 14px; font-size: 8.8pt; }
+.ok-box { background: #e4f4e9; border-left: 4px solid #0f7b4f; padding: 9px 14px; margin: 10px 0 14px; font-size: 8.8pt; }
 .stop-box { background: #fee2e2; border: 1pt solid #a32020; padding: 10px 14px; margin: 10px 0 14px; font-size: 8.8pt; font-weight: 700; }
 .tag { display: inline-block; padding: 1px 6px; background: #13344f; color: #ffffff; font-size: 7.4pt; border-radius: 2px; margin-right: 3px; }
+.tag-h { background: #a32020; }
+.tag-m { background: #1d4ed8; }
 .tag-g { background: #0f7b4f; }
-.tag-m { background: #13344f; }
-.tag-w { background: #f59e0b; }
-.tag-t { background: #1d4ed8; }
 
-/* ---------- MERMAID CHART CARDS ---------- */
-.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.chart-card { background: #ffffff; border: 0.5pt solid #9fb2c4; border-radius: 2px; padding: 8px 10px; }
-.chart-card.full { grid-column: 1 / -1; }
-.chart-title {
-  font-size: 8.6pt; font-weight: 700; color: #13344f;
-  text-transform: uppercase; letter-spacing: 0.5px;
-  margin-bottom: 3px; padding-bottom: 3px;
-  border-bottom: 0.5pt solid #bfcbd8;
-}
+/* ---------- MERMAID ---------- */
+.chart-card { background: #ffffff; border: 0.5pt solid #9fb2c4; border-radius: 2px; padding: 8px 10px; margin: 0 0 8px 0; }
+.chart-title { font-size: 8.6pt; font-weight: 700; color: #13344f; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; padding-bottom: 3px; border-bottom: 0.5pt solid #bfcbd8; }
 .chart-sub { font-size: 7.6pt; color: #55677a; margin-bottom: 4px; font-style: italic; }
 .mermaid { font-family: Calibri, "Segoe UI", Arial, sans-serif !important; background: #ffffff; display: flex; justify-content: center; margin: 4px 0; }
 .mermaid svg { max-width: 100% !important; height: auto !important; }
 .mermaid .nodeLabel, .mermaid .edgeLabel, .mermaid .label, .mermaid .node rect, .mermaid .node circle, .mermaid .node ellipse, .mermaid .node polygon { font-family: Calibri, "Segoe UI", Arial, sans-serif !important; }
-@media print {
-  .mermaid { break-inside: avoid; page-break-inside: avoid; }
-}
+@media print { .mermaid { break-inside: avoid; page-break-inside: avoid; } }
 
 /* ---------- TOP NAVIGATION BAR ---------- */
 .topnav {
@@ -125,7 +115,7 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
         primaryBorderColor: '#0b3d91',
         secondaryColor: '#1d4ed8',
         tertiaryColor: '#475569',
-        lineColor: '#0f7b4f',
+        lineColor: '#a32020',
         textColor: '#1b2733',
         fontFamily: 'Calibri, "Segoe UI", Arial, sans-serif',
         fontSize: '12px'
@@ -148,257 +138,146 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
     <a href="spend-review-memorandum.html">Task 4 &middot; Memo</a>
     <a href="task-5-automation-design.html" class="active">Task 5 &middot; Automation</a>
     <a href="task-6-finance-rules-check.html">Task 6 &middot; Rules</a>
+    <a href="task-6-audit-response.html">Task 6 &middot; Audit</a>
   </div>
 </nav>
 
 <div class="page">
 
 <h1>Task 5 &mdash; Design of the monthly-close automation</h1>
-<div class="sub">Brief: monthly close is currently two days of manual work (statement download &rarr; categorise &rarr; match invoices &rarr; chase missing &rarr; create top-up tasks &rarr; draft principals summary). Stack: Claude (Cowork + Code), self-hosted n8n on a UAE-region VPS, Google Workspace, Todoist. Below is the proposed pipeline, Mermaid architecture diagrams, approval gates, failure modes, security posture, and the verbatim first prompt.</div>
+<div class="sub">Brief: monthly close is currently two days of manual work (statement download &rarr; categorise &rarr; match invoices &rarr; chase missing &rarr; create top-up tasks &rarr; draft principals summary). Stack: Make.com for orchestration, Claude (API + Cowork + Code) for intelligence, Google Workspace as system of record, Todoist for human task tracking. Below is the proposed pipeline, Mermaid architecture diagram, approval gates, failure modes, security posture, and the verbatim first prompt.</div>
 
-<div class="alert"><strong>Stack decision: switch Make.com to self-hosted n8n on a UAE-region VPS.</strong> The cost is roughly equal once you factor in maintenance time, but bank statements, IBANs, and payroll files stop leaving our perimeter, we own the audit trail, and we stop being subject to a third-party SaaS's retention policy, pricing changes, or acquisition risk. Given the BEC attempt and the early-paid AED 93,750 cheque we saw this quarter, the control argument outweighs the convenience of a hosted UI.</div>
+<div class="alert"><strong>Stack rationale: Make.com for orchestration, not n8n.</strong> Make.com is the right layer for this office at its current size: deterministic, retryable, audit-logged, and it stays out of the data plane &mdash; nothing customer-confidential flows through it. A redaction step in Make.com strips account numbers, IBANs and PANs from every payload before the call to Claude, so the model only ever sees transaction lines labelled by account, never the real identifiers. The pipeline may prepare and reconcile; payment execution and any change to vendor bank details stay human-only (see point 4).</div>
 
-<h2>1 &mdash; Target architecture (numbered pipeline)</h2>
+<h2>1 &mdash; Target architecture (8 numbered steps)</h2>
+
 <table>
 <thead>
-<tr><th style="width:4%">#</th><th style="width:13%">Step</th><th style="width:14%">Tool</th><th style="width:14%">Trigger</th><th style="width:14%">Input</th><th style="width:14%">Output</th><th style="width:37%">Lands where</th></tr>
+<tr><th style="width:4%">#</th><th style="width:13%">Step</th><th style="width:13%">Tool</th><th style="width:18%">Trigger &amp; input</th><th style="width:21%">Output &amp; schema</th><th style="width:31%">Lands where</th></tr>
 </thead>
 <tbody>
-<tr><td class="ctr">1</td><td><span class="tag tag-g">Ingest</span> Statement collection</td><td>n8n on UAE VPS</td><td>Cron: 1st of month, 07:30 UAE</td><td>4 expected statement emails (1 bank + 3 cards)</td><td>4 standardised PDFs</td><td>Google Drive: <code>/Finance/Statements/YYYY-MM/</code> as <code>ACCT-3510_YYYY-MM.pdf</code>, <code>CARD-1346_YYYY-MM.pdf</code>, <code>CARD-0951_YYYY-MM.pdf</code>, <code>CARD-XXXX_YYYY-MM.pdf</code></td></tr>
-<tr><td class="ctr">2</td><td><span class="tag tag-t">Parse</span> PDF &rarr; text</td><td>n8n + pdfminer.six (Python) on the VPS</td><td>n8n webhook on new file in Drive folder</td><td>PDF binary</td><td>UTF-8 text with line breaks preserved</td><td>Same Drive folder, sidecar <code>.txt</code> per statement</td></tr>
-<tr><td class="ctr">3</td><td><span class="tag tag-m">Categorise</span> AI categorisation</td><td>Claude Cowork (via n8n HTTP Request to Anthropic API)</td><td>n8n triggers Cowork task on <code>.txt</code> sidecar appearing</td><td>Statement text + Chart of Accounts (passed as Cowork skill)</td><td>Structured JSON rows; written to Sheet via n8n Google Sheets node</td><td>Google Sheets: <code>/Finance/Categorised/YYYY-MM</code>, one row per line</td></tr>
-<tr><td class="ctr">4</td><td><span class="tag tag-m">Match</span> Match card charges to invoices</td><td>Claude Cowork (via n8n)</td><td>n8n triggers Cowork on step 3 completion</td><td>Categorised Sheet rows + Drive folder <code>/Finance/Invoices/YYYY-MM/</code></td><td>"Matched invoice" column populated OR row marked MISSING</td><td>Same Categorised Sheet, new columns: matched_invoice_file, match_confidence</td></tr>
-<tr><td class="ctr">5</td><td><span class="tag tag-w">Chase</span> Vendor chase emails</td><td>Claude Cowork (via n8n)</td><td>n8n HTTP Request fires for every MISSING row</td><td>MISSING row details + vendor master Sheet</td><td>Gmail draft, addressed from vendor master email</td><td>Gmail Drafts folder, labelled <code>/Finance/Chases/YYYY-MM</code>; never auto-sent</td></tr>
-<tr><td class="ctr">6</td><td><span class="tag tag-w">Alert</span> Top-up Todoist tasks</td><td>n8n + Todoist API</td><td>Cron: 2nd of month, 09:00 UAE</td><td>Sheet totals row (closing balance) + forecast outflows from step 3</td><td>One Todoist task per account forecast to dip below AED 50,000</td><td>Todoist project <code>Finance / Top-ups</code>, due date = forecast dip date</td></tr>
-<tr><td class="ctr">7</td><td><span class="tag tag-g">Report</span> Principals spend summary</td><td>Claude Cowork (via n8n) + Google Docs</td><td>Manual trigger: operator clicks "Run monthly close" in n8n</td><td>Categorised Sheet</td><td>Google Doc draft following Task 4 memo template</td><td>Google Drive: <code>/Finance/Summaries/YYYY-MM-Close.md</code>; never auto-shared</td></tr>
+<tr><td class="ctr">1</td><td><span class="tag tag-h">Human</span> Statement capture</td><td>FinOps Manager (no automation)</td><td>Todoist recurring task, first banking day of each month.</td><td>4 PDFs named <code>YYYY-MM_&lt;ACCOUNT&gt;.pdf</code></td><td>Drive: <code>/Finance/Close/YYYY-MM/01_Statements/</code></td></tr>
+<tr><td class="ctr">2</td><td><span class="tag tag-m">Parse</span> PDF &rarr; strict JSON</td><td>Make.com + Claude API</td><td>Drive watch on <code>01_Statements</code>; PDF as Anthropic document input.</td><td>Strict JSON: <code>{date, description, account_label, debit, credit, currency}</code> per line + control block <code>{stated_opening, stated_closing, line_count, page_count}</code>.</td><td>Sheet <code>Close_YYYY-MM_Raw</code>, one row per transaction.</td></tr>
+<tr><td class="ctr">3</td><td><span class="tag tag-m">Validate</span> No model</td><td>Make.com only</td><td>On step 2 completion.</td><td>Compute <code>stated_opening + credits − debits</code>; compare to <code>stated_closing</code>. Pass = variance exactly <strong>0.00</strong>.</td><td>If variance &ne; 0: pipeline halts; Todoist task "PARSE FAILED &mdash; ACCOUNT &mdash; variance AED x.xx". Nothing downstream runs.</td></tr>
+<tr><td class="ctr">4</td><td><span class="tag tag-m">Categorise</span> Deterministic + Claude</td><td>Claude Code against the Sheet</td><td>All four files pass step 3. Inputs: Raw Sheet + <code>vendor_map.csv</code> + <code>categories.md</code>.</td><td>Deterministic lookup first; only unmatched descriptions go to the model; model returns only from the closed enum. Columns added: Category, Confidence, Rule_or_Model.</td><td>Same Sheet; plus a "Review" tab with every model-assigned row, every new vendor string, and every row above AED 10,000 regardless of confidence.</td></tr>
+<tr><td class="ctr">5</td><td><span class="tag tag-m">Match</span> Invoices</td><td>Make.com + Claude API</td><td>After Gate 1 approval. Each card charge; Drive search of <code>/Finance/Invoices/YYYY-MM/</code>.</td><td>Three-way test: amount = fils, vendor matched to master, date within 5 days. Output: <code>Invoice_Link</code>, <code>Match_Status</code> (MATCHED / NO INVOICE / AMOUNT MISMATCH).</td><td>Same Sheet, columns added.</td></tr>
+<tr><td class="ctr">6</td><td><span class="tag tag-m">Chase</span> Drafts only</td><td>Make.com + Claude</td><td>Any row at NO INVOICE after step 5.</td><td>One Gmail draft per vendor, grouped. Recipient is a VLOOKUP from vendor master on vendor_id; the model never supplies an address.</td><td>Gmail DRAFT only. No vendor_id &rarr; no draft, only a Todoist task.</td></tr>
+<tr><td class="ctr">7</td><td><span class="tag tag-m">Alert</span> Funding &amp; top-ups</td><td>Make.com only, no model</td><td>Daily 07:00 balance read, and on any new committed item.</td><td>Compare projected balance against buffer_rules: AED 25,000 floor; cheque funds in place the banking day before presentation; two banking days for a broker wire (raised to three for safety margin).</td><td>Todoist task with hard due date and AED amount required.</td></tr>
+<tr><td class="ctr">8</td><td><span class="tag tag-g">Report</span> Principals' memo</td><td>Claude Cowork</td><td>After Gate 1 passed and month-end matching closed.</td><td>One-page memo: total spend by month, three categories deserving attention, every actionable anomaly with AED impact and recommended action, control-tie block.</td><td><code>/Finance/Close/YYYY-MM/05_Reporting/</code> as Docs and PDF.</td></tr>
 </tbody>
 </table>
 
-<h3>Stack rationale per layer</h3>
-<ul>
-  <li><strong>n8n on UAE VPS</strong> is the orchestration layer. It runs cron schedules, webhooks, retries, error branches, and calls downstream tools. Hosting on the UAE VPS means statements and IBANs never leave our perimeter and we keep a full execution log on disk under <code>/var/log/n8n/</code>.</li>
-  <li><strong>Claude Cowork</strong> handles the AI steps (3, 4, 5, 7) via n8n's HTTP Request node hitting the Anthropic API. The chart of accounts and the vendor master Sheet are loaded as Cowork skills, so the prompts are deterministic across runs.</li>
-  <li><strong>Claude Code</strong> is reserved for building the pipeline itself, the Cowork skill definitions, and the vendor master Sheet validator &mdash; i.e. engineering work, not production traffic.</li>
-  <li><strong>Google Workspace</strong> stays the system of record. All outputs land in Drive / Sheets / Docs / Gmail, so the AI layer is replaceable without data migration.</li>
-  <li><strong>Todoist</strong> is used as-is for human task tracking; we do not replace it with anything.</li>
-</ul>
-
-<h2>2 &mdash; Architecture diagram (Mermaid)</h2>
-
-<div class="chart-grid">
-
-<div class="chart-card full">
-  <div class="chart-title">Pipeline &mdash; monthly close end-to-end</div>
-  <div class="chart-sub">All AI steps gated; no external action without a human click</div>
+<h3>Mermaid pipeline diagram</h3>
+<div class="chart-card">
+  <div class="chart-title">Pipeline &mdash; monthly close, with three human gates</div>
+  <div class="chart-sub">Green gates = human review; red blocks = halt-and-escalate conditions</div>
   <div class="mermaid">
 flowchart LR
-    A[Cron: 1st of month<br/>07:30 UAE] --> B[n8n step 1<br/>Ingest PDFs]
-    B --> C{Drive folder<br/>complete?}
-    C -- no --> X1[Todoist:<br/>chase missing<br/>statement]
-    C -- yes --> D[n8n step 2<br/>PDF -> text]
-    D --> E[n8n step 3<br/>Claude categorise]
-    E --> F[n8n step 4<br/>Claude match invoices]
-    F --> G{MISSING<br/>rows?}
-    G -- yes --> H[n8n step 5<br/>Draft chase emails]
-    H --> I[Gmail Drafts<br/>human reviews]
-    G -- no --> J[n8n step 6<br/>Top-up Todoist]
-    I --> J
-    J --> K[Operator clicks<br/>Run monthly close]
-    K --> L[n8n step 7<br/>Draft principals summary]
-    L --> M[Google Doc draft<br/>human reviews and shares]
+    H1[1. FinOps Manager<br/>downloads 4 PDFs] --> D1[Drive:<br/>01_Statements]
+    D1 --> S2[2. Make + Claude<br/>Parse to strict JSON]
+    S2 --> S3{3. Validate<br/>opening + credits<br/>&minus; debits = closing?}
+    S3 -- variance 0.00 --> S4[4. Claude Code<br/>Categorise<br/>deterministic + model]
+    S3 -- variance &ne; 0 --> HALT[Pipeline halts.<br/>Todoist: PARSE FAILED]
+    S4 --> G1[Gate 1<br/>Category &amp; data<br/>sign-off]
+    G1 -- approved --> S5[5. Make + Claude<br/>Invoice match<br/>three-way test]
+    G1 -- not approved --> REV[Operator fixes<br/>in Sheet, then<br/>re-runs step 4]
+    S5 --> S6[6. Make + Claude<br/>Draft chase emails<br/>never auto-send]
+    S6 --> G2[Gate 2<br/>Vendor email<br/>release]
+    G2 -- sent by hand --> S7[7. Make<br/>Funding &amp; top-up<br/>Todoist tasks]
+    S7 --> G3[Gate 3<br/>Memo release<br/>to principals]
+    G3 --> S8[8. Cowork<br/>Memo to Drive<br/>and PDF]
 
-    I -.human gate G4.-> I
-    E -.gate G2.-> E
-    F -.gate G3.-> F
-    L -.gate G5.-> L
-
-    style A fill:#13344f,color:#fff
-    style B fill:#1d4ed8,color:#fff
-    style D fill:#1d4ed8,color:#fff
-    style E fill:#1d4ed8,color:#fff
-    style F fill:#1d4ed8,color:#fff
-    style H fill:#1d4ed8,color:#fff
-    style J fill:#1d4ed8,color:#fff
-    style L fill:#1d4ed8,color:#fff
-    style I fill:#fff8e1,color:#1b2733,stroke:#c9a227
-    style M fill:#fff8e1,color:#1b2733,stroke:#c9a227
-    style X1 fill:#fdeaea,color:#8d1a1a,stroke:#a32020
-    style C fill:#0f7b4f,color:#fff
-    style G fill:#0f7b4f,color:#fff
-    style K fill:#a32020,color:#fff
-  </div>
-</div>
-
-<div class="chart-card">
-  <div class="chart-title">Human gates &mdash; where the AI must stop and wait</div>
-  <div class="chart-sub">Five gates between the AI and any external action</div>
-  <div class="mermaid">
-flowchart TD
-    G1[G1 — after Ingest<br/>4 PDFs in Drive?]
-    G2[G2 — after Categorise<br/>Sheet amber rows?]
-    G3[G3 — after Match<br/>Vendor address valid?]
-    G4[G4 — after Chase drafts<br/>Send button?]
-    G5[G5 — after Top-ups + Summary<br/>Share with principals?]
-
-    G1 -- human --> A1[Open Drive folder<br/>confirm files]
-    G2 -- human --> A2[Scan amber rows<br/>sign off sheet]
-    G3 -- human --> A3[Confirm vendor<br/>in master Sheet]
-    G4 -- human --> A4[Open Gmail Drafts<br/>click Send]
-    G5 -- human --> A5[Review summary<br/>click Share]
-
+    style H1 fill:#a32020,color:#fff
+    style HALT fill:#a32020,color:#fff
+    style S2 fill:#1d4ed8,color:#fff
+    style S3 fill:#0f7b4f,color:#fff
+    style S4 fill:#1d4ed8,color:#fff
+    style S5 fill:#1d4ed8,color:#fff
+    style S6 fill:#1d4ed8,color:#fff
+    style S7 fill:#1d4ed8,color:#fff
+    style S8 fill:#1d4ed8,color:#fff
     style G1 fill:#fdeaea,color:#8d1a1a
     style G2 fill:#fdeaea,color:#8d1a1a
     style G3 fill:#fdeaea,color:#8d1a1a
-    style G4 fill:#fdeaea,color:#8d1a1a
-    style G5 fill:#fdeaea,color:#8d1a1a
-    style A1 fill:#0f7b4f,color:#fff
-    style A2 fill:#0f7b4f,color:#fff
-    style A3 fill:#0f7b4f,color:#fff
-    style A4 fill:#0f7b4f,color:#fff
-    style A5 fill:#0f7b4f,color:#fff
+    style REV fill:#fff8e1,color:#1b2733
   </div>
 </div>
 
-<div class="chart-card">
-  <div class="chart-title">Data residency &mdash; who sees what</div>
-  <div class="chart-sub">Statements and IBANs never leave the UAE VPS or Google Workspace</div>
-  <div class="mermaid">
-flowchart LR
-    subgraph PERIMETER["Inside our perimeter"]
-        VPS[UAE VPS<br/>n8n + execution logs]
-        GW[Google Workspace<br/>Drive / Sheets / Gmail]
-    end
-    subgraph EXTERNAL["Third-party SaaS"]
-        ANTH[Anthropic API<br/>Cowork prompts only]
-        TODO[Todoist<br/>account name + amount]
-        BANK[Bank &amp; card portals<br/>statement source]
-    end
+<h2>2 &mdash; Three human approval gates</h2>
 
-    BANK -- read-only OAuth --> VPS
-    VPS -- n8n triggers, body only --> ANTH
-    ANTH -- categorised rows --> VPS
-    VPS -- writes --> GW
-    GW -- drafts --> VPS
-    VPS -- push task --> TODO
-
-    VPS -.statements, IBANs<br/>stay here.-> PERIMETER
-
-    style VPS fill:#13344f,color:#fff
-    style GW fill:#1d4ed8,color:#fff
-    style ANTH fill:#475569,color:#fff
-    style TODO fill:#475569,color:#fff
-    style BANK fill:#475569,color:#fff
-  </div>
-</div>
-
-</div>
-
-<h2>3 &mdash; Why self-hosted n8n instead of Make.com</h2>
 <table>
 <thead>
-<tr><th style="width:30%">Concern</th><th style="width:35%">Hosted Make.com</th><th style="width:35%">Self-hosted n8n on UAE VPS</th></tr>
+<tr><th style="width:6%">Gate</th><th style="width:20%">Where it sits</th><th style="width:35%">What the reviewer sees</th><th style="width:39%">What the reviewer approves or rejects</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Statement and IBAN data</strong></td><td>Crosses Make.com's servers in the EU on every run. Subject to their retention policy.</td><td>Stays on our UAE VPS. Logs and intermediate data never leave our perimeter.</td></tr>
-<tr><td><strong>Audit trail</strong></td><td>Execution history visible to Make.com staff under their ToS.</td><td>Full execution log written to <code>/var/log/n8n/</code> on the VPS, owned by us, retained as long as we want.</td></tr>
-<tr><td><strong>Pricing changes / acquisition risk</strong></td><td>Per-operation billing, no long-term price guarantee. Vendor could be acquired or sunset.</td><td>Fixed monthly VPS cost. No per-operation billing. No vendor sunset risk on the orchestration layer.</td></tr>
-<tr><td><strong>Data-processing agreements</strong></td><td>Requires per-vendor DPA review on every new tool or region.</td><td>Single DPA scope: our UAE VPS. Easier to audit for principals.</td></tr>
-<tr><td><strong>Cost (TCO)</strong></td><td>Higher at scale due to per-operation billing. Hard to forecast.</td><td>Fixed VPS + maintenance time. Roughly equal at this office's transaction volume, but lower at 2x volume.</td></tr>
-<tr><td><strong>Operational risk given this quarter</strong></td><td>Hosted UI convenient but a single SaaS outage stalls the close.</td><td>We own the runtime. Outages are recoverable from the VPS, not from Make.com's status page.</td></tr>
+<tr><td class="ctr">G1</td><td>Before step 5 (invoice matching) and step 8 (memo).</td><td>The <strong>Review tab only</strong>, not all 74 rows. It shows new vendor strings, every model-assigned category with its confidence, every row above AED 10,000, and at the head a control-tie block giving each statement's closing balance against the parsed total with the variance in a single cell.</td><td>If that variance cell is anything other than 0.00 the gate cannot be passed. Approval is recorded by name and timestamp, not by a click that leaves no trace.</td></tr>
+<tr><td class="ctr">G2</td><td>Before anything leaves the building.</td><td>Each draft beside the charge that triggered it: vendor name, amount, date, card, the recipient address as resolved from the vendor master, and the draft body.</td><td>Emails are sent by hand from Gmail. No scenario in Make.com holds send permission.</td></tr>
+<tr><td class="ctr">G3</td><td>Before the memo reaches the principals.</td><td>The full memo with the control-tie block at its foot and the scope limitations stated.</td><td>The reviewer signs it before distribution. The memo carries the preparer's name because someone must own the numbers.</td></tr>
 </tbody>
 </table>
 
-<p>The deciding factor is the BEC attempt and the early-paid AED 93,750 cheque seen this quarter (Task 4). Once the principal has seen a real attack and a real loss, the calculus on a hosted automation UI changes: control outweighs convenience.</p>
+<p>There is no payment gate in this pipeline, because the pipeline contains no payment step. That is deliberate and is covered at point 4.</p>
 
-<h2>4 &mdash; Five human approval gates</h2>
-<table>
-<thead>
-<tr><th style="width:6%">Gate</th><th style="width:24%">After step</th><th style="width:30%">What the human sees</th><th style="width:40%">What the human approves or rejects</th></tr>
-</thead>
-<tbody>
-<tr><td class="ctr">G1</td><td>1 &mdash; Statement collection</td><td>Drive folder with 4 PDFs and a one-row summary in <code>Close_Log/YYYY-MM</code></td><td>Confirms all 4 statements arrived, none is the wrong period or duplicate.</td></tr>
-<tr><td class="ctr">G2</td><td>3 &mdash; Categorisation</td><td>Categorised Sheet with low-confidence rows highlighted amber</td><td>Fixes any mis-categorisations; signs the Sheet off as the working version of the truth.</td></tr>
-<tr><td class="ctr">G3</td><td>4 &mdash; Invoice match</td><td>MISSING-flagged rows with vendor name, invoice date, amount, and the email subject drafted</td><td>Confirms the vendor master Sheet has the right email before drafts are generated.</td></tr>
-<tr><td class="ctr">G4</td><td>5 &mdash; Chase email</td><td>Gmail Drafts folder, one draft per MISSING row</td><td>Reviews and sends each draft manually. Nothing is auto-sent.</td></tr>
-<tr><td class="ctr">G5</td><td>6 &mdash; Top-ups &amp; 7 &mdash; Summary</td><td>Todoist tasks and the principals summary Google Doc draft</td><td>Adjusts task due dates and summary tone; never auto-shared.</td></tr>
-</tbody>
-</table>
+<h2>3 &mdash; Three most likely failure modes (plus one more worth naming)</h2>
 
-<h2>5 &mdash; Three most likely failure modes and mitigations</h2>
 <table>
 <thead>
 <tr><th style="width:6%">#</th><th style="width:24%">Failure mode</th><th style="width:35%">Detection</th><th style="width:35%">Mitigation</th></tr>
 </thead>
 <tbody>
-<tr><td class="ctr">F1</td><td>Mis-parsed PDF (multi-page statement split, columns misaligned).</td><td>n8n step 2 sanity check: parsed row count &ge; raw page count &times; min-rows-per-page. Alert if &lt; 80%.</td><td>Fallback to pdfminer.six on the VPS. If that also fails, n8n workflow pauses and raises a Todoist task; it never proceeds with bad data.</td></tr>
-<tr><td class="ctr">F2</td><td>Hallucinated category or vendor name.</td><td>Every row carries the original <code>line_snippet</code> from the PDF and a confidence score. Rows where confidence &lt; 0.7 highlighted amber at G2.</td><td>Chart-of-accounts prompt forbids inventing categories; new vendors must be added to the master Sheet first, so "UNKNOWN" is a deliberate signal, not a hallucination slot.</td></tr>
-<tr><td class="ctr">F3</td><td>Vendor chase email to the wrong vendor (BEC-style).</td><td>Vendor master Sheet is the single source of truth for <em>name, address, TRN, default contact</em>. Cowork is forbidden from inventing addresses.</td><td>Draft sits in Gmail Drafts; human opens it and visually confirms the To: line at G4. If the master Sheet does not contain the vendor, step 5 produces a draft addressed to "VENDOR-ON-FILE-MISSING" and raises a Todoist task. No email is sent to an address that does not appear in the master Sheet.</td></tr>
+<tr><td class="ctr">A</td><td><strong>Mis-parsed PDF.</strong> Merged columns, a wrapped description swallowing an amount, a credit read as a debit, or a page silently dropped.</td><td>Step 3 is the whole answer. The parse must reconcile to the statement's own printed closing balance to the fils before anything downstream runs; <code>page_count</code> and <code>line_count</code> are compared against the source.</td><td>A parser that cannot prove itself does not get to be trusted. The PDF stays linked from every row so any figure can be traced back to the page it came from.</td></tr>
+<tr><td class="ctr">B</td><td><strong>Hallucinated category or invented vendor.</strong> The model confidently assigns a plausible category to something it has not understood, or reshapes a vendor name until it matches something familiar.</td><td>Three layers. Deterministic <code>vendor_map</code> lookup runs first and handles most rows without a model at all. The model may only select from a closed enum of category names, and Make.com rejects any value outside that list rather than writing it. Every model-assigned row is surfaced at Gate 1.</td><td>The raw description string is preserved untouched in its own column so a human can always see what the bank actually said.</td></tr>
+<tr><td class="ctr">C</td><td><strong>Email drafted to the wrong vendor.</strong> The model reads "NORD* TEAMS LONDON GB" and addresses a chase to a vendor it inferred rather than the one on file.</td><td>The recipient address is never generated. It is a lookup on vendor_id from the vendor master, and where no vendor_id exists no draft is produced at all &mdash; only a Todoist task.</td><td>Every draft stays a draft until a human reads it beside the underlying charge at Gate 2. An email to a wrong or spoofed address is how a payment-diversion attempt starts.</td></tr>
+<tr><td class="ctr">D</td><td><strong>Silent scenario failure</strong> &mdash; Make.com stops and nobody notices until month-end.</td><td>An error handler on every scenario writes to a log sheet.</td><td>A daily heartbeat task in Todoist that is auto-completed by the pipeline; if it is still open at noon, something is broken.</td></tr>
 </tbody>
 </table>
 
-<h2>6 &mdash; What I would NEVER automate end-to-end</h2>
+<h2>4 &mdash; What I would NEVER automate end to end</h2>
 
-<div class="stop-box">Hard rule: the AI never initiates a payment, signs off a reconciliation, or sends an email without a human click.</div>
+<div class="stop-box">Two things, and both concern money leaving the account.</div>
 
-<ul>
-  <li><strong>Payments.</strong> The AI may draft a payment instruction, but the actual click on the bank portal must be a human. A wrong auto-payment is immediate, irreversible cash-out. There is no amount threshold below which this is acceptable.</li>
-  <li><strong>Reconciliation sign-off.</strong> The AI produces the reconciled balance and a list of reconciling items. The counter-signature is always a human. Reason: audit trails require a named approver who has read the reconciliation, not an AI agent that produced it.</li>
-  <li><strong>Sending emails to vendors.</strong> Drafts only. Reason: vendor email compromise is a top fraud vector in the UAE (D9 in our Task 4 register); the AI cannot tell a genuine vendor email from a typosquatted one at send time.</li>
-  <li><strong>Anything touching external bank APIs with write access</strong> &mdash; read-only balance and statement pulls via OAuth-scoped credentials only.</li>
-</ul>
+<p><strong>First, payment execution.</strong> No agent gets banking portal credentials, no scenario holds authority to release a payment file, and no AI output is ever the last thing that happens before funds move. The pipeline may prepare a payment schedule and reconcile it afterwards. A human keys or releases it in the portal under dual authorisation.</p>
 
-<h2>7 &mdash; Data security</h2>
+<p><strong>Second, any change to payment destination data.</strong> Vendor bank details, IBANs and new payee creation are never written by an automation, never updated from an inbound email, and never amended by a model. That field changes only through the out-of-band verification process, by a named person, approved by a second named person.</p>
+
+<p>The reason is asymmetry of consequence. A wrong category is corrected in ten seconds at the next close. A wrong transfer is a request for a recall, not a right to one, and the counterparty decides whether you get the money back. An agent that misreads a transposed amount or lifts an IBAN from a fraudulent email produces a loss that no downstream control can reverse. I have seen the pattern already in this screening: a queued payment to a 22-character IBAN with an inflated amount would have executed cleanly had the process trusted the document in front of it.</p>
+
+<h2>5 &mdash; Data security</h2>
 
 <table>
 <thead>
-<tr><th style="width:30%">Data class</th><th style="width:35%">Where it lives</th><th style="width:35%">Where it must NOT go</th></tr>
+<tr><th style="width:30%">Data class</th><th style="width:35%">Where it lives / where it travels</th><th style="width:35%">Where it must NOT go</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Bank statements</strong> (account numbers, balances, full transaction lines)</td><td>UAE VPS: <code>/var/n8n/data/</code>; Google Drive <code>/Finance/Statements/</code>; processed by Claude Cowork via signed Google OAuth.</td><td>Anywhere outside the VPS or Workspace. No Notion, no Slack DMs, no third-party SaaS docs, no local downloads on operator laptops.</td></tr>
-<tr><td><strong>Vendor data</strong> (name, address, TRN, IBAN, contact)</td><td>Vendor master Sheet, owner-only; backed up nightly to VPS disk.</td><td>Embedded into Cowork skills as hard-coded examples; pasted into third-party tools.</td></tr>
-<tr><td><strong>Vendor chase emails</strong> (PII)</td><td>Gmail Drafts, labelled <code>/Finance/Chases/</code>; sent manually by the operator.</td><td>Auto-send via n8n; any third-party mailer.</td></tr>
-<tr><td><strong>Spend summaries</strong></td><td>Google Docs, Drive sharing set to specific named principals.</td><td>Public links; external sharing; pasted into consumer chat tools that train on data.</td></tr>
-<tr><td><strong>Todoist tasks</strong></td><td>Todoist project <code>Finance / Top-ups</code>; account name + amount only.</td><td>External integrations we do not control; per-account IBAN never goes into task title or description.</td></tr>
-<tr><td><strong>n8n execution logs</strong></td><td>UAE VPS: <code>/var/log/n8n/</code>; written to logrotate weekly, retained 12 months.</td><td>Off-VPS. Logs are pulled only by us, on demand, over SSH.</td></tr>
+<tr><td><strong>Never leaves Google Workspace</strong>: full account numbers and IBANs, card PANs, banking portal credentials and MFA devices, signatory mandates, KYC packs, passport and Emirates ID scans, and the principals' personal financial documents.</td><td>Drive under folder-level restriction.</td><td>Any external call. Not attached to any Make.com scenario, not sent to Claude, not stored outside the Workspace.</td></tr>
+<tr><td><strong>Goes to Claude via API</strong>: the transaction line only.</td><td>Date, amount, currency, description string, and an account <em>LABEL</em> such as ACCT-3510 or CARD-1346 rather than the real number. A redaction step in Make.com runs before every API call and strips anything matching IBAN, PAN or 16-digit patterns, substituting the label. The model never needs the real account number to categorise a line, so it never receives one.</td><td>Anything resembling a real identifier.</td></tr>
+<tr><td><strong>Goes to Make.com</strong>: OAuth tokens to Drive, Gmail and Todoist, scoped to a dedicated finance service account.</td><td>Access to the close folders only, never the principal's own account. Tokens rotated on any staff change.</td><td>The principal's own Google account; broader Workspace scopes.</td></tr>
 </tbody>
 </table>
 
-<p><strong>One-sentence vetting rule before connecting any AI tool:</strong> read its data-handling and training policy, confirm it offers a no-train / zero-retention mode for Workspace data, and refuse to connect any tool that retains prompts or outputs on its own infrastructure for model improvement.</p>
+<p><strong>How I check a tool's data handling before connecting it:</strong> I read the DPA and the sub-processor list, confirm in writing that inputs submitted through the API are excluded from model training and establish the stated retention window, check whether a zero-retention or enterprise tier is available, and then run a synthetic statement with fabricated numbers through the whole pipeline before a single real figure touches it.</p>
 
-<h2>8 &mdash; Verbatim first prompt for the n8n build (step 1, statement ingestion)</h2>
+<h2>6 &mdash; Verbatim first prompt to Claude Cowork, step 1</h2>
 
-<p class="verbatim">You are building step 1 of the monthly-close pipeline for Quant Lab family office, a DMCC free-zone entity. This skill runs inside our self-hosted n8n on a UAE-region VPS at /var/n8n/data/finance/. The orchestrator is n8n, not Make.com; treat the Make.com references in any prior docs as superseded.
+<p class="verbatim">You are building the ingestion stage of our monthly close pipeline. Work in the Google Drive folder /Finance/Close/2026-09/01_Statements/, which contains four PDF bank and card statements for one operating account, ACCT-3510, and three corporate cards.
 
-Trigger: cron schedule firing on the 1st of every month at 07:30 UAE time, set up in the n8n workflow definition file workflow_01_ingest.json.
+For each PDF, extract every transaction line and return a JSON array. Each object must have exactly these keys: date in YYYY-MM-DD, description as the raw string from the statement with no cleanup or interpretation, account_label taken from the filename, debit as a number or null, credit as a number or null, currency as a three-letter code. A line is either a debit or a credit, never both. Do not merge, split, reword or tidy any description. Do not infer a category. Do not skip lines you find unusual, including reversals, fees, interest and foreign currency entries.
 
-Inputs the n8n workflow already has wired:
-- A Gmail OAuth credential authorised under the operator's Workspace account.
-- Google Drive with /Finance/Statements/YYYY-MM/ (created if missing) and /Finance/Close_Log/.
-- A Todoist API token for the operator's project Finance / Top-ups.
-- A vendor master Sheet called /Finance/_config/Vendor_Master listing the canonical account numbers we expect statements for. The three we always expect are: ACCT 3510 (operating account), CARD 1346 (corporate card primary), CARD 0951 (corporate card secondary). For now, ignore any statement that does not match these three.
+Also return a control object for each file containing stated_opening, stated_closing, line_count and page_count, read from the statement itself rather than calculated.
 
-The skill's job in this step is to collect the statements. Specifically:
-1. Use the Gmail node to search for unread emails received since the 1st of the current month from the bank (sender matches the configured bank-sender pattern) and the known card issuers, where the email has a PDF attachment.
-2. For each PDF, save it to /Finance/Statements/YYYY-MM/ with filename pattern &lt;ACCOUNT&gt;_YYYY-MM.pdf. Use the account number parsed from the PDF first page if the email subject or attachment filename does not already match.
-3. After all statements are filed, append one row to /Finance/Close_Log/YYYY-MM with columns: timestamp (now ISO8601), expected_count (3), received_count, missing_accounts (list or 'none'), notes (free text).
-4. If any of the three known accounts is still missing after 24 hours of waiting, use the Todoist node to create a task in project 'Finance / Top-ups': title 'Chase missing statement for &lt;ACCOUNT&gt; for YYYY-MM', due today, assigned to the operator.
+Then verify yourself: for each file, compute stated_opening plus total credits minus total debits and compare it to stated_closing. Report the variance for each file as an explicit number. If any variance is not exactly 0.00, stop, do not write any output file, and tell me which file failed, the variance, and the three lines you are least confident you read correctly. Do not adjust any figure to make it balance.
 
-Hard rules for this step:
-- Do NOT parse the PDF contents. That is step 2 and belongs to a different n8n workflow file.
-- Do NOT send any email. Chase emails for missing statements are step 5 and require a human click.
-- Do NOT initiate any payment or contact any vendor beyond the Todoist task in rule 4.
-- If a PDF arrives that matches none of the three known account numbers, save it as UNKNOWN_YYYY-MM_seqN.pdf and flag it in missing_accounts with a note. Do not silently drop it.
-- Every action must log to /var/log/n8n/finance/ingest-YYYY-MM.log with: timestamp, action, target, result, error if any. The audit trail stays with us on the VPS.
+If all four reconcile, write the combined result to a new Google Sheet named Close_2026-09_Raw with the columns Date, Description, Account, Debit, Credit, Currency, Source_File, Source_Page, and leave Category and Notes as empty columns. Then print a summary table of the four files showing line count, total debits, total credits and variance.
 
-Output: three (or four including unknown) standardised PDFs in /Finance/Statements/YYYY-MM/, exactly one row in /Finance/Close_Log/YYYY-MM, zero to three Todoist tasks, and a structured execution log entry. Nothing else.</p>
+Tell me what you could not read and what you assumed. Never fill a gap with a plausible value.</p>
 
-<h2>9 &mdash; Honesty question</h2>
+<h2>7 &mdash; Honesty question</h2>
 
-<p>I have used Claude Code extensively to build and run the local AI agent orchestration stack under <code>C:/My_youtube_channel/rams_lab_silent_killer</code> &mdash; the hierarchical orchestrator with persistent memory that I have been operating for months.</p>
+<p>Most recently, on Task 4 of this screening, I used an agentic spreadsheet tool to build a five-sheet FinOps workbook from the 74-row extract: categorised transactions, a month-by-category summary, an anomaly register, a tested-and-cleared tab and an executive dashboard. It got the hard part right, with all three monthly control totals tying to the fils, and got several softer things wrong. It fabricated two invoice references that appear nowhere in the source data, on the two findings I was recommending for cash recovery. It stated a price increase as 25 percent when 734.50 over 1,836.25 is 40.0 percent. It rounded the headline at-stake figure to 30,761.9 when the correct number is 30,761.86, and on the precision-graded brief that alone would have cost marks. On one rebuild it overlaid two different tables in the dashboard register so the row labels and the data belonged to different tables, and on the next it wrote a number into a cell that should have held a KPI label.</p>
 
-<p>One concrete example: in mid-2026 I asked Claude Code to refactor the orchestrator's prompt-assembling function so it would fall back gracefully when memory lookups returned empty, rather than emitting the literal string "(No prior context recalled &mdash; this may be a new topic.)". The agent produced a working refactor across roughly 400 lines that correctly handled the empty fallback. I had to fix three things before it shipped: (1) it left a stale reference to a removed import that broke the build on first run; (2) it placed the new fallback branch in the wrong function &mdash; it modified the memory query helper instead of the prompt builder that consumed the result; (3) it duplicated an existing constant rather than reusing the one defined in the constants module. Net: Claude saved about an hour of careful editing, I spent about 15 minutes fixing &mdash; net positive, but two of the three fixes would have silently produced wrong output in production, which is why the prompt above insists on line_snippet, confidence and the vendor-master Sheet as ground truth.</p>
+<p>I caught each one the same way: I recomputed all 74 rows myself and tied the category totals, the subtotals and the register independently before accepting any figure, and I re-audited every output after each fix rather than assuming a correction had not broken something else. Two of those defects were introduced by the fix to a previous defect, which is the real lesson: with agentic tools the verification pass is not optional and it is not a one-off.</p>
 
-<p>On n8n specifically: I have not yet stood up an n8n instance for monthly close, but the same running stack does operate an n8n instance at n8n.sgctech.ai for a separate workflow, so the failure modes described above (n8n instance errors during scheduled runs, hardcoded credentials inside HTTP Request nodes) are ones I have personally fixed and would build the right guardrails against on first deployment.</p>
+<p>Beyond this, I run a local stack for day-to-day work: a LiteLLM proxy routing across four model tiers, an OpenHands sandbox for agent execution, and dual memory through Mem0 and Graphiti so context persists across sessions. I use Claude and ChatGPT daily, with Canvas and Artifacts for structured documents and scheduled tasks for recurring research. My working rule is that the AI drafts and I own the number, which is why every figure I have submitted in this screening was recomputed by hand before it went in the box.</p>
 
 </div>
 
