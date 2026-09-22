@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>August 2026 Reconciliation Findings</title>
+<style>
+/* ---------- PAGE SETUP ---------- */
+@page {
+  size: A4 portrait;
+  margin: 14mm 12mm 16mm 12mm;
+}
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 10pt;
+  color: #1b2733;
+  line-height: 1.5;
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 8mm 0;
+  orphans: 3;
+  widows: 3;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ---------- PAGINATION CONTROL ---------- */
+
+/* Short sections travel as one unit and jump to a new page rather than tear */
+.block {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Long sections are allowed to flow, but only between whole rows */
+.flow {
+  break-inside: auto;
+  page-break-inside: auto;
+}
+
+/* A heading may never be the last thing on a page */
+h2 {
+  font-size: 11pt;
+  margin: 16px 0 7px;
+  padding: 6px 9px;
+  background: #13344f;
+  color: #ffffff;
+  break-after: avoid;
+  page-break-after: avoid;
+  break-inside: avoid;
+}
+h2:first-of-type { margin-top: 0; }
+
+/* Text directly under a heading stays with it */
+h2 + p, h2 + table, h2 + .note { break-before: avoid; page-break-before: avoid; }
+
+p { margin: 0 0 9px; orphans: 3; widows: 3; }
+
+/* ---------- TABLES ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  break-inside: auto;
+  page-break-inside: auto;
+}
+
+/* Column headings reprint at the top of every page a table continues onto */
+thead { display: table-header-group; }
+tfoot { display: table-footer-group; }
+
+/* No row is ever cut in half */
+tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+td, th { break-inside: avoid; page-break-inside: avoid; }
+
+/* Journal entries: each debit, credit and narration set stays together */
+tbody.entry {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+th {
+  background: #e9eff5;
+  border: 0.5pt solid #9fb2c4;
+  padding: 5px 6px;
+  text-align: left;
+  font-size: 8.6pt;
+  text-transform: uppercase;
+}
+td {
+  border: 0.5pt solid #bfcbd8;
+  padding: 5px 6px;
+  vertical-align: top;
+  font-size: 9pt;
+}
+
+.num { text-align: right; white-space: nowrap; }
+.ccy { text-align: center; font-size: 8.4pt; color: #47596b; }
+
+/* ---------- CALLOUTS ---------- */
+.alert {
+  background: #fdeaea;
+  border-left: 4px solid #a32020;
+  padding: 10px 12px;
+  margin: 0 0 14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.note {
+  background: #fff8e1;
+  border-left: 4px solid #c9a227;
+  padding: 9px 11px;
+  margin: 10px 0 14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* ---------- ROW COLOURS ---------- */
+.err { background: #fdeaea; color: #8d1a1a; font-weight: 600; }
+.tim { background: #fff4dc; color: #87560a; font-weight: 600; }
+.ctl { background: #e6f0fb; color: #113d77; font-weight: 600; }
+.red { background: #a32020; color: #ffffff; font-weight: 700; }
+.tot { background: #13344f; color: #ffffff; font-weight: 700; }
+.ok  { background: #e4f4e9; font-weight: 700; }
+.ghost { background: #f4f6f8; color: #5d6e7f; }
+.narr { font-style: italic; color: #47596b; font-size: 8.6pt; }
+
+.close {
+  margin-top: 16px;
+  font-size: 9pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* ---------- PRINT REFINEMENTS ---------- */
+@media print {
+  body { padding: 0; max-width: none; }
+  a { text-decoration: none; color: inherit; }
+  a[href]::after { content: ""; }
+}
+</style>
+</head>
+<body>
+
+<div class="alert"><strong>Principal finding.</strong> The statement shows cheque 0470 for AED 93,750.00 clearing on 19 Aug 2026 as one clean debit. The cheque is dated 01 Sep 2026, so it was paid thirteen days before the date written on its face. In UAE clearing practice a postdated cheque presented early is normally returned, and a return never appears as a single tidy line. It appears as a debit, then a reversing credit, then a narration carrying the return reason. This statement shows no reversal and no reason narration. That does not by itself prove wrongdoing, but it is the first item to put to the bank in writing, and the entity is meanwhile out of pocket by AED 93,750.00 almost two weeks early.</div>
+
+<section class="flow">
+<h2>1. Findings</h2>
+<table>
+<thead>
+<tr>
+<th style="width:10%">Type</th>
+<th style="width:9%">Ref</th>
+<th style="width:52%">Finding</th>
+<th style="width:6%" class="ccy">Ccy</th>
+<th style="width:12%" class="num">Amount</th>
+<th style="width:11%">Cashbook effect</th>
+</tr>
+</thead>
+<tbody>
+
+<tr><td class="red">CONTROL</td><td>CHQ 0470</td><td><strong>Postdated cheque paid thirteen days early, and it creates no difference between the two records.</strong> Cheque dated 01 Sep 2026, written into the cashbook 16 Aug, debited by the bank 19 Aug. Standard UAE banking practice is to hold a postdated cheque to its stated date and return it if presented before, so payment here is an exception that must be explained. Because both records carry the identical figure the reconciliation balances and reports nothing. Cash left the account before it was contractually due and no control in these records detected it.</td><td class="ccy">AED</td><td class="num">93,750.00</td><td>None</td></tr>
+
+<tr><td class="red">CONTROL</td><td>CHQ 0470</td><td><strong>The statement line is not in the shape a return would take.</strong> Handled the usual way there would be a debit, a matching credit reversing it, and a narration giving the reason. There is a debit alone. The realistic explanations are that the payee presented early and the bank chose to pay, that someone inside the entity authorised early honouring, that the instrument was re dated before lodgement, or that the extract provided is incomplete. Each carries a different consequence and the month cannot close without knowing which applies.</td><td class="ccy">AED</td><td class="num">93,750.00</td><td>None</td></tr>
+
+<tr><td class="err">ERROR</td><td>PV 204</td><td><strong>Nimbus IT Services was paid twice on 11 Aug.</strong> Two identical transfers left the account against one invoice, NIM 102, and one voucher. This is cash gone with no supporting document behind the second leg, and it is the largest genuinely recoverable amount in the month.</td><td class="ccy">AED</td><td class="num">12,600.00</td><td>Reduce</td></tr>
+
+<tr><td class="err">ERROR</td><td>RC 051</td><td><strong>Inward remittance written up at the wrong rate.</strong> USD 25,000 booked at the pegged 3.6725 giving AED 91,812.50, while the bank credited AED 91,562.50, an effective 3.6625. The difference is the bank taking its spread inside the conversion. Because it is margin rather than a billed fee there is no recoverable tax inside it.</td><td class="ccy">USD to AED</td><td class="num">250.00</td><td>Reduce</td></tr>
+
+<tr><td class="err">ERROR</td><td>PV 206</td><td><strong>Transposition on Horizon Office Supplies.</strong> Invoice HOR 556 written up as AED 9,975.00 against an actual payment of AED 9,795.00, the seven and the nine swapped. Bank and invoice agree with each other, so the cashbook alone is wrong and there is nothing to claim from the supplier.</td><td class="ccy">AED</td><td class="num">180.00</td><td>Increase</td></tr>
+
+<tr><td class="err">ERROR</td><td>Charges</td><td><strong>Bank charges never recorded.</strong> AED 375.00 of fees plus AED 18.75 of tax at five percent debited 22 Aug and absent from the cashbook. Tax applies because this is an openly billed fee rather than a margin buried in a rate.</td><td class="ccy">AED</td><td class="num">393.75</td><td>Reduce</td></tr>
+
+<tr><td class="ctl">CONTROL</td><td>Charges</td><td><strong>No cheque return charge appears anywhere in August.</strong> Published UAE schedules levy a fee on a returned cheque from the first return, typically between AED 100 and AED 350 for a business account depending on the bank and on whether the return is inward or outward. Waiver on a first return happens but is a discretionary relationship decision rather than a published entitlement. The absence of any such charge is consistent with the cheque having been paid rather than returned, and therefore supports the conclusion that the funds genuinely left and were never recovered.</td><td class="ccy">AED</td><td class="num">0.00</td><td>None</td></tr>
+
+<tr><td class="tim">TIMING</td><td>CHQ 0470</td><td>Three days between the cashbook entry on 16 Aug and the bank debit on 19 Aug. It closes before the cut off so it moves no balance, but it is recorded as the only clearing lag in the month and as the mechanical trace of the issue above.</td><td class="ccy">AED</td><td class="num">93,750.00</td><td>None</td></tr>
+
+<tr><td class="ctl">CONTROL</td><td>PV 207</td><td>Marhaba Cleaning Services paid with no invoice number recorded and a payee not written up as a registered company. It is the only payment in the whole run with no supporting document reference.</td><td class="ccy">AED</td><td class="num">2,415.00</td><td>None</td></tr>
+
+<tr><td class="ctl">CONTROL</td><td>Suppliers</td><td>Gulf Star Office Supplies and Horizon Office Supplies, two vendors in the same category, both paid inside three weeks. Test whether these sit behind one beneficial owner and whether purchases are being split to stay under an approval limit.</td><td class="ccy">AED</td><td class="num">16,095.00</td><td>None</td></tr>
+
+<tr><td class="ctl">CONTROL</td><td>Tax</td><td>No input tax may be claimed on the duplicate payment. There was no second supply and no second tax invoice exists. Only the AED 600.00 inside the genuine Nimbus invoice is claimable.</td><td class="ccy">AED</td><td class="num">600.00</td><td>None</td></tr>
+
+</tbody>
+</table>
+
+<p>There are no legitimate timing items standing at 22 Aug. Nothing is uncleared and nothing is in transit, so the entire gap of AED 13,063.75 is cashbook error.</p>
+</section>
+
+<section class="block">
+<h2>2. How a returned cheque appears on a UAE statement, and why this one does not</h2>
+<p>A return is never a single clean line. The bank has to evidence why it declined to pay, so the entry always comes as a group. Below is the shape the statement would have taken had cheque 0470 been returned on 19 Aug, set against what is actually held.</p>
+
+<table>
+<thead>
+<tr>
+<th style="width:10%">Date</th>
+<th style="width:52%">How the narration would read</th>
+<th style="width:7%" class="ccy">Ccy</th>
+<th style="width:14%" class="num">Amount</th>
+<th style="width:17%">Entry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="ghost"><td>19 Aug</td><td>CHQ 0470 PRESENTED</td><td class="ccy">AED</td><td class="num">93,750.00</td><td>Debit</td></tr>
+<tr class="ghost"><td>19 Aug</td><td>CHQ 0470 RETURNED UNPAID, REVERSAL OF ENTRY</td><td class="ccy">AED</td><td class="num">93,750.00</td><td>Credit</td></tr>
+<tr class="ghost"><td>19 Aug</td><td>RETURN REASON, CHEQUE POSTDATED, PRESENTED BEFORE DATE OF ISSUE</td><td class="ccy">AED</td><td class="num">0.00</td><td>Narration only</td></tr>
+<tr class="ghost"><td>19 Aug</td><td>CHEQUE RETURN CHARGE, rate varies by bank and account type, commonly AED 100 to 350 on a business account, sometimes waived at the bank's discretion</td><td class="ccy">AED</td><td class="num">varies</td><td>Debit, if levied</td></tr>
+<tr class="red"><td>19 Aug</td><td><strong>What the statement actually carries: CHQ 0470 PRESENTED, one line, no reversal, no reason, no charge</strong></td><td class="ccy">AED</td><td class="num">93,750.00</td><td>Debit only</td></tr>
+</tbody>
+</table>
+</section>
+
+<div class="note"><strong>How this is phrased if challenged.</strong> It is not asserted that a UAE bank can never pay an early presented cheque, because the law does not place an absolute bar on payment and banks retain discretion. The position is that system practice holds postdated cheques to their dates, that early presentations are routinely returned, and that payment ahead of the stated date is therefore an exception requiring documentary explanation. On charges, a fee is normally applied from the first return under published schedules, in the region of AED 100 to 350 on a business account, and waiver is a discretionary relationship matter rather than an automatic first time allowance. Separately, the Central Bank administrative regime applies to repeated returns, leading to chequebook withdrawal and account closure, which is a consequence of a different order from a handling fee.</div>
+
+<section class="block">
+<h2>3. Corrected cashbook balance at 22 Aug 2026</h2>
+<table>
+<thead>
+<tr>
+<th style="width:8%">No</th>
+<th style="width:62%">Line</th>
+<th style="width:8%" class="ccy">Ccy</th>
+<th style="width:22%" class="num">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Cashbook balance as presented</td><td class="ccy">AED</td><td class="num">242,345.00</td></tr>
+<tr><td>2</td><td>Less the rate difference on the inward remittance</td><td class="ccy">AED</td><td class="num">(250.00)</td></tr>
+<tr><td>3</td><td>Less the second Nimbus transfer on 11 Aug</td><td class="ccy">AED</td><td class="num">(12,600.00)</td></tr>
+<tr><td>4</td><td>Add back the Horizon overstatement, 9,975.00 against 9,795.00</td><td class="ccy">AED</td><td class="num">180.00</td></tr>
+<tr><td>5</td><td>Less the bank charges and the tax on them</td><td class="ccy">AED</td><td class="num">(393.75)</td></tr>
+<tr class="tot"><td>6</td><td>Corrected cashbook balance</td><td class="ccy">AED</td><td class="num">229,281.25</td></tr>
+<tr><td>7</td><td>Bank statement balance at 22 Aug</td><td class="ccy">AED</td><td class="num">229,281.25</td></tr>
+<tr class="ok"><td>8</td><td>Difference remaining</td><td class="ccy">AED</td><td class="num">0.00</td></tr>
+</tbody>
+</table>
+<p>The cheque needs no adjustment, since both records already carry it. That is exactly why a balanced reconciliation should not be treated as assurance.</p>
+</section>
+
+<section class="flow">
+<h2>4. Journals</h2>
+<table>
+<thead>
+<tr>
+<th style="width:12%">Entry</th>
+<th style="width:44%">Account</th>
+<th style="width:7%" class="ccy">Ccy</th>
+<th style="width:18%" class="num">Debit</th>
+<th style="width:19%" class="num">Credit</th>
+</tr>
+</thead>
+
+<tbody class="entry">
+<tr><td rowspan="2">(a) Exchange</td><td>Realised exchange loss on remittance</td><td class="ccy">AED</td><td class="num">250.00</td><td class="num"></td></tr>
+<tr><td>Bank current account</td><td class="ccy">AED</td><td class="num"></td><td class="num">250.00</td></tr>
+<tr><td></td><td colspan="4" class="narr">Being the AED 250.00 shortfall on USD 25,000 received, credited at an effective 3.6625 against the 3.6725 applied when the receipt was written up.</td></tr>
+</tbody>
+
+<tbody class="entry">
+<tr><td rowspan="2">(b) Nimbus</td><td>Other receivable, Nimbus IT Services FZE, duplicate payment</td><td class="ccy">AED</td><td class="num">12,600.00</td><td class="num"></td></tr>
+<tr><td>Bank current account</td><td class="ccy">AED</td><td class="num"></td><td class="num">12,600.00</td></tr>
+<tr><td></td><td colspan="4" class="narr">Being the second transfer of AED 12,600.00 on 11 Aug carried as money owed back to the entity rather than as a cost, as no second invoice exists and no input tax is claimable on it.</td></tr>
+</tbody>
+
+<tbody class="entry">
+<tr><td rowspan="2">Charges</td><td>Bank charges 375.00 and recoverable input tax 18.75</td><td class="ccy">AED</td><td class="num">393.75</td><td class="num"></td></tr>
+<tr><td>Bank current account</td><td class="ccy">AED</td><td class="num"></td><td class="num">393.75</td></tr>
+<tr><td></td><td colspan="4" class="narr">Being August account and transfer fees omitted from the cashbook, with the tax element held until the bank issues a compliant tax invoice.</td></tr>
+</tbody>
+
+<tbody class="entry">
+<tr><td rowspan="2">Horizon</td><td>Bank current account</td><td class="ccy">AED</td><td class="num">180.00</td><td class="num"></td></tr>
+<tr><td>Office supplies expense</td><td class="ccy">AED</td><td class="num"></td><td class="num">180.00</td></tr>
+<tr><td></td><td colspan="4" class="narr">Being correction of the transposed figure on the Horizon payment.</td></tr>
+</tbody>
+
+</table>
+</section>
+
+<section class="flow">
+<h2>5. Amounts pursued for recovery</h2>
+<table>
+<thead>
+<tr>
+<th style="width:22%">From</th>
+<th style="width:7%" class="ccy">Ccy</th>
+<th style="width:13%" class="num">Amount</th>
+<th style="width:58%">First step</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Nimbus IT Services FZE</td><td class="ccy">AED</td><td class="num">12,600.00</td><td>Two actions the same day, both in writing. Instruct the bank to attempt recall of the second transfer and sign the indemnity they will require, and serve Nimbus with copies of both transfers demanding refund to the originating account within seven days. Do not open with acceptance of a credit note against future work, because that converts our cash into their working capital.</td></tr>
+<tr><td>The bank, on the cheque</td><td class="ccy">AED</td><td class="num">93,750.00</td><td>Written query requesting the presentation record, front and back images of the instrument, and the basis on which it was honoured ahead of its stated date. The answer determines whether this becomes a claim against the bank, an internal authorisation failure, or a document integrity matter. The month should not be signed off without those images on file.</td></tr>
+<tr><td>Tax authority, via the return</td><td class="ccy">AED</td><td class="num">18.75</td><td>Obtain a tax invoice from the bank carrying its registration number and claim the input tax in the correct period.</td></tr>
+<tr><td>The bank, on the rate</td><td class="ccy">AED</td><td class="num">250.00</td><td>Request the dealt rate confirmation for the day. If a rate was promised and not honoured there is a claim. If not, this is commercial margin and belongs in the next pricing negotiation rather than a recovery file.</td></tr>
+<tr><td>Horizon Office Supplies</td><td class="ccy">AED</td><td class="num">0.00</td><td>Nothing owed. They were paid correctly and the book was wrong.</td></tr>
+<tr class="tot"><td>Hard cash recoverable</td><td class="ccy">AED</td><td class="num">12,600.00</td><td>Plus AED 18.75 of tax through the return, and AED 93,750.00 under formal query pending the bank's reply.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="block">
+<h2>6. Most serious control failure and the control to add</h2>
+<table>
+<tbody>
+<tr><td style="width:22%"><strong>The failure</strong></td><td>AED 93,750.00 left the account thirteen days before the date on the cheque, in a form that carries none of the return markings such a presentation would normally produce, and neither record raised anything, because both carried the same entry and a reconciliation can only find differences.</td></tr>
+<tr><td><strong>The control</strong></td><td>Lodge every postdated cheque with the bank in advance through a positive pay instruction carrying number, payee, amount and due date, and hold it in a cheques issued but not yet due liability account rather than crediting cash, so that no instrument can be honoured or recorded as paid before the date written on its face.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="block">
+<h2>7. Share link and correction note</h2>
+<table>
+<tbody>
+<tr><td style="width:22%"><strong>Share link</strong></td><td><a href="https://rams-lab-01.github.io/reconciliation-findings-2026/">https://rams-lab-01.github.io/reconciliation-findings-2026/</a></td></tr>
+<tr><td><strong>Correction note</strong></td><td>All amounts are AED apart from the USD 25,000 remittance leg, the AED 13,063.75 gap is entirely cashbook error made up of 250.00 on the rate, 12,600.00 paid twice, 180.00 transposed and 393.75 of unrecorded charges, and the AED 93,750.00 cheque honoured thirteen days ahead of its stated date as a single debit with no reversal, no reason narration and no return charge is the gravest finding precisely because it produces no difference at all.</td></tr>
+</tbody>
+</table>
+</section>
+
+<div class="close">
+<p>Two observations beyond the numbers. The duplicate transfer and the early cheque share one root cause, which is that the person releasing payment is also the person recording it, so no independent eye sits at either end. And had the cheque behaved as expected and stayed unpaid until September, the cashbook would still have understated cash by AED 93,750.00 at month end, because the error was already in the book on 16 Aug. The bank paying it early did not create that problem. It hid it.</p>
+</div>
+
+</body>
+</html>
