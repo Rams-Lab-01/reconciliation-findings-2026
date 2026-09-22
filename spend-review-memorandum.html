@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Memorandum FIN/QLS/2026/09 &mdash; Spend Review Jun to Aug 2026</title>
 <style>
-@page { size: A4 portrait; margin: 18mm 18mm 20mm 18mm; }
+@page { size: A4 portrait; margin: 16mm 18mm 16mm 18mm; }
 html, body { margin: 0; padding: 0; }
 body {
   font-family: "Times New Roman", "Cambria", Georgia, serif;
-  font-size: 11pt; color: #111827; line-height: 1.55;
+  font-size: 10.5pt; color: #111827; line-height: 1.4;
   max-width: 174mm; margin: 0 auto; padding: 0;
   orphans: 3; widows: 3;
   -webkit-print-color-adjust: exact; print-color-adjust: exact;
@@ -19,17 +19,17 @@ body {
 /* ---------- LETTERHEAD ---------- */
 .letterhead {
   border-bottom: 2.5pt solid #13344f;
-  padding-bottom: 8px;
-  margin-bottom: 14px;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 .lh-firm {
   font-family: "Times New Roman", Georgia, serif;
-  font-size: 16pt;
+  font-size: 14pt;
   font-weight: 700;
   color: #13344f;
   letter-spacing: 0.5px;
@@ -37,112 +37,99 @@ body {
   text-transform: uppercase;
 }
 .lh-firm-sub {
-  font-size: 8.5pt;
+  font-size: 8pt;
   color: #55677a;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  margin: 2px 0 0 0;
+  margin: 1px 0 0 0;
 }
 .lh-meta {
   text-align: right;
-  font-size: 9pt;
+  font-size: 8.5pt;
   color: #1b2733;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 .lh-meta .ref { font-weight: 700; color: #13344f; }
 .lh-meta .date { font-style: italic; }
 
-/* ---------- DOCUMENT TITLE ---------- */
+/* ---------- TITLE ---------- */
 .doc-title {
   text-align: center;
-  font-size: 13pt;
+  font-size: 12pt;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin: 14px 0 4px;
+  margin: 8px 0 2px;
   color: #13344f;
 }
 .doc-subtitle {
   text-align: center;
-  font-size: 9pt;
+  font-size: 8.5pt;
   font-style: italic;
   color: #55677a;
-  margin: 0 0 16px;
+  margin: 0 0 8px;
 }
 
-/* ---------- ADDRESSEES ---------- */
+/* ---------- ADDRESSEES (compact) ---------- */
 .addressees {
-  margin: 14px 0 16px;
-  font-size: 10.5pt;
-  line-height: 1.5;
+  margin: 8px 0 10px;
+  font-size: 10pt;
+  line-height: 1.4;
 }
 .addressees .row { display: flex; }
 .addressees .label {
   display: inline-block;
-  width: 80px;
+  width: 72px;
   font-weight: 700;
   color: #13344f;
   text-transform: uppercase;
-  font-size: 8.5pt;
+  font-size: 8pt;
   letter-spacing: 0.8px;
-  padding-top: 1.5pt;
+  padding-top: 1pt;
 }
 .addressees .value { flex: 1; }
 .addressees .subject {
-  margin-top: 8px;
-  padding-top: 8px;
+  margin-top: 4px;
+  padding-top: 4px;
   border-top: 0.5pt solid #cbd5e1;
-  display: flex;
 }
 .addressees .subject .value { font-weight: 700; text-decoration: underline; }
 
-/* ---------- OPENING & BODY ---------- */
-.opener { margin: 14px 0 10px; font-size: 10.5pt; }
+/* ---------- BODY ---------- */
+.opener { margin: 8px 0 6px; font-size: 10pt; }
 .opener .salutation { font-weight: 700; }
+p.body { margin: 0 0 6px; text-align: justify; }
 
-p.body { margin: 0 0 9px; text-align: justify; }
-p.body-indent { text-indent: 24pt; margin: 0 0 9px; text-align: justify; }
-
-/* ---------- SECTION HEADINGS (h2 from original) ---------- */
 h2 {
-  font-size: 10.5pt;
-  margin: 16px 0 6px;
-  padding: 5px 9px;
+  font-size: 9.5pt;
+  margin: 8px 0 4px;
+  padding: 3px 7px;
   background: #13344f;
   color: #ffffff;
   font-family: "Times New Roman", Georgia, serif;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  break-after: avoid; page-break-after: avoid;
-}
-h2:first-of-type { margin-top: 12px; }
-
-h3 {
-  font-size: 10pt;
-  margin: 12px 0 4px;
-  color: #13344f;
-  border-bottom: 0.5pt solid #cbd5e1;
-  padding-bottom: 2px;
-  font-style: italic;
+  letter-spacing: 0.8px;
 }
 
-/* ---------- TABLES (legal-style, ruled) ---------- */
-table { width: 100%; border-collapse: collapse; margin: 6px 0 10px; font-size: 9pt; }
-thead { display: table-header-group; }
+ul.bullets { margin: 0 0 6px 18px; padding: 0; }
+ul.bullets li { margin: 0 0 4px; }
+
+/* ---------- TABLES (compact, legal style) ---------- */
+table { width: 100%; border-collapse: collapse; margin: 4px 0 8px; font-size: 9pt; }
 tr, td, th { break-inside: avoid; page-break-inside: avoid; }
 th {
   background: #f1f5f9;
   border: 0.75pt solid #1f2937;
-  padding: 4px 6px;
+  padding: 3px 5px;
   text-align: left;
-  font-size: 8.2pt;
+  font-size: 8pt;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   color: #13344f;
 }
 td {
   border: 0.5pt solid #94a3b8;
-  padding: 4px 6px;
+  padding: 3px 5px;
   vertical-align: top;
   font-size: 9pt;
 }
@@ -151,82 +138,39 @@ td {
 .tot { background: #13344f; color: #ffffff; font-weight: 700; }
 .hi { background: #fdeaea; color: #8d1a1a; font-weight: 700; text-align: center; }
 .md { background: #fff4dc; color: #87560a; font-weight: 700; text-align: center; }
-.small { font-size: 8pt; color: #55677a; }
-
-/* ---------- CALLOUTS ---------- */
-.alert {
-  background: #fdeaea;
-  border-left: 4px solid #a32020;
-  padding: 8px 12px;
-  margin: 0 0 12px;
-  font-size: 10pt;
-}
-.note {
+.highlight-box {
   background: #fff8e1;
-  border-left: 4px solid #c9a227;
-  padding: 9px 14px;
-  margin: 10px 0 14px;
-  font-size: 9.4pt;
+  border-left: 3px solid #c9a227;
+  padding: 6px 10px;
+  margin: 6px 0 8px;
+  font-size: 9.5pt;
 }
 
-/* ---------- SIGN-OFF BLOCK ---------- */
-.signoff {
-  margin-top: 28px;
-  page-break-inside: avoid;
-}
-.signoff-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 10pt;
-}
-.signoff-table td {
-  border: none;
-  padding: 0;
-  vertical-align: top;
-  width: 50%;
-}
+/* ---------- SIGN-OFF (compact) ---------- */
+.signoff { margin-top: 12px; page-break-inside: avoid; }
+.signoff-table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+.signoff-table td { border: none; padding: 0; vertical-align: top; width: 50%; }
 .signoff-label {
-  font-size: 8.5pt;
+  font-size: 8pt;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #55677a;
-  margin-bottom: 28px;
+  margin-bottom: 22px;
 }
-.signoff-name {
-  font-weight: 700;
-  color: #13344f;
+.signoff-line {
   border-bottom: 0.5pt solid #1f2937;
-  padding-bottom: 2px;
-  margin-bottom: 4px;
-  display: inline-block;
-  min-width: 180px;
+  height: 14px;
+  margin-bottom: 2px;
 }
-.signoff-role { font-size: 9pt; color: #1b2733; }
-.signoff-meta { font-size: 8.5pt; color: #55677a; margin-top: 4px; font-style: italic; }
-.signoff-spacer { height: 16px; }
-
-/* ---------- ENCLOSURES ---------- */
-.enclosures {
-  margin-top: 14px;
-  padding-top: 8px;
-  border-top: 0.5pt solid #cbd5e1;
-  font-size: 9pt;
-  color: #1b2733;
-}
-.enclosures-label {
-  font-size: 8.5pt;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #55677a;
-  margin-bottom: 4px;
-}
+.signoff-role { font-size: 8.5pt; color: #1b2733; }
+.signoff-meta { font-size: 8pt; color: #55677a; margin-top: 6px; font-style: italic; }
 
 /* ---------- TOP NAVIGATION BAR ---------- */
 .topnav {
   background: #13344f;
   color: #ffffff;
   padding: 10px 14px;
-  margin: 0 0 10mm 0;
+  margin: 0 0 8mm 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -275,8 +219,8 @@ td {
 
 <div class="letterhead">
   <div>
-    <div class="lh-firm">Quantum Legacy Strategies</div>
-    <div class="lh-firm-sub">DMCC &middot; Dubai &middot; United Arab Emirates</div>
+    <div class="lh-firm">Quant Lab family office</div>
+    <div class="lh-firm-sub">Operating account ACCT 3510 &middot; Cards CARD 1346, CARD 0951</div>
   </div>
   <div class="lh-meta">
     <div class="ref">Reference: FIN/QLS/2026/09</div>
@@ -286,148 +230,56 @@ td {
 </div>
 
 <div class="doc-title">Memorandum</div>
-<div class="doc-subtitle">Quarterly spend review &middot; Account ACCT 3510 &middot; Cards CARD 1346 and CARD 0951</div>
+<div class="doc-subtitle">Quarterly spend review &mdash; findings and decisions requested</div>
 
 <div class="addressees">
-  <div class="row"><span class="label">To</span><span class="value">The Principals, Quantum Legacy Strategies DMCC</span></div>
+  <div class="row"><span class="label">To</span><span class="value">The Principals, Quant Lab family office</span></div>
   <div class="row"><span class="label">From</span><span class="value">Finance Operations</span></div>
   <div class="row"><span class="label">Date</span><span class="value">22 September 2026</span></div>
-  <div class="row subject"><span class="label">Subject</span><span class="value">Quarterly spend review &mdash; findings, recommended actions, and decisions requested</span></div>
+  <div class="row subject"><span class="label">Subject</span><span class="value">Quarterly spend review &mdash; Jun to Aug 2026</span></div>
 </div>
 
 <p class="opener"><span class="salutation">Dear Principals,</span></p>
 
-<p class="body">We have completed our quarterly spend review for the period <strong>1 June to 31 August 2026</strong>, covering all 74 transactions on operating account <strong>ACCT 3510</strong> and corporate cards <strong>CARD 1346</strong> and <strong>CARD 0951</strong>. This memorandum sets out our findings, the recommended actions, and the decisions we seek from the Principals.</p>
+<p class="body">We have reviewed all <strong>74 transactions</strong> on operating account <strong>ACCT 3510</strong> and corporate cards <strong>CARD 1346</strong> and <strong>CARD 0951</strong> for the period 1 June to 31 August 2026. The figures below are independently recomputed and tie to the bank and card records. The accompanying dashboard view expands each item with full evidence and chart breakdowns.</p>
 
-<p class="body">The headline figures are:</p>
+<p class="body"><strong>Headline.</strong> Total gross spend <strong>AED 565,386.90</strong> against funding <strong>AED 407,075.00</strong>, a net cash deficit of <strong>AED (158,311.90)</strong>. Across the quarter, <strong>nine anomalies</strong> were identified of which <strong>eight carry AED 30,761.86 at stake</strong>; <strong>AED 7,980.00</strong> is cash recoverable from two suppliers paid twice, and the recurring items carry an annualised forward exposure of <strong>AED 70,438.32</strong> if left unfixed.</p>
 
-<p class="body-indent">&mdash; Gross cash debits of <strong>AED 565,386.90</strong>, against funding inflows of <strong>AED 407,075.00</strong>, producing a net cash deficit of <strong>AED (158,311.90)</strong> across the quarter.</p>
+<h2>Top three categories that deserve attention</h2>
+<ul class="bullets">
+  <li><strong>Unclassified cash withdrawals</strong> &mdash; three round AED 5,000 ATM withdrawals at each month start with no vendor, no invoice and no log (AED 15,000, annualised AED 60,000).</li>
+  <li><strong>IT and SaaS subscriptions</strong> &mdash; twelve recurring vendors on card autopay, none passing an approval gate. Includes one duplicate seat on two cards and an unmonitored CARD 0951.</li>
+  <li><strong>Market data and research</strong> &mdash; Datastream Pro rose 40% with no contract variation; GlobalData converted at a 5.31% markup against a pegged currency. Both renew next month.</li>
+</ul>
 
-<p class="body-indent">&mdash; Operating spend excluding the AED 12,460.00 VAT settlement is <strong>AED 552,926.90</strong>.</p>
+<div class="highlight-box"><strong>Cash recoverable: AED 7,980.00</strong> &mdash; AED 4,830.00 from Nimbus IT Services and AED 3,150.00 from Al Reem Facilities. Separately, the duplicate Dropbox seat saves AED 1,156.32 a year on cancellation. <strong>Scope limitation:</strong> CARD 0951 appears in only one of 74 rows and its full statement was not provided, so spend on that card is untested beyond the duplicate seat.</div>
 
-<p class="body-indent">&mdash; <strong>Nine anomalies</strong> identified, of which <strong>eight carry AED 30,761.86 at stake</strong>; the ninth, A8 capex of AED 13,911.50, is misfiled rather than lost.</p>
+<h2>Decisions requested</h2>
+<ol style="margin: 0 0 6px 22px; padding: 0; font-size: 10pt;">
+  <li><strong>Authorise recovery of AED 7,980.00</strong> from the two suppliers paid twice, and cancel the duplicate Dropbox seat.</li>
+  <li><strong>Rule on the cash float</strong> &mdash; either produce a documented petty cash system with a named custodian, or stop cash access on the cards entirely.</li>
+  <li><strong>Authorise renegotiation or exit of the Datastream Pro contract</strong> before the September billing date, and set a variance alert on every recurring charge.</li>
+</ol>
 
-<p class="body-indent">&mdash; <strong>AED 7,980.00</strong> is cash recoverable from two suppliers paid twice.</p>
-
-<p class="body-indent">&mdash; Annualised forward exposure if the recurring anomalies go unfixed is <strong>AED 70,438.32</strong>.</p>
-
-<p class="body">All figures in this memorandum have been independently recomputed and tie to the bank and card records.</p>
-
-
-<table>
-<tbody>
-<tr><td style="width:14%"><strong>To</strong></td><td style="width:36%">The Principals</td><td style="width:14%"><strong>Reference</strong></td><td>FIN/QLS/2026/09</td></tr>
-<tr><td><strong>From</strong></td><td>Finance Operations</td><td><strong>Period</strong></td><td>1 June to 31 August 2026</td></tr>
-<tr><td><strong>Date</strong></td><td>22 September 2026</td><td><strong>Currency</strong></td><td>AED throughout</td></tr>
-<tr><td><strong>Subject</strong></td><td colspan="3">Quarterly spend review, account ACCT 3510 and cards CARD 1346 and CARD 0951</td></tr>
-</tbody>
-</table>
-
-<h2>1. Categories that deserve attention</h2>
-<table>
-<thead>
-<tr><th style="width:30%">Category</th><th style="width:10%" class="num">3-month</th><th style="width:10%" class="num">% gross</th><th style="width:50%">Why</th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Unclassified cash withdrawals</strong></td><td class="num">15,000.00</td><td class="num">2.65%</td><td>Three round AED 5,000 ATM withdrawals at each month start. No vendor, no invoice, no recoverable VAT and no petty cash reconciliation anywhere. Highest risk per dirham. AED 60,000 a year run rate.</td></tr>
-<tr><td><strong>Technology and subscriptions</strong></td><td class="num">12,930.90</td><td class="num">2.29%</td><td>Twelve recurring vendors on card autopay. One seat billed on two cards. CARD 0951 statements were never made available.</td></tr>
-<tr><td><strong>Market data and research</strong></td><td class="num">9,259.25</td><td class="num">1.64%</td><td>40% price rise on Datastream Pro with no contract variation. 5.31% FX markup on GlobalData against a pegged currency. Both renew next month.</td></tr>
-</tbody>
-</table>
-
-<h2>2. Anomaly register in detail</h2>
-<p class="small">Detail behind the executive anomaly and leakage register above. Each row expands the abbreviated action line with date(s), channel, type, and the full recommended action.</p>
-<table>
-<thead>
-<tr><th style="width:5%" class="ctr">Ref</th><th style="width:13%">Date(s)</th><th style="width:17%">Vendor and channel</th><th style="width:8%" class="num">AED</th><th style="width:8%" class="num">Annual</th><th style="width:6%" class="ctr">Pri</th><th style="width:7%">Type</th><th style="width:36%">Finding and action</th></tr>
-</thead>
-<tbody>
-<tr><td class="ctr">A4</td><td>03 Jun, 01 Jul, 05 Aug</td><td>ATM branch, ACCT 3510</td><td class="num">15,000.00</td><td class="num">60,000.00</td><td class="hi">HIGH</td><td><span class="tag-gov">Gov</span></td><td><strong>Three round AED 5,000 withdrawals at each month start.</strong> No vendor, no invoice, no petty cash reconciliation. <em>Action:</em> produce the log and receipts within 7 days, or stop cash access and move to a reconciled imprest float under a named custodian.</td></tr>
-<tr><td class="ctr">A5</td><td>18 Jul 2026 (Saturday)</td><td>Marina Yacht Club Dubai F&amp;B, CARD 1346</td><td class="num">6,400.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-gov">Gov</span></td><td><strong>Saturday food and beverage charge with no attendee record or stated business purpose.</strong> Blocked input tax is AED 304.76 (6,400 &times; 5/105), non-recoverable under Article 53 of the VAT Executive Regulations per FTA VATP005. <em>Action:</em> obtain written business justification and attendee list; if genuine, retain with the 304.76 blocked; if not, reclassify to director current account. Confirm not claimed in the VAT return.</td></tr>
-<tr><td class="ctr">A1</td><td>16 Jun 2026</td><td>Nimbus IT Services, ACCT 3510, inv NIM-097</td><td class="num">4,830.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-rec">Recover</span></td><td><strong>Invoice NIM-097 paid twice on the same day through the same transfer batch.</strong> No credit note received. <em>Action:</em> bank recall request with indemnity today, plus written vendor demand for refund within seven days.</td></tr>
-<tr><td class="ctr">A3</td><td>09 Jul and 12 Jul 2026</td><td>Al Reem Facilities, ACCT 3510, inv ARF-902</td><td class="num">3,150.00</td><td class="num">&mdash;</td><td class="hi">HIGH</td><td><span class="tag-rec">Recover</span></td><td><strong>Invoice settled twice &mdash; manual TT on 09 Jul, again on 12 Jul by a stale direct debit mandate that was never cancelled.</strong> <em>Action:</em> recover AED 3,150.00 and cancel one route. Audit every live direct debit mandate against vendors now paid manually.</td></tr>
-<tr><td class="ctr">A9</td><td>15 Aug 2026</td><td>Datastream Pro, CARD 1346</td><td class="num">734.50</td><td class="num">8,814.00</td><td class="hi">HIGH</td><td><span class="tag-ren">Renegotiate</span></td><td><strong>Monthly fee rose from AED 1,836.25 to AED 2,570.75, exactly 40.0%, with no contract variation or renewal notice on file.</strong> <em>Action:</em> demand the renewal notice and contract terms; renegotiate or exit before September billing. Set a variance alert on every recurring charge.</td></tr>
-<tr><td class="ctr">A6</td><td>02 Jun, 02 Jul, 02 Aug</td><td>DEWA, ACCT 3510</td><td class="num">473.00</td><td class="num">&mdash;</td><td class="md">MED</td><td><span class="tag-ctl">Control</span></td><td><strong>Reference 2060471 used on all three payments; no payment can be matched to a specific bill.</strong> The July variance of 473.00 is plausible summer cooling load but is unverified for want of a bill reference. <em>Action:</em> retrieve the three bills, amend the payment template so the reference keys per bill.</td></tr>
-<tr><td class="ctr">A2</td><td>28 Jul 2026</td><td>Dropbox, CARD 1346 and CARD 0951</td><td class="num">96.36</td><td class="num">1,156.32</td><td class="md">MED</td><td><span class="tag-fwd">Forward save</span></td><td><strong>Same subscription billed on two cards the same day &mdash; one seat billed twice.</strong> CARD 0951 appears in exactly one of 74 rows. <em>Action:</em> cancel the CARD 0951 seat; request full statements for the card.</td></tr>
-<tr><td class="ctr">A7</td><td>13 Aug 2026</td><td>GlobalData Inc, CARD 1346 (USD 400.00)</td><td class="num">78.00</td><td class="num">468.00</td><td class="md">MED</td><td><span class="tag-qry">Query</span></td><td><strong>Card processor converted USD 400 at 3.8675 against the pegged 3.6725, a 5.31% markup.</strong> Billed bi-monthly (6 cycles/yr), so annual exposure AED 468.00. <em>Action:</em> query the issuer, request refund of the differential; review issuer FX terms across all USD card spend.</td></tr>
-<tr class="tot"><td colspan="3">HIGH subtotal &middot; 5 items</td><td class="num">30,114.50</td><td class="num">68,814.00</td><td colspan="3">&nbsp;</td></tr>
-<tr><td colspan="3">MEDIUM subtotal &middot; 3 items</td><td class="num">647.36</td><td class="num">1,624.32</td><td colspan="3">&nbsp;</td></tr>
-<tr class="tot"><td colspan="3">TOTAL AED AT STAKE</td><td class="num">30,761.86</td><td class="num">70,438.32</td><td colspan="3">Cash recoverable: <strong>AED 7,980.00</strong></td></tr>
-</tbody>
-</table>
-
-<h3>A8 &mdash; Excluded (misclassified, not lost)</h3>
-<table>
-<tbody>
-<tr>
-<td style="width:8%" class="ctr"><strong>A8</strong></td>
-<td style="width:14%">15 Jul &amp; 11 Aug 2026</td>
-<td style="width:18%">Crate Interiors &amp; Virgin Megastore, CARD 1346</td>
-<td style="width:9%" class="num">13,911.50</td>
-<td style="width:8%" class="num">&mdash;</td>
-<td style="width:8%" class="md ctr">MED</td>
-<td style="width:8%"><span class="tag-ctl">Control</span></td>
-<td style="width:29%"><strong>Office chairs AED 5,512.50 and laptop AED 8,399.00 charged on a corporate card with no purchase order.</strong> Excluded from the total at stake &mdash; capital expenditure wrongly expensed, not money lost. <em>Action:</em> capitalise both to the fixed-asset register and depreciate; route future capex above threshold through a purchase order, not a card.</td>
-</tr>
-</tbody>
-</table>
-
-<h2>3. Items tested and cleared</h2>
-<table>
-<thead>
-<tr><th style="width:30%">Item</th><th style="width:70%">Verification</th></tr>
-</thead>
-<tbody>
-<tr><td>WPS salary, AED 98,610.50/month</td><td>WPS salary certificates and DMCC visa allocations. Flat across all three months.</td></tr>
-<tr><td>Rent standing order, AED 31,250/month</td><td>Standing order against the registered Ejari.</td></tr>
-<tr><td>DMCC licence renewal, AED 30,000 (09 Jun, CARD 1346)</td><td>DMCC licence renewal certificate and receipt. Payment is genuine; noted as a control observation because a five-figure regulatory payment bypassed bank payment approval.</td></tr>
-<tr><td>Zurich Insurance, AED 16,800 (21 Jul)</td><td>Zurich insurance schedule and insured census.</td></tr>
-<tr><td>VAT payment, AED 12,460 (24 Aug)</td><td>VAT payment against FTA return form 201. Balance-sheet settlement, excluded from operating spend.</td></tr>
-<tr><td>IT and SaaS subscriptions (base)</td><td>Verified against seat rosters and usage logs. Exception: duplicate Dropbox seat at A2.</td></tr>
-<tr><td>Market data (base fees)</td><td>Confirmed in use by the investment team. Exceptions: 40% Datastream increase at A9 and FX markup at A7.</td></tr>
-<tr><td>Gulf Star Office Supplies, AED 6,300 &times; 2</td><td>04 Jun invoice GS-2988 and 04 Aug invoice GS-3011. Different invoice numbers; same amount two months apart is not a duplicate.</td></tr>
-<tr><td>Make.com AED 734.50 vs Datastream Pro increase</td><td>AED 734.50 appears twice for unrelated reasons &mdash; the Make.com monthly subscription and the Datastream Pro increase. Not a duplicate.</td></tr>
-<tr><td>Jul DEWA variance, AED 4,688 vs 4,215 (+473.00)</td><td>Plausible summer cooling load. Only the static reference is a finding.</td></tr>
-<tr><td>Staff repatriation airfare, AED 4,120 (27 Jun)</td><td>Statutory employer obligation under UAE labour law.</td></tr>
-<tr><td>Etisalat Internet, AED 1,837.50/month</td><td>Fixed-line business contract; flat is expected.</td></tr>
-<tr><td>Marhaba Cleaning, AED 2,415/month</td><td>Recurring service contract at a stable rate.</td></tr>
-</tbody>
-</table>
-
-<div class="note">
-<strong>Scope limitation.</strong> CARD 0951 appears in only one of 74 rows (the 28 Jul Dropbox duplicate). Its full statement was not provided, so spend on that card is untested beyond A2. The full statement must be obtained before the next quarter-end review, otherwise the same blind spot will recur.
-</div>
-
-<h2>4. What this memo does and does not do</h2>
-<p>This is a <strong>spend review, not a financial audit and not a legal audit</strong>. Findings are based on the 74 transactions and card statements provided. The AED 12,460.00 VAT payment on 24 Aug is a balance-sheet settlement of a liability accrued in earlier periods and is excluded from operating spend. Items not provided &mdash; notably the full statement for CARD 0951 &mdash; remain untested.</p>
-
-</div>
-
-
+<p class="body">Control totals verified: Jun 200,991.43 / Jul 185,512.54 / Aug 178,882.93 / Total 565,386.90 &mdash; match. Operating spend excluding the AED 12,460.00 VAT settlement on 24 Aug is AED 552,926.90. Detailed evidence and chart visualisations are on the dashboard view.</p>
 
 <div class="signoff">
-  <div style="font-size: 8.5pt; text-transform: uppercase; letter-spacing: 1px; color: #55677a; margin-bottom: 6px;">Prepared by</div>
   <table class="signoff-table">
     <tr>
       <td>
         <div class="signoff-label">Prepared by &mdash; Finance Operations</div>
-        <div class="signoff-name">&nbsp;</div>
+        <div class="signoff-line"></div>
         <div class="signoff-role">Finance Operations Lead</div>
         <div class="signoff-meta">Date: ______________________</div>
       </td>
       <td>
         <div class="signoff-label">Approved by &mdash; The Principals</div>
-        <div class="signoff-name">&nbsp;</div>
-        <div class="signoff-role">For and on behalf of Quantum Legacy Strategies DMCC</div>
+        <div class="signoff-line"></div>
+        <div class="signoff-role">For and on behalf of Quant Lab family office</div>
         <div class="signoff-meta">Date: ______________________</div>
       </td>
     </tr>
   </table>
-</div>
-
-<div class="enclosures">
-  <div class="enclosures-label">Cross-reference</div>
-  The executive dashboard view of this memorandum, with KPI tiles and Mermaid charts, is published as a separate page at <strong style="color:#13344f;">Task 4 Dashboard</strong>. The dashboard and this memorandum are intended to be read together.
 </div>
 
 </body>
