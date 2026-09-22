@@ -144,8 +144,8 @@ footer {
   <div class="task-meta">Period: 02-Aug-2026 to 22-Aug-2026 · Currency: AED · Closing balance: 229,281.25</div>
   <div class="task-desc">
     Bank reconciliation review of the August 2026 cashbook against the bank statement.
-    Covers five reconciling items totalling AED 13,063.75, the duplicate payment of
-    AED 12,600 to Nimbus IT Services, and the AED 93,750 post-dated cheque that the
+    Covers four reconciling items totalling AED 13,063.75, plus a fifth finding
+    that produces no difference at all — the AED 93,750 post-dated cheque the
     bank honoured thirteen days before its stated date.
   </div>
   <a class="task-link" href="reconciliation-findings.html">Open task 1 →</a>
@@ -208,9 +208,13 @@ footer {
     principal sign-off.
   </div>
   <a class="task-link" href="spend-review.html">Open task 4 →</a>
+  &nbsp;
+  <a class="task-link" href="spend-review-memorandum.html" style="background:#475569;">Memo →</a>
 </td>
 <td class="ctr">
-  <a class="task-link" href="spend-review.html">View</a>
+  <a class="task-link" href="spend-review.html">Dashboard</a>
+  <br><br>
+  <a class="task-link" href="spend-review-memorandum.html" style="background:#475569;">Memo</a>
 </td>
 </tr>
 
@@ -218,14 +222,14 @@ footer {
 <td><span class="task-no">5</span></td>
 <td>
   <div class="task-title">Design of the Monthly-Close Automation</div>
-  <div class="task-meta">Stack: Claude (Cowork + Code) · Make.com · Google Workspace · Todoist · 7-step pipeline with 5 human gates</div>
+  <div class="task-meta">Stack: Claude (Cowork + Code + API) · Make.com · Google Workspace · Todoist · 8-step pipeline with 3 human gates</div>
   <div class="task-desc">
-    Replaces two days of monthly close work with a 7-step pipeline: Gmail
-    statement ingestion, PDF parsing, AI categorisation against the chart of
-    accounts, invoice matching against Google Drive, vendor chase email drafting
-    (never auto-sent), Todoist top-up tasks, and a principals summary. Includes
-    failure-mode mitigations, a security posture that keeps statements inside
-    Google Workspace, and a verbatim first prompt for Claude Cowork.
+    Replaces two days of monthly close work with an 8-step pipeline: human statement
+    capture, PDF parsing to strict JSON, a no-model reconciliation gate that halts on any
+    variance, AI categorisation against a closed enum, three-way invoice matching, vendor
+    chase drafts that are never auto-sent, funding and top-up alerts, and a principals'
+    summary. Three human approval gates, four failure modes with mitigations, a declared
+    data-security posture, and a verbatim first prompt for Claude Cowork.
   </div>
   <a class="task-link" href="task-5-automation-design.html">Open task 5 →</a>
 </td>
@@ -238,7 +242,30 @@ footer {
 <td><span class="task-no">6</span></td>
 <td>
   <div class="task-title">Verification of the AI Briefing Memo on UAE Finance Rules</div>
-  <div class="task-meta">12 statements checked · 7 wrong · 3 correct · 2 correct-but-incomplete (matters for DMCC)</div>
+  <div class="task-meta">12 statements checked · 8 wrong · 2 correct · 3 correct-but-incomplete (matters for DMCC)</div>
+  <div class="task-desc">
+    Independent verification of an internal AI-generated briefing to principals on
+    UAE VAT, Corporate Tax, WPS, cheque law and e-invoicing rules. Every verdict
+    is backed by a citation to an official UAE source (FTA, u.ae, MOHRE, MoF).
+    After an adversarial audit caught three verdicts (Statements 2, 8, 12), this
+    page is the revised version with the correct positions. A dedicated
+    audit-response page documents the diff.
+  </div>
+  <a class="task-link" href="task-6-finance-rules-check.html">Open task 6 →</a>
+  &nbsp;
+  <a class="task-link" href="task-6-audit-response.html" style="background:#475569;">Audit response →</a>
+</td>
+<td class="ctr">
+  <a class="task-link" href="task-6-finance-rules-check.html">View</a>
+  <br><br>
+  <a class="task-link" href="task-6-audit-response.html" style="background:#475569;">Audit</a>
+</td>
+</tr>
+<tr class="task-6">
+<td><span class="task-no">6</span></td>
+<td>
+  <div class="task-title">Verification of the AI Briefing Memo on UAE Finance Rules</div>
+  <div class="task-meta">12 statements checked · 8 wrong · 2 correct · 3 correct-but-incomplete (matters for DMCC)</div>
   <div class="task-desc">
     Independent verification of an internal AI-generated briefing to principals on
     UAE VAT, Corporate Tax, WPS, cheque law and e-invoicing rules. Every verdict
