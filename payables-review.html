@@ -66,9 +66,57 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
   a { text-decoration: none; color: inherit; }
   a[href]::after { content: ""; }
 }
+
+/* ---------- TOP NAVIGATION BAR ---------- */
+.topnav {
+  background: #13344f;
+  color: #ffffff;
+  padding: 10px 14px;
+  margin: 0 0 14mm 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 10pt;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border-radius: 4px 4px 0 0;
+}
+.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; }
+.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; }
+.topnav a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-size: 9.5pt;
+  transition: background 0.15s;
+}
+.topnav a:hover { background: rgba(255,255,255,0.18); }
+.topnav a.active { background: #0b3d91; font-weight: 700; }
+.topnav a.back { background: #6b7c8c; }
+.topnav a.back:hover { background: #475569; }
+@media print {
+  .topnav { display: none; }
+}
 </style>
 </head>
 <body>
+
+<nav class="topnav">
+  <span class="brand">Finance Reviews</span>
+  <div class="links">
+    <a href="index.html" class="back">&larr; Index</a>
+    <a href="reconciliation-findings.html">Task 1 &middot; Reconciliation</a>
+    <a href="payables-review.html" class="active">Task 2 &middot; Payables</a>
+    <a href="funding-plan-november-2026.html">Task 3 &middot; Funding Plan</a>
+  </div>
+</nav>
+
 
 <div class="alert"><strong>Do not release the run as queued.</strong> The clerk proposes AED 166,743.38 across ten documents. The correct release is AED 74,905.00, which withholds AED 91,838.38 that is either not owed or not yet payable. D7 is a duplicate of D1, D8 is a quotation rather than an invoice, D10 is a credit note logged as an outflow and therefore wrong by AED 8,820.00 in swing, and D9 is a suspected payment diversion attempt carrying an IBAN of 22 characters when every UAE IBAN is fixed at 23. Input VAT claimable is AED 2,717.50, not the full amount shown on the documents.</div>
 
