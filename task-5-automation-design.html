@@ -157,7 +157,7 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
 </thead>
 <tbody>
 <tr><td class="ctr">1</td><td><span class="tag tag-h">Human</span> Statement capture</td><td>FinOps Manager (no automation)</td><td>Todoist recurring task, first banking day of each month.</td><td>4 PDFs named <code>YYYY-MM_&lt;ACCOUNT&gt;.pdf</code></td><td>Drive: <code>/Finance/Close/YYYY-MM/01_Statements/</code></td></tr>
-<tr><td class="ctr">2</td><td><span class="tag tag-m">Parse</span> PDF &rarr; strict JSON</td><td>Make.com + Claude API</td><td>Drive watch on <code>01_Statements</code>; PDF as Anthropic document input.</td><td>Strict JSON: <code>{date, description, account_label, debit, credit, currency}</code> per line + control block <code>{stated_opening, stated_closing, line_count, page_count}</code>.</td><td>Sheet <code>Close_YYYY-MM_Raw</code>, one row per transaction.</td></tr>
+<tr><td class="ctr">2</td><td><span class="tag tag-m">Parse</span> PDF &rarr; strict JSON</td><td>Make.com + Claude API</td><td>Drive watch on <code>01_Statements</code>; PDF as Anthropic document input.</td><td>Strict JSON: <code>{date, description, account_label, debit, credit, currency}</code> per line + control block <code>{stated_opening, stated_closing, line_count, page_count}</code>. <strong>The PDF is sent in full; this is the one point of exposure and is controlled contractually rather than technically.</strong></td><td>Sheet <code>Close_YYYY-MM_Raw</code>, one row per transaction.</td></tr>
 <tr><td class="ctr">3</td><td><span class="tag tag-m">Validate</span> No model</td><td>Make.com only</td><td>On step 2 completion.</td><td>Compute <code>stated_opening + credits − debits</code>; compare to <code>stated_closing</code>. Pass = variance exactly <strong>0.00</strong>.</td><td>If variance &ne; 0: pipeline halts; Todoist task "PARSE FAILED &mdash; ACCOUNT &mdash; variance AED x.xx". Nothing downstream runs.</td></tr>
 <tr><td class="ctr">4</td><td><span class="tag tag-m">Categorise</span> Deterministic + Claude</td><td>Claude Code against the Sheet</td><td>All four files pass step 3. Inputs: Raw Sheet + <code>vendor_map.csv</code> + <code>categories.md</code>.</td><td>Deterministic lookup first; only unmatched descriptions go to the model; model returns only from the closed enum. Columns added: Category, Confidence, Rule_or_Model.</td><td>Same Sheet; plus a "Review" tab with every model-assigned row, every new vendor string, and every row above AED 10,000 regardless of confidence.</td></tr>
 <tr><td class="ctr">5</td><td><span class="tag tag-m">Match</span> Invoices</td><td>Make.com + Claude API</td><td>After Gate 1 approval. Each card charge; Drive search of <code>/Finance/Invoices/YYYY-MM/</code>.</td><td>Three-way test: amount = fils, vendor matched to master, date within 5 days. Output: <code>Invoice_Link</code>, <code>Match_Status</code> (MATCHED / NO INVOICE / AMOUNT MISMATCH).</td><td>Same Sheet, columns added.</td></tr>
@@ -170,7 +170,7 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 6px; vertical-align: top; font-si
 <h3>Mermaid pipeline diagram</h3>
 <div class="chart-card">
   <div class="chart-title">Pipeline &mdash; monthly close, with three human gates</div>
-  <div class="chart-sub">Green gates = human review; red blocks = halt-and-escalate conditions</div>
+  <div class="chart-sub">Blue boxes = automated step; amber boxes = human review; red boxes = halt-or-escalate; grey-green boxes = human-performed step</div>
   <div class="mermaid">
 flowchart LR
     H1[1. FinOps Manager<br/>downloads 4 PDFs] --> D1[Drive:<br/>01_Statements]
@@ -183,23 +183,24 @@ flowchart LR
     G1 -- not approved --> REV[Operator fixes<br/>in Sheet, then<br/>re-runs step 4]
     S5 --> S6[6. Make + Claude<br/>Draft chase emails<br/>never auto-send]
     S6 --> G2[Gate 2<br/>Vendor email<br/>release]
-    G2 -- sent by hand --> S7[7. Make<br/>Funding &amp; top-up<br/>Todoist tasks]
-    S7 --> G3[Gate 3<br/>Memo release<br/>to principals]
+    S7[7. Make<br/>Funding &amp; top-up<br/>Todoist tasks] -. daily 07:00 .-> TODOIST[(Todoist)]
+    G2 -- sent by hand --> G3[Gate 3<br/>Memo release<br/>to principals]
     G3 --> S8[8. Cowork<br/>Memo to Drive<br/>and PDF]
 
-    style H1 fill:#a32020,color:#fff
+    style H1 fill:#0f7b4f,color:#fff
     style HALT fill:#a32020,color:#fff
     style S2 fill:#1d4ed8,color:#fff
-    style S3 fill:#0f7b4f,color:#fff
+    style S3 fill:#1d4ed8,color:#fff
     style S4 fill:#1d4ed8,color:#fff
     style S5 fill:#1d4ed8,color:#fff
     style S6 fill:#1d4ed8,color:#fff
     style S7 fill:#1d4ed8,color:#fff
     style S8 fill:#1d4ed8,color:#fff
-    style G1 fill:#fdeaea,color:#8d1a1a
-    style G2 fill:#fdeaea,color:#8d1a1a
-    style G3 fill:#fdeaea,color:#8d1a1a
-    style REV fill:#fff8e1,color:#1b2733
+    style G1 fill:#fff4dc,color:#1b2733
+    style G2 fill:#fff4dc,color:#1b2733
+    style G3 fill:#fff4dc,color:#1b2733
+    style REV fill:#fff4dc,color:#1b2733
+    style TODOIST fill:#13344f,color:#fff
   </div>
 </div>
 
@@ -210,7 +211,7 @@ flowchart LR
 <tr><th style="width:6%">Gate</th><th style="width:20%">Where it sits</th><th style="width:35%">What the reviewer sees</th><th style="width:39%">What the reviewer approves or rejects</th></tr>
 </thead>
 <tbody>
-<tr><td class="ctr">G1</td><td>Before step 5 (invoice matching) and step 8 (memo).</td><td>The <strong>Review tab only</strong>, not all 74 rows. It shows new vendor strings, every model-assigned category with its confidence, every row above AED 10,000, and at the head a control-tie block giving each statement's closing balance against the parsed total with the variance in a single cell.</td><td>If that variance cell is anything other than 0.00 the gate cannot be passed. Approval is recorded by name and timestamp, not by a click that leaves no trace.</td></tr>
+<tr><td class="ctr">G1</td><td>Before step 5. Nothing downstream &mdash; matching, chasing or reporting &mdash; runs until it passes.</td><td>The <strong>Review tab only</strong>, not all 74 rows. It shows new vendor strings, every model-assigned category with its confidence, every row above AED 10,000, and at the head a control-tie block giving each statement's closing balance against the parsed total with the variance in a single cell.</td><td>If that variance cell is anything other than 0.00 the gate cannot be passed. Approval is recorded by name and timestamp, not by a click that leaves no trace.</td></tr>
 <tr><td class="ctr">G2</td><td>Before anything leaves the building.</td><td>Each draft beside the charge that triggered it: vendor name, amount, date, card, the recipient address as resolved from the vendor master, and the draft body.</td><td>Emails are sent by hand from Gmail. No scenario in Make.com holds send permission.</td></tr>
 <tr><td class="ctr">G3</td><td>Before the memo reaches the principals.</td><td>The full memo with the control-tie block at its foot and the scope limitations stated.</td><td>The reviewer signs it before distribution. The memo carries the preparer's name because someone must own the numbers.</td></tr>
 </tbody>
@@ -249,7 +250,7 @@ flowchart LR
 <tr><th style="width:30%">Data class</th><th style="width:35%">Where it lives / where it travels</th><th style="width:35%">Where it must NOT go</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Never leaves Google Workspace</strong>: full account numbers and IBANs, card PANs, banking portal credentials and MFA devices, signatory mandates, KYC packs, passport and Emirates ID scans, and the principals' personal financial documents.</td><td>Drive under folder-level restriction.</td><td>Any external call. Not attached to any Make.com scenario, not sent to Claude, not stored outside the Workspace.</td></tr>
+<tr><td><strong>Never leaves Google Workspace, with one declared exception.</strong> Card PANs in full, banking portal credentials and MFA devices, signatory mandates, KYC packs, passport and Emirates ID scans and the principals' personal financial documents never leave. <strong>THE EXCEPTION</strong> is the statement PDF itself at step 2, which necessarily carries the account number and IBAN in its header. That single call runs on an enterprise API tier with a signed DPA, inputs excluded from training and a stated retention window I have confirmed in writing. From step 3 onward the redaction step substitutes the account label, so no real identifier travels through any later call, any Make.com data store or any Sheet.</td><td>Drive under folder-level restriction.</td><td>Any external call. Not attached to any Make.com scenario, not sent to Claude, not stored outside the Workspace.</td></tr>
 <tr><td><strong>Goes to Claude via API</strong>: the transaction line only.</td><td>Date, amount, currency, description string, and an account <em>LABEL</em> such as ACCT-3510 or CARD-1346 rather than the real number. A redaction step in Make.com runs before every API call and strips anything matching IBAN, PAN or 16-digit patterns, substituting the label. The model never needs the real account number to categorise a line, so it never receives one.</td><td>Anything resembling a real identifier.</td></tr>
 <tr><td><strong>Goes to Make.com</strong>: OAuth tokens to Drive, Gmail and Todoist, scoped to a dedicated finance service account.</td><td>Access to the close folders only, never the principal's own account. Tokens rotated on any staff change.</td><td>The principal's own Google account; broader Workspace scopes.</td></tr>
 </tbody>
@@ -259,7 +260,7 @@ flowchart LR
 
 <h2>6 &mdash; Verbatim first prompt to Claude Cowork, step 1</h2>
 
-<p class="verbatim">You are building the ingestion stage of our monthly close pipeline. Work in the Google Drive folder /Finance/Close/2026-09/01_Statements/, which contains four PDF bank and card statements for one operating account, ACCT-3510, and three corporate cards.
+<p class="verbatim">You are building the ingestion stage of our monthly close pipeline. Work in the Google Drive folder /Finance/Close/2026-09/01_Statements/, which contains four PDF bank and card statements for one operating account, ACCT-3510, and three corporate cards (Task 5 covers the full card estate; the Task 4 quarterly extract reviewed only CARD 1346 and CARD 0951).
 
 For each PDF, extract every transaction line and return a JSON array. Each object must have exactly these keys: date in YYYY-MM-DD, description as the raw string from the statement with no cleanup or interpretation, account_label taken from the filename, debit as a number or null, credit as a number or null, currency as a three-letter code. A line is either a debit or a credit, never both. Do not merge, split, reword or tidy any description. Do not infer a category. Do not skip lines you find unusual, including reversals, fees, interest and foreign currency entries.
 
