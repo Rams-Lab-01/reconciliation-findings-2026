@@ -112,197 +112,63 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 .leg-actual::before { background: #a32020; }
 .leg-target::before { background: #0f7b4f; }
 
-.mermaid {
-  font-family: Calibri, "Segoe UI", Arial, sans-serif !important;
-  background: #ffffff;
-  display: flex; justify-content: center;
-  margin: 4px 0;
-}
-.mermaid svg { max-width: 100% !important; height: auto !important; }
-.mermaid .nodeLabel, .mermaid .edgeLabel, .mermaid .label { font-family: Calibri, "Segoe UI", Arial, sans-serif !important; }
-.mermaid .pieTitleText, .mermaid .pieLabelText, .mermaid .pieLegendText { font-family: Calibri, "Segoe UI", Arial, sans-serif !important; }
-@media print {
-  .mermaid { break-inside: avoid; page-break-inside: avoid; }
+/* Mermaid removed (G4 spend-review chart-engine: replaced with Chart.js). .visually-hidden and prefers-reduced-motion rules appended below. */
+.visually-hidden { position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; border: 0; padding: 0; margin: -1px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
 
 /* ---------- TOP NAVIGATION BAR ---------- */
 .topnav {
   background: #13344f;
   color: #ffffff;
-  padding: 8px 14px;
-  margin: 0 0 14px 0;
+  padding: 10px 14px;
+  margin: 0 0 8mm 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 8px 12px;
+  gap: 10px;
   font-family: Calibri, "Segoe UI", Arial, sans-serif;
   font-size: 10pt;
   position: sticky;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-  border-radius: 4px;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border-radius: 2px;
 }
-.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; white-space: nowrap; }
-.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-.topnav a, .topnav .dropdown-btn {
+.topnav .brand { font-weight: 700; font-size: 11pt; letter-spacing: 0.5px; }
+.topnav .links { display: flex; gap: 4px; flex-wrap: wrap; }
+.topnav a {
   color: #ffffff;
   text-decoration: none;
-  padding: 5px 10px;
+  padding: 5px 12px;
   border-radius: 3px;
   font-size: 9.5pt;
-  font-family: inherit;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-  line-height: 1.3;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background 0.15s;
 }
-.topnav a:hover, .topnav .dropdown-btn:hover { background: rgba(255,255,255,0.18); }
-.topnav a.active, .topnav .dropdown.active > .dropdown-btn { background: #0b3d91; font-weight: 700; }
-.topnav a.back { background: #475569; }
-.topnav a.back:hover { background: #334155; }
-.topnav .dropdown-caret { font-size: 7.5pt; opacity: 0.8; margin-left: 2px; }
-
-/* Dropdown Container */
-.topnav .dropdown {
-  position: relative;
-  display: inline-block;
-}
-.topnav .dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 3px;
-  background: #0f273d;
-  min-width: 180px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 4px 0;
-  z-index: 1050;
-}
-.topnav .dropdown:hover .dropdown-menu,
-.topnav .dropdown:focus-within .dropdown-menu {
-  display: block;
-}
-.topnav .dropdown-menu a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 14px;
-  font-size: 9pt;
-  color: #e2e8f0;
-  border-radius: 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-.topnav .dropdown-menu a:hover {
-  background: rgba(255,255,255,0.12);
-  color: #ffffff;
-}
-.topnav .dropdown-menu a.active {
-  background: #0b3d91;
-  color: #ffffff;
-  font-weight: 700;
-}
+.topnav a:hover { background: rgba(255,255,255,0.18); }
+.topnav a.active { background: #0b3d91; font-weight: 700; }
+.topnav a.back { background: #6b7c8c; }
+.topnav a.back:hover { background: #475569; }
 @media print {
   .topnav { display: none; }
   body { background: #ffffff; }
   .page { box-shadow: none; padding: 0; margin: 0; }
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    mermaid.initialize({
-      startOnLoad: true,
-      securityLevel: 'loose',
-      theme: 'base',
-      themeVariables: {
-        background: '#ffffff',
-        primaryColor: '#13344f',
-        primaryTextColor: '#ffffff',
-        primaryBorderColor: '#0b3d91',
-        secondaryColor: '#1d4ed8',
-        tertiaryColor: '#475569',
-        lineColor: '#a32020',
-        textColor: '#1b2733',
-        fontFamily: 'Calibri, "Segoe UI", Arial, sans-serif',
-        fontSize: '13px',
-        pie1: '#13344f',
-        pie2: '#1d4ed8',
-        pie3: '#475569',
-        pie4: '#93a3b3',
-        pie5: '#5b21b6',
-        pie6: '#0f7b4f',
-        pie7: '#c2410c',
-        pie8: '#a32020',
-        pie9: '#fff4dc',
-        pie10: '#7c2d12',
-        pie11: '#0b3d91',
-        pie12: '#831843',
-        pieStrokeColor: '#ffffff',
-        pieOuterStrokeWidth: '1.5px',
-        pieOuterStrokeColor: '#ffffff',
-        pieTitleTextColor: '#13344f',
-        pieTitleTextSize: '13px',
-        pieSectionTextColor: '#ffffff',
-        pieSectionTextSize: '11px',
-        pieLegendTextColor: '#1b2733',
-        pieLegendTextSize: '11px',
-        pieLabelTextSize: '11px',
-        xyChart: {
-          plotColorPalette: '#13344f, #a32020, #0f7b4f, #8a5a00, #475569',
-          backgroundColor: '#ffffff',
-          textColor: '#1b2733',
-          titleColor: '#13344f',
-          axisColor: '#55677a',
-          axisLabelColor: '#1b2733',
-          tickColor: '#cbd5e1',
-          gridColor: '#e5e7eb'
-        }
-      },
-      flowchart: { curve: 'basis', htmlLabels: true, useMaxWidth: true },
-      pie: { useMaxWidth: true, textPosition: 0.75 }
-    });
-  });
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" integrity="sha384-NrKB+u6Ts6AtkIhwPixiKTzgSKNblyhlk0Sohlgar9UHUBzai/sgnNNWWd291xqt" crossorigin="anonymous" defer></script>
 </head>
 <body>
 
 <nav class="topnav">
   <span class="brand">Finance Reviews</span>
   <div class="links">
-    <a href="index.html" class="back">&larr; Dashboard</a>
+    <a href="index.html" class="back">&larr; Index</a>
     <a href="reconciliation-findings.html">Task 1 &middot; Reconciliation</a>
     <a href="payables-review.html">Task 2 &middot; Payables</a>
     <a href="funding-plan-november-2026.html">Task 3 &middot; Funding Plan</a>
-    <div class="dropdown active">
-      <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
-        Task 4 &middot; Spend <span class="dropdown-caret">&#9662;</span>
-      </button>
-      <div class="dropdown-menu">
-        <a href="spend-review.html" class="active">Spend Dashboard</a>
-        <a href="spend-review-memorandum.html">Executive Memo</a>
-      </div>
-    </div>
-    <a href="task-5-automation-design.html">Task 5 &middot; Automation</a>
-    <div class="dropdown">
-      <button class="dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
-        Task 6 &middot; Rules <span class="dropdown-caret">&#9662;</span>
-      </button>
-      <div class="dropdown-menu">
-        <a href="task-6-finance-rules-check.html">Rules Verification</a>
-        <a href="task-6-audit-response.html">Audit Response</a>
-      </div>
-    </div>
+    <a href="spend-review.html" class="active">Task 4 &middot; Spend Review</a>
   </div>
 </nav>
 
@@ -425,71 +291,206 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 <div class="chart-card">
   <div class="chart-title">Cash flow by month &mdash; cash out vs funding in</div>
   <div class="chart-sub">Three-month view, amounts in AED thousands</div>
-  <div class="mermaid">
-xychart-beta
-    title "Cash flow by month"
-    x-axis ["Jun", "Jul", "Aug"]
-    y-axis "AED (k)" 0 --> 220
-    bar [201, 186, 179]
-    bar [150, 147, 110]
-  </div>
+  <div style="height: 180px; position:relative;"><canvas id="spendChart1" aria-describedby="spendChart1-desc" role="img"></canvas></div>
+  <p id="spendChart1-desc" class="visually-hidden">Grouped bar chart, three months Jun, Jul, Aug. Cash out (red) versus funding in (green). Jun: cash out two hundred and one, funding in one hundred and fifty. Jul: one hundred and eighty-six vs one hundred and forty-seven. Aug: one hundred and seventy-nine vs one hundred and ten. Source: quarterly cash flow table above.</p>
+  <table class="visually-hidden" aria-label="Quarterly cash out vs funding in">
+    <thead><tr><th>Month</th><th>Cash out (AED k)</th><th>Funding in (AED k)</th><th>Cash out (AED)</th><th>Funding in (AED)</th></tr></thead>
+    <tbody><tr><td>Jun 2026</td><td>201</td><td>150</td><td>200,991.43</td><td>150,000.00</td></tr><tr><td>Jul 2026</td><td>186</td><td>147</td><td>185,512.54</td><td>146,900.00</td></tr><tr><td>Aug 2026</td><td>179</td><td>110</td><td>178,882.93</td><td>110,175.00</td></tr></tbody>
+  </table>
   <div class="chart-legend"><span class="leg-out">Cash out</span><span class="leg-in">Funding in</span></div>
 </div>
 
 <div class="chart-card">
   <div class="chart-title">Net cash movement by month</div>
   <div class="chart-sub">Deficit = cash out minus funding in</div>
-  <div class="mermaid">
-xychart-beta
-    title "Monthly cash deficit (AED k)"
-    x-axis ["Jun", "Jul", "Aug"]
-    y-axis "AED (k)" 0 --> 80
-    bar [51, 39, 69]
-  </div>
+  <div style="height: 180px; position:relative;"><canvas id="spendChart2" aria-describedby="spendChart2-desc" role="img"></canvas></div>
+  <p id="spendChart2-desc" class="visually-hidden">Single-series bar chart of monthly cash deficit in AED thousands. Jun fifty-one, Jul thirty-nine, Aug sixty-nine. Body quarter total AED 158,311.90 deficit.</p>
+  <table class="visually-hidden" aria-label="Monthly cash deficit">
+    <thead><tr><th>Month</th><th>Deficit (AED k)</th><th>Deficit (AED)</th></tr></thead>
+    <tbody><tr><td>Jun 2026</td><td>51</td><td>(50,991.43)</td></tr><tr><td>Jul 2026</td><td>39</td><td>(38,612.54)</td></tr><tr><td>Aug 2026</td><td>69</td><td>(68,707.93)</td></tr><tr><td><strong>Quarter total (per body)</strong></td><td>&mdash;</td><td><strong>(158,311.90)</strong></td></tr></tbody>
+  </table>
   <div class="chart-legend"><span class="leg-deficit">Monthly deficit (AED k)</span><span class="leg-net">Quarter total: AED (158,311.90)</span></div>
 </div>
 
 <div class="chart-card full">
   <div class="chart-title">Anomaly impact &mdash; AED at stake by finding</div>
   <div class="chart-sub">Items sorted by AED impact. A8 excluded (misfiled, not lost).</div>
-  <div class="mermaid">
-xychart-beta
-    title "AED at stake by finding"
-    x-axis ["A4", "A5", "A1", "A3", "A9", "A6", "A2", "A7"]
-    y-axis "AED" 0 --> 16000
-    bar [15000, 6400, 4830, 3150, 735, 473, 96, 78]
-  </div>
+  <div style="height: 220px; position:relative;"><canvas id="spendChart3" aria-describedby="spendChart3-desc" role="img"></canvas></div>
+  <p id="spendChart3-desc" class="visually-hidden">Bar chart of eight anomalies sorted by AED impact. A4 fifteen thousand, A5 six thousand four hundred, A1 four thousand eight hundred thirty, A3 three thousand one hundred fifty, A9 seven hundred thirty-four point five zero, A6 four hundred seventy-three, A2 ninety-six point three six, A7 seventy-eight. Body total at stake AED 30,761.86. A8 capex AED 13,911.50 excluded as misfiled.</p>
+  <table class="visually-hidden" aria-label="Anomaly impact by finding">
+    <thead><tr><th>Ref</th><th>Classification</th><th>Impact (AED)</th></tr></thead>
+    <tbody>
+      <tr><td>A4</td><td>Undocumented cash</td><td>15,000.00</td></tr>
+      <tr><td>A5</td><td>Business purpose not evidenced</td><td>6,400.00</td></tr>
+      <tr><td>A1</td><td>Duplicate payment</td><td>4,830.00</td></tr>
+      <tr><td>A3</td><td>Duplicate across channels</td><td>3,150.00</td></tr>
+      <tr><td>A9</td><td>Unapproved price increase</td><td>734.50</td></tr>
+      <tr><td>A6</td><td>Three-way match failure</td><td>473.00</td></tr>
+      <tr><td>A2</td><td>Duplicate subscription</td><td>96.36</td></tr>
+      <tr><td>A7</td><td>FX overcharge on pegged currency</td><td>78.00</td></tr>
+      <tr><td><strong>Total at stake (body)</strong></td><td>5 HIGH + 3 MED</td><td><strong>30,761.86</strong></td></tr>
+      <tr><td colspan="3"><em>A8 capex AED 13,911.50 excluded (misfiled, not lost)</em></td></tr>
+    </tbody>
+  </table>
   <div class="chart-legend"><span class="leg-actual">In total: 5 HIGH + 3 MED</span><span class="leg-other">Excluded: A8 capex AED 13,911.50</span></div>
 </div>
 
 <div class="chart-card">
-  <div class="chart-title">Spend mix &mdash; top categories</div>
-  <div class="chart-sub">Share of gross cash out (AED 565,386.90)</div>
-  <div class="mermaid">
-pie showData
-    title "Share of gross cash out"
-    "Payroll and related" : 52.32
-    "Premises and utilities" : 19.88
-    "Regulatory and licensing" : 7.51
-    "All other categories" : 20.29
-  </div>
-  <div class="chart-legend"><span class="leg-payroll">Payroll &amp; related</span><span class="leg-premises">Premises &amp; utilities</span><span class="leg-reg">Regulatory</span><span class="leg-other">Other (11 cats)</span></div>
+  <div class="chart-title">Spend mix &mdash; all 14 categories</div>
+  <div class="chart-sub">Share of gross cash out (AED 565,386.90). Replaces 4-bucket pie with full body-verbatim list.</div>
+  <div style="height: 220px; position:relative;"><canvas id="spendChart4" aria-describedby="spendChart4-desc" role="img"></canvas></div>
+  <p id="spendChart4-desc" class="visually-hidden">Horizontal stacked bar showing the 14 categories of gross cash out in descending order by amount. Payroll and related two hundred ninety-five thousand eight hundred thirty-one point five zero, fifty-two point three two percent. Premises one hundred twelve thousand three hundred eighty point five zero, nineteen point eight eight. Regulatory forty-two thousand four hundred sixty, seven point five one. Insurance sixteen thousand eight hundred, two point nine seven. Unclassified cash fifteen thousand, two point six five. Capex thirteen thousand nine hundred eleven point five zero, two point four six. Facilities thirteen thousand five hundred forty-five, two point four zero. IT SaaS twelve thousand nine hundred thirty point nine zero, two point two nine. Office supplies twelve thousand six hundred, two point two three. IT services nine thousand six hundred sixty, one point seven one. Market data nine thousand two hundred fifty-nine point two five, one point six four. Entertainment six thousand four hundred, one point one three. Travel four thousand one hundred twenty, zero point seven three. Courier four hundred eighty-eight point two five, zero point zero nine.</p>
+  <table class="visually-hidden" aria-label="14 spend categories">
+    <thead><tr><th>Category</th><th>Total (AED)</th><th>% of gross</th></tr></thead>
+    <tbody>
+      <tr><td>Payroll and related</td><td>295,831.50</td><td>52.32%</td></tr>
+      <tr><td>Premises and utilities</td><td>112,380.50</td><td>19.88%</td></tr>
+      <tr><td>Regulatory and licensing</td><td>42,460.00</td><td>7.51%</td></tr>
+      <tr><td>Insurance</td><td>16,800.00</td><td>2.97%</td></tr>
+      <tr><td>Unclassified cash (at risk)</td><td>15,000.00</td><td>2.65%</td></tr>
+      <tr><td>Capital equipment and furniture</td><td>13,911.50</td><td>2.46%</td></tr>
+      <tr><td>Facilities and cleaning</td><td>13,545.00</td><td>2.40%</td></tr>
+      <tr><td>IT and SaaS subscriptions</td><td>12,930.90</td><td>2.29%</td></tr>
+      <tr><td>Office supplies and consumables</td><td>12,600.00</td><td>2.23%</td></tr>
+      <tr><td>IT services and support</td><td>9,660.00</td><td>1.71%</td></tr>
+      <tr><td>Market data and research</td><td>9,259.25</td><td>1.64%</td></tr>
+      <tr><td>Entertainment and hospitality</td><td>6,400.00</td><td>1.13%</td></tr>
+      <tr><td>Travel</td><td>4,120.00</td><td>0.73%</td></tr>
+      <tr><td>Courier and postage</td><td>488.25</td><td>0.09%</td></tr>
+      <tr><td><strong>Total (per body)</strong></td><td><strong>565,386.90</strong></td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+  <div class="chart-legend"><span class="leg-payroll">Payroll &amp; related (52.32%)</span><span class="leg-premises">Premises (19.88%)</span><span class="leg-reg">Regulatory (7.51%)</span><span class="leg-other">Other 11 cats (20.29%)</span></div>
 </div>
 
 <div class="chart-card">
   <div class="chart-title">Annualised exposure by finding</div>
   <div class="chart-sub">What each unfixed recurring anomaly costs per year</div>
-  <div class="mermaid">
-xychart-beta
-    title "AED per year, recurring findings only"
-    x-axis ["A4", "A9", "A2", "A7"]
-    y-axis "AED / yr" 0 --> 65000
-    bar [60000, 8814, 1156, 468]
-  </div>
+  <div style="height: 180px; position:relative;"><canvas id="spendChart5" aria-describedby="spendChart5-desc" role="img"></canvas></div>
+  <p id="spendChart5-desc" class="visually-hidden">Bar chart of annualised AED exposure for four recurring anomalies. A4 sixty thousand, A9 eight thousand eight hundred fourteen, A2 one thousand one hundred fifty-six point three two, A7 four hundred sixty-eight. Body annualised total AED 70,438.32.</p>
+  <table class="visually-hidden" aria-label="Annualised exposure by finding">
+    <thead><tr><th>Ref</th><th>Classification</th><th>Annualised (AED)</th></tr></thead>
+    <tbody>
+      <tr><td>A4</td><td>Undocumented cash</td><td>60,000.00</td></tr>
+      <tr><td>A9</td><td>Unapproved price increase</td><td>8,814.00</td></tr>
+      <tr><td>A2</td><td>Duplicate subscription</td><td>1,156.32</td></tr>
+      <tr><td>A7</td><td>FX overcharge on pegged currency</td><td>468.00</td></tr>
+      <tr><td><strong>Total (per body)</strong></td><td>recurring</td><td><strong>70,438.32</strong></td></tr>
+    </tbody>
+  </table>
   <div class="chart-legend"><span class="leg-actual">HIGH (A4, A9)</span><span class="leg-deficit">MEDIUM (A2, A7)</span><span class="leg-other">A1, A3, A5, A6, A8 are one-off</span></div>
 </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const animation = reduced ? false : { duration: 700 };
+
+  const fmtAED = (v) => 'AED ' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+  // Chart 1: cash out vs funding in by month
+  new Chart(document.getElementById('spendChart1').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Jun 2026', 'Jul 2026', 'Aug 2026'],
+      datasets: [
+        { label: 'Cash out (AED k)', data: [201, 186, 179], backgroundColor: '#a32020', borderRadius: 3 },
+        { label: 'Funding in (AED k)', data: [150, 147, 110], backgroundColor: '#0f7b4f', borderRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: animation,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ' ' + c.dataset.label + ': ' + c.raw } } },
+      scales: { y: { ticks: { font: { size: 8 }, callback: (v) => v + 'k' } }, x: { ticks: { font: { size: 9 } } } }
+    }
+  });
+
+  // Chart 2: net cash deficit by month
+  new Chart(document.getElementById('spendChart2').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Jun 2026', 'Jul 2026', 'Aug 2026'],
+      datasets: [{ label: 'Monthly deficit (AED k)', data: [51, 39, 69], backgroundColor: '#8a5a00', borderRadius: 3 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: animation,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (c) => ` ${c.raw}k AED deficit (rounded AED k; precise body figure per month is (50,991.43), (38,612.54), (68,707.93))`,
+            afterFooter: () => 'Quarter total per body: AED 158,311.90 deficit'
+          }
+        }
+      },
+      scales: { y: { ticks: { font: { size: 8 }, callback: (v) => v + 'k' } }, x: { ticks: { font: { size: 9 } } } }
+    }
+  });
+
+  // Chart 3: anomaly impact by finding
+  new Chart(document.getElementById('spendChart3').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['A4', 'A5', 'A1', 'A3', 'A9', 'A6', 'A2', 'A7'],
+      datasets: [{
+        label: 'AED at stake',
+        data: [15000, 6400, 4830, 3150, 734.50, 473, 96.36, 78],
+        backgroundColor: ['#dc2626', '#dc2626', '#dc2626', '#dc2626', '#f59e0b', '#f59e0b', '#f59e0b', '#f59e0b'],
+        borderRadius: 3
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false, animation: animation,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => ` AED ${Number(c.raw).toLocaleString('en-US', { minimumFractionDigits: 2 })}`, afterFooter: () => 'A8 capex AED 13,911.50 excluded (misfiled)' } }
+      },
+      scales: { x: { ticks: { font: { family: 'ui-monospace, monospace', size: 8 }, callback: (v) => 'AED ' + v.toLocaleString() } }, y: { ticks: { font: { size: 9 } } } }
+    }
+  });
+
+  // Chart 4: 14 categories (horizontal stacked)
+  const cats = ['Payroll and related','Premises and utilities','Regulatory and licensing','Insurance','Unclassified cash (at risk)','Capital equipment and furniture','Facilities and cleaning','IT and SaaS subscriptions','Office supplies and consumables','IT services and support','Market data and research','Entertainment and hospitality','Travel','Courier and postage'];
+  const catVals = [295831.50, 112380.50, 42460.00, 16800.00, 15000.00, 13911.50, 13545.00, 12930.90, 12600.00, 9660.00, 9259.25, 6400.00, 4120.00, 488.25];
+  new Chart(document.getElementById('spendChart4').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: cats,
+      datasets: [{ label: 'AED', data: catVals, backgroundColor: cats.map((_, i) => i < 3 ? '#13344f' : (i < 6 ? '#1d4ed8' : (i < 9 ? '#475569' : '#93a3b3'))), borderRadius: 2 }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false, animation: animation,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => ` ${cats[c.dataIndex]}: ${fmtAED(c.raw)} (${(c.raw / 565386.90 * 100).toFixed(2)}%)`, afterFooter: () => 'Total gross AED 565,386.90' } }
+      },
+      scales: { x: { ticks: { font: { family: 'ui-monospace, monospace', size: 8 }, callback: (v) => 'AED ' + (v / 1000).toFixed(0) + 'k' } }, y: { ticks: { font: { size: 7.5 } } } }
+    }
+  });
+
+  // Chart 5: annualised exposure
+  new Chart(document.getElementById('spendChart5').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['A4', 'A9', 'A2', 'A7'],
+      datasets: [{ label: 'AED per year', data: [60000, 8814, 1156.32, 468], backgroundColor: ['#dc2626', '#f59e0b', '#f59e0b', '#f59e0b'], borderRadius: 3 }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false, animation: animation,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => ` AED ${Number(c.raw).toLocaleString('en-US', { minimumFractionDigits: 2 })} / yr`, afterFooter: () => 'Body annualised total: AED 70,438.32' } }
+      },
+      scales: { x: { ticks: { font: { family: 'ui-monospace, monospace', size: 8 }, callback: (v) => 'AED ' + v.toLocaleString() } }, y: { ticks: { font: { size: 9 } } } }
+    }
+  });
+});
+</script>
 
 <h2>Executive anomaly and leakage register (AED 30,761.86 total at stake)</h2>
 <table>
