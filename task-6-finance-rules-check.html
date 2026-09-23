@@ -73,7 +73,13 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 .topnav a.back:hover { background: #475569; }
 @media print {
   .topnav { display: none; }
+  .chart-card { break-inside: avoid; }
+  canvas { max-height: 280px; }
 }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+.visually-hidden { position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; border: 0; padding: 0; margin: -1px; }
 </style>
 </head>
 <body>
@@ -93,10 +99,30 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
   </div>
 </nav>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" integrity="sha384-NrKB+u6Ts6AtkIhwPixiKTzgSKNblyhlk0Sohlgar9UHUBzai/sgnNNWWd291xqt" crossorigin="anonymous" defer></script>
+
 <h1>Task 6 &mdash; Verification of the AI briefing memo</h1>
 <div class="sub">Subject of review: an internal AI-generated briefing memo to principals on UAE finance-ops rules. This page records what is correct, what is wrong, what is misleading by omission, and which source backs each finding. Every verdict is anchored to an official UAE government or FTA source; secondary commentary is cited only where it corroborates a primary text. Each verdict was verified against <a href="https://tax.gov.ae">tax.gov.ae</a>, <a href="https://u.ae">u.ae</a>, <a href="https://mof.gov.ae">mof.gov.ae</a> and the <a href="https://www.centralbank.ae/media/nknfbci1/cheques-faq-commercial-transaction-law-en.pdf">CBUAE cheques FAQ</a> before being marked.</div>
 
 <div class="alert"><strong>Summary.</strong> Of the 12 statements in the memo, <strong>7 are wrong</strong>, <strong>3 are correct</strong>, and <strong>a further 2 are correct but incomplete</strong> in a way that matters for a DMCC family office. Two verdicts have been corrected relative to an earlier answer: #4 (late VAT penalty AED 10,000, not AED 20,000 — the figure was reduced by Cabinet Decision No. 49 of 2021) and #8 (the cheque-bouncing statement is correct under Federal Decree-Law No. 14 of 2020 and Article 648(2) of Federal Decree-Law No. 50 of 2022).</div>
+
+<div class="chart-card" style="border:0.5pt solid #9fb2c4;padding:8px 10px;margin:0 0 10px 0;border-radius:2px;">
+  <div style="font-weight:700;font-size:10pt;color:#13344f;margin-bottom:4px;">Verdict summary — 12 statements across three categories</div>
+  <div style="font-size:8pt;color:#55677a;margin-bottom:6px;font-style:italic;">Verdicts match the verdict table below row by row. Statements marked "CORRECT but incomplete for DMCC" appear in the Incomplete bucket.</div>
+  <div style="height: 220px; max-width: 280px; margin: 0 auto; position: relative;">
+    <canvas id="task6VerdictDonut" aria-describedby="task6VerdictDonut-desc" role="img"></canvas>
+  </div>
+  <p id="task6VerdictDonut-desc" class="visually-hidden">Doughnut chart of 12 statement verdicts. Seven statements WRONG (statements two, three, four, six, seven, nine, twelve, each cited per the verdict table). Three statements CORRECT (statements one, eight, eleven). Two statements CORRECT but INCOMPLETE for DMCC (statements five and ten — the CT rate and the records-retention statement). Total twelve. Source: verdict table section one.</p>
+  <table class="visually-hidden" aria-label="Verdict breakdown">
+    <thead><tr><th>Verdict category</th><th>Statement numbers</th><th>Count</th></tr></thead>
+    <tbody>
+      <tr><td>WRONG (c-no)</td><td>2, 3, 4, 6, 7, 9, 12</td><td>7</td></tr>
+      <tr><td>CORRECT (c-ok, no annotation)</td><td>1, 8, 11</td><td>3</td></tr>
+      <tr><td>CORRECT but INCOMPLETE for DMCC (c-fix)</td><td>5, 10</td><td>2</td></tr>
+      <tr><td><strong>Total</strong></td><td>1 through 12</td><td><strong>12</strong></td></tr>
+    </tbody>
+  </table>
+</div>
 
 <h2>1 &mdash; Statement-by-statement verdict</h2>
 <table>
@@ -157,6 +183,45 @@ td { border: 0.5pt solid #bfcbd8; padding: 3px 5px; vertical-align: top; font-si
 <tr><td><a href="https://assets.u.ae/api/public/content/79793d384f884bccb59171817ba1e9d4?v=a51ac7b6">assets.u.ae Federal Decree-Law 50/2022</a></td><td>Full text of the Commercial Transactions Law, including Article 648(2) on partial payment and Article 667 on executive-instrument status</td></tr>
 </tbody>
 </table>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const animation = reduced ? false : { duration: 700 };
+
+  const ctx = document.getElementById('task6VerdictDonut').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['WRONG (7)', 'CORRECT (3)', 'CORRECT but INCOMPLETE for DMCC (2)'],
+      datasets: [{
+        data: [7, 3, 2],
+        backgroundColor: ['#dc2626', '#0f7b4f', '#f59e0b'],
+        borderColor: '#ffffff',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: animation,
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 9.5 } } },
+        tooltip: {
+          callbacks: {
+            label: (c) => {
+              const total = c.dataset.data.reduce((s, v) => s + v, 0);
+              return ` ${c.label}: ${c.raw}/${total} (${(c.raw / total * 100).toFixed(1)}%)`;
+            },
+            afterFooter: () => 'Source: verdict table section 1.'
+          }
+        }
+      },
+      cutout: '55%'
+    }
+  });
+});
+</script>
 
 </body>
 </html>
