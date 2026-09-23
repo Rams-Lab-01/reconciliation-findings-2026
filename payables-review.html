@@ -258,12 +258,12 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
 
 <!-- Chart: Released vs Prevented. Stacked bar with components. Totals below are the page-body figures. -->
 <div class="chart-card">
-  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:4px;">Released vs Prevented &mdash; components add to the two totals (six released components AED 74,905.00 per page body; four prevented components AED 91,838.38 per page body)</div>
+  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:4px;">Released vs Prevented &mdash; page-body totals (Released AED 74,905.00 line 420; Prevented AED 91,838.38 line 422). Component reconciliation below the chart.</div>
   <div style="font-size:8.5pt;color:#475569;margin-bottom:8px;">Left bar shows the six documents that should be released tonight. Right bar shows the four documents being withheld and their AED amounts.</div>
   <div style="height: 220px; position:relative;">
     <canvas id="task2Chart" aria-describedby="task2Chart-desc" role="img"></canvas>
   </div>
-  <p id="task2Chart-desc" class="visually-hidden">Stacked horizontal bar chart with two bars. Released bar shows six components: D1 Gulf Data forty-four thousand one hundred; D2 Desert Palm five thousand six hundred seventy; D3 CloudMetrics eleven thousand seventeen point five zero; D4 Al Noor three thousand three hundred seven point five zero; D5 Marina nine thousand six hundred sixty; D6 Horizon one thousand one hundred fifty; page-stated release total seventy-four thousand nine hundred five dirhams. Prevented bar shows four components: D7 Duplicate forty-four thousand one hundred; D8 Quotation thirty-three thousand six hundred; D10 Credit swing eight thousand eight hundred twenty; D9 Fraud six thousand eight hundred; page-stated prevented total ninety-one thousand eight hundred thirty-eight point three eight. Source: documents table in section one below.</p>
+  <p id="task2Chart-desc" class="visually-hidden">Stacked horizontal bar chart with two bars. Released bar shows six components: D1 Gulf Data forty-four thousand one hundred; D2 Desert Palm five thousand six hundred seventy; D3 CloudMetrics eleven thousand seventeen point five zero; D4 Al Noor three thousand three hundred seven point five zero; D5 Marina nine thousand six hundred sixty; D6 Horizon one thousand one hundred fifty; page-stated release total seventy-four thousand nine hundred five dirhams. Prevented bar shows four components: D7 Duplicate forty-four thousand one hundred; D8 Quotation thirty-three thousand six hundred; D10 Credit net (four thousand four hundred ten) applied against D4; D9 Diversion intercepted six thousand three hundred (per body KPI tile, the genuine invoice value not the demanded six thousand eight hundred); page-stated prevented total ninety-one thousand eight hundred thirty-eight point three eight. Bridge note below names the residual between component sum and stated figure. Source: documents table in section one below.</p>
   <table class="visually-hidden" aria-label="Released vs Prevented with components">
     <thead><tr><th>Document</th><th>Released or withheld</th><th>Component amount (AED)</th></tr></thead>
     <tbody>
@@ -273,14 +273,19 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
       <tr><td>D4 Al Noor Facilities (net of D10)</td><td>Released</td><td>3,307.50</td></tr>
       <tr><td>D5 Marina Yacht (corrected)</td><td>Released</td><td>9,660.00</td></tr>
       <tr><td>D6 Horizon Office (net)</td><td>Released</td><td>1,150.00</td></tr>
-      <tr><td><strong>Released total (six components)</strong></td><td></td><td><strong>74,905.00</strong></td></tr>
-      <tr><td>D7 Duplicate of D1</td><td>Prevented</td><td>44,100.00</td></tr>
-      <tr><td>D8 Quotation only</td><td>Prevented</td><td>33,600.00</td></tr>
-      <tr><td>D10 Credit offset swing (gross)</td><td>Prevented</td><td>8,820.00</td></tr>
-      <tr><td>D9 Fraudulent IBAN</td><td>Prevented</td><td>6,800.00</td></tr>
-      <tr><td><strong>Prevented total (page prose line 338)</strong></td><td></td><td><strong>91,838.38</strong></td></tr>
+      <tr><td><strong>Released total (six components per body)</strong></td><td></td><td><strong>74,905.00</strong></td></tr>
+      <tr><td>D7 Duplicate of D1</td><td>Prevented (full hold)</td><td>44,100.00</td></tr>
+      <tr><td>D8 Quotation only</td><td>Prevented (full hold)</td><td>33,600.00</td></tr>
+      <tr><td>D10 credit notional (nets D4 from gross 7,717.50 to released 3,307.50)</td><td>Prevented (D4 reduction)</td><td>4,410.00</td></tr>
+      <tr><td>D9 Diversion intercepted (per body KPI tile)</td><td>Prevented (interception)</td><td>6,300.00</td></tr>
+      <tr><td><strong>Four-hold subtotal (body-verbatim figures)</strong></td><td></td><td><strong>88,410.00</strong></td></tr>
+      <tr><td colspan="3"><em>VAT-corrected portions held back from the released six lines, body-verbatim: D3 VAT 550.88; D5 overclaim 10.00; D6 unsupported 57.50; subtotal 618.38.</em></td></tr>
+      <tr><td><strong>Per-document sum (math only, derivable)</strong></td><td></td><td><strong>89,028.38</strong></td></tr>
+      <tr><td colspan="3"><em>Page-body verbal prevented total AED 91,838.38 (line 422). Residual AED 2,810.00 between per-document sum and stated figure is not explained by the documents table and is flagged here for one further pass before this page is cited as a complete reconciliation.</em></td></tr>
+      <tr><td><strong>Page-body verbal prevented (line 422)</strong></td><td></td><td><strong>91,838.38</strong></td></tr>
     </tbody>
   </table>
+  <div class="chart-note" style="font-size:8.4pt;color:#1b2733;background:#fff8e1;border-left:3px solid #c9a227;padding:7px 10px;margin:6px 0 4px 0;line-height:1.5;"><strong>Bridge from components to page-body total.</strong> Four-hold decisions (D7 44,100 + D8 33,600 + D10 credit notional 4,410 + D9 interception 6,300) gross to <strong>88,410.00</strong>; the three VAT portions held back from the released six (D3 550.88 + D5 10.00 + D6 57.50) add <strong>618.38</strong>; per-document sum is <strong>89,028.38</strong>. The page-body verbal prevented total is <strong>AED 91,838.38</strong> (line 422, derived 166,743.38 clerk&rsquo;s run − 74,905.00 released). Residual <strong>AED 2,810.00</strong> between per-document sum and verbal figure is not explained by the documents table and is flagged here for one further pass before this page is cited as a complete reconciliation. Chart captions above cite only body-verbatim figures.</div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -301,8 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: 'D6 Horizon (net)', data: [1150, 0], backgroundColor: '#d1fae5', stack: 'total', borderRadius: 2 },
         { label: 'D7 Duplicate of D1', data: [0, 44100], backgroundColor: '#dc2626', stack: 'total', borderRadius: 2 },
         { label: 'D8 Quotation only', data: [0, 33600], backgroundColor: '#f87171', stack: 'total', borderRadius: 2 },
-        { label: 'D10 Credit swing (8,820.00)', data: [0, 8820], backgroundColor: '#f59e0b', stack: 'total', borderRadius: 2 },
-        { label: 'D9 Fraudulent IBAN', data: [0, 6800], backgroundColor: '#7c3aed', stack: 'total', borderRadius: 2 }
+        { label: 'D10 Credit net (4,410 to D4)', data: [0, 4410], backgroundColor: '#f59e0b', stack: 'total', borderRadius: 2 },
+        { label: 'D9 Diversion intercepted (per body KPI tile)', data: [0, 6300], backgroundColor: '#7c3aed', stack: 'total', borderRadius: 2 }
       ]
     },
     options: {
@@ -317,7 +322,9 @@ document.addEventListener('DOMContentLoaded', () => {
             label: (c) => ` ${c.dataset.label}: AED ${Number(c.raw).toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
             footer: (items) => {
               const sum = items.reduce((s, it) => s + (it.dataset.stack === 'total' ? it.raw : 0), 0);
-              return 'Stack total: AED ' + sum.toLocaleString('en-US', { minimumFractionDigits: 2 });
+              const isReleased = items[0].label.startsWith('Released');
+              const verbal = isReleased ? '74,905.00 (line 420)' : '91,838.38 (line 422)';
+              return 'Components in bar AED ' + sum.toLocaleString('en-US', { minimumFractionDigits: 2 }) + '. Page-body verbal ' + verbal + '. See bridge note below for prevented-bar residual.';
             }
           }
         }
