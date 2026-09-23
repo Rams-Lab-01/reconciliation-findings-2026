@@ -267,7 +267,14 @@ td {
 }
 @media print {
   .chart-card, .kpi-row { break-inside: avoid; }
+  .visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+  .chart-card .visually-hidden { display: block; }
+  canvas { max-height: 280px; }
 }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+.visually-hidden { position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; border: 0; padding: 0; margin: -1px; }
 </style>
 </head>
 <body>
@@ -329,23 +336,57 @@ td {
   </div>
 </div>
 
+<!-- Chart A: four reconciling items only. Signed bar; nets to AED 13,063.75 cashbook error. -->
 <div class="chart-card">
-  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:8px;">Visual Breakdown of Reconciling Items &amp; Early Cheque Exposure</div>
-  <div style="height: 180px; position:relative;">
-    <canvas id="task1Chart"></canvas>
+  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:4px;">Chart A &mdash; Reconciling items (signed, nets to AED 13,063.75 cashbook error)</div>
+  <div style="font-size:8.5pt;color:#475569;margin-bottom:8px;">Positive bars increase the cashbook, negative bars reduce it. All four figures appear verbatim in the findings table below.</div>
+  <div style="height: 200px; position:relative;">
+    <canvas id="task1ChartA" aria-describedby="task1ChartA-desc" role="img"></canvas>
   </div>
+  <p id="task1ChartA-desc" class="visually-hidden">Bar chart of four reconciling items, signed. Nimbus duplicate wire minus twelve thousand six hundred. FX remittance spread minus two hundred fifty. Bank service charges and VAT minus three hundred ninety-three point seven five. Horizon transposition plus one hundred eighty. Net minus thirteen thousand sixty-three point seven five. Anchor totals: Total cashbook error AED 13,063.75, equal to the absolute sum of the four signed values.</p>
+  <table class="visually-hidden" aria-label="Reconciling items, signed">
+    <thead><tr><th>Item</th><th>Signed amount (AED)</th><th>Cashbook effect</th></tr></thead>
+    <tbody>
+      <tr><td>Nimbus duplicate wire (PV 204)</td><td>-12,600.00</td><td>Reduce</td></tr>
+      <tr><td>Bank service charges and VAT (Charges)</td><td>-393.75</td><td>Reduce</td></tr>
+      <tr><td>FX remittance spread (RC 051)</td><td>-250.00</td><td>Reduce</td></tr>
+      <tr><td>Horizon transposition (PV 206)</td><td>+180.00</td><td>Increase</td></tr>
+      <tr><td><strong>Net cashbook error</strong></td><td><strong>-13,063.75</strong></td><td>Reduce</td></tr>
+    </tbody>
+  </table>
 </div>
+
+<!-- Chart B: CHQ 0470 timing exposure. SEPARATE because it is a zero-difference control item. -->
+<div class="chart-card">
+  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:4px;">Chart B &mdash; CHQ 0470 timing and control exposure</div>
+  <div style="font-size:8.5pt;color:#475569;margin-bottom:8px;">No cashbook difference &mdash; timing and control exposure only. Cheque dated 01 Sep 2026, cashbook 16 Aug, bank debit 19 Aug, thirteen days early.</div>
+  <div style="height: 120px; position:relative;">
+    <canvas id="task1ChartB" aria-describedby="task1ChartB-desc" role="img"></canvas>
+  </div>
+  <p id="task1ChartB-desc" class="visually-hidden">Single bar showing cheque 0470 timing exposure of ninety-three thousand seven hundred fifty dirhams. No cashbook difference. Timing control issue only.</p>
+  <table class="visually-hidden" aria-label="CHQ 0470 timing exposure">
+    <thead><tr><th>Reference</th><th>Amount (AED)</th><th>Cashbook effect</th></tr></thead>
+    <tbody>
+      <tr><td>CHQ 0470 timing exposure</td><td>93,750.00</td><td>None (zero difference, timing only)</td></tr>
+    </tbody>
+  </table>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const ctx = document.getElementById('task1Chart').getContext('2d');
-  new Chart(ctx, {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const animation = reduced ? false : { duration: 800 };
+
+  // Chart A - four reconciling items, signed
+  const ctxA = document.getElementById('task1ChartA').getContext('2d');
+  new Chart(ctxA, {
     type: 'bar',
     data: {
-      labels: ['Nimbus Duplicate Wire', 'Bank Service Charges & VAT', 'FX Remittance Spread', 'Horizon Transposition', 'CHQ 0470 (Early Clearing Risk)'],
+      labels: ['Nimbus Duplicate Wire', 'Bank Service Charges & VAT', 'FX Remittance Spread', 'Horizon Transposition'],
       datasets: [{
-        label: 'Amount (AED)',
-        data: [12600.00, 393.75, 250.00, 180.00, 93750.00],
-        backgroundColor: ['#2563eb', '#64748b', '#0891b2', '#f59e0b', '#dc2626'],
+        label: 'Signed effect on cashbook (AED)',
+        data: [-12600.00, -393.75, -250.00, 180.00],
+        backgroundColor: ['#dc2626', '#475569', '#0891b2', '#059669'],
         borderRadius: 3
       }]
     },
@@ -353,22 +394,64 @@ document.addEventListener('DOMContentLoaded', () => {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 800 },
+      animation: animation,
       plugins: {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (ctx) => ` Amount: AED ${ctx.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            label: (c) => {
+              const v = c.raw;
+              const sign = v < 0 ? '-' : '+';
+              const abs = Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2 });
+              return ` ${sign} AED ${abs} (${v < 0 ? 'reduces cashbook' : 'increases cashbook'})`;
+            },
+            afterBody: () => 'Net: AED -13,063.75 cashbook error'
           }
         }
       },
       scales: {
         x: {
-          ticks: { font: { family: 'ui-monospace, monospace', size: 9 }, callback: (v) => 'AED ' + v.toLocaleString() }
+          ticks: { font: { family: 'ui-monospace, monospace', size: 9 }, callback: (v) => (v < 0 ? '-' : '') + 'AED ' + Math.abs(v).toLocaleString() },
+          title: { display: true, text: 'Effect on AED cashbook (signed)', font: { size: 9, weight: 'normal' } }
         },
-        y: {
-          ticks: { font: { size: 9.5 } }
+        y: { ticks: { font: { size: 9.5 } } }
+      }
+    }
+  });
+
+  // Chart B - CHQ 0470 timing exposure only
+  const ctxB = document.getElementById('task1ChartB').getContext('2d');
+  new Chart(ctxB, {
+    type: 'bar',
+    data: {
+      labels: ['CHQ 0470 timing exposure'],
+      datasets: [{
+        label: 'AED (no cashbook difference)',
+        data: [93750.00],
+        backgroundColor: ['#b91c1c'],
+        borderRadius: 3
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: animation,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (c) => ` Amount: AED ${c.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+            afterLabel: () => 'Zero cashbook difference. Timing and control exposure only.'
+          }
         }
+      },
+      scales: {
+        x: {
+          ticks: { font: { family: 'ui-monospace, monospace', size: 9 }, callback: (v) => 'AED ' + v.toLocaleString() },
+          suggestedMax: 110000
+        },
+        y: { ticks: { font: { size: 9.5 } } }
       }
     }
   });
