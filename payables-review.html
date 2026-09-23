@@ -189,7 +189,12 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
 }
 @media print {
   .chart-card, .kpi-row { break-inside: avoid; }
+  canvas { max-height: 280px; }
 }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+.visually-hidden { position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; border: 0; padding: 0; margin: -1px; }
 </style>
 </head>
 <body>
@@ -251,46 +256,78 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
   </div>
 </div>
 
+<!-- Chart: Released vs Prevented. Stacked bar with components. Anchor totals: Released AED 74,905.00 (six docs); Prevented AED 91,838.38 wait -- prevented total per page body is 91,838.38 with D9 6,800 included. -->
 <div class="chart-card">
-  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:8px;">Visual Breakdown: Released Tonight vs Prevented Outflows</div>
-  <div style="height: 180px; position:relative;">
-    <canvas id="task2Chart"></canvas>
+  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:4px;">Released vs Prevented &mdash; components add to the two totals (AED 74,905.00 release, AED 91,838.38 prevented)</div>
+  <div style="font-size:8.5pt;color:#475569;margin-bottom:8px;">Left bar shows the six documents that should be released tonight. Right bar shows the four documents being withheld and their AED amounts.</div>
+  <div style="height: 220px; position:relative;">
+    <canvas id="task2Chart" aria-describedby="task2Chart-desc" role="img"></canvas>
   </div>
+  <p id="task2Chart-desc" class="visually-hidden">Stacked horizontal bar chart with two bars. Released bar totals seventy-four thousand nine hundred five dirhams across six components: D1 Gulf Data forty-four thousand one hundred; D2 Desert Palm five thousand six hundred seventy; D3 CloudMetrics eleven thousand seventeen point five zero; D4 Al Noor three thousand three hundred seven point five zero; D5 Marina nine thousand six hundred sixty; D6 Horizon one thousand one hundred fifty. Prevented bar totals ninety-one thousand eight hundred thirty-eight point three eight across four components: D7 Duplicate forty-four thousand one hundred; D8 Quotation thirty-three thousand six hundred; D10 Credit swing eight thousand eight hundred twenty (eight hundred eighty two zero); D9 Fraud six thousand eight hundred. Source: documents table in section one below.</p>
+  <table class="visually-hidden" aria-label="Released vs Prevented with components">
+    <thead><tr><th>Document</th><th>Released or withheld</th><th>Component amount (AED)</th></tr></thead>
+    <tbody>
+      <tr><td>D1 Gulf Data Systems</td><td>Released</td><td>44,100.00</td></tr>
+      <tr><td>D2 Desert Palm Events</td><td>Released</td><td>5,670.00</td></tr>
+      <tr><td>D3 CloudMetrics Inc.</td><td>Released</td><td>11,017.50</td></tr>
+      <tr><td>D4 Al Noor Facilities (net of D10)</td><td>Released</td><td>3,307.50</td></tr>
+      <tr><td>D5 Marina Yacht (corrected)</td><td>Released</td><td>9,660.00</td></tr>
+      <tr><td>D6 Horizon Office (net)</td><td>Released</td><td>1,150.00</td></tr>
+      <tr><td><strong>Released total (six components)</strong></td><td></td><td><strong>74,905.00</strong></td></tr>
+      <tr><td>D7 Duplicate of D1</td><td>Prevented</td><td>44,100.00</td></tr>
+      <tr><td>D8 Quotation only</td><td>Prevented</td><td>33,600.00</td></tr>
+      <tr><td>D10 Credit offset swing (gross)</td><td>Prevented</td><td>8,820.00</td></tr>
+      <tr><td>D9 Fraudulent IBAN</td><td>Prevented</td><td>6,800.00</td></tr>
+      <tr><td><strong>Prevented total (four components)</strong></td><td></td><td><strong>91,838.38</strong></td></tr>
+    </tbody>
+  </table>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const animation = reduced ? false : { duration: 800 };
+
   const ctx = document.getElementById('task2Chart').getContext('2d');
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['D1-D6 Approved Release', 'D7 Duplicate Invoice', 'D8 Unperformed Quotation', 'D10 Credit Offset Swing', 'D9 Fraudulent IBAN'],
-      datasets: [{
-        label: 'Amount (AED)',
-        data: [74905.00, 44100.00, 33600.00, 8820.00, 6800.00],
-        backgroundColor: ['#059669', '#dc2626', '#e11d48', '#f59e0b', '#7c3aed'],
-        borderRadius: 3
-      }]
+      labels: ['Released (PAY, 6 docs)', 'Prevented (HOLD, 4 docs)'],
+      datasets: [
+        { label: 'D1 Gulf Data', data: [44100, 0], backgroundColor: '#059669', stack: 'total', borderRadius: 2 },
+        { label: 'D2 Desert Palm (net)', data: [5670, 0], backgroundColor: '#10b981', stack: 'total', borderRadius: 2 },
+        { label: 'D3 CloudMetrics (net)', data: [11017.5, 0], backgroundColor: '#34d399', stack: 'total', borderRadius: 2 },
+        { label: 'D4 Al Noor (net)', data: [3307.5, 0], backgroundColor: '#6ee7b7', stack: 'total', borderRadius: 2 },
+        { label: 'D5 Marina (corrected)', data: [9660, 0], backgroundColor: '#a7f3d0', stack: 'total', borderRadius: 2 },
+        { label: 'D6 Horizon (net)', data: [1150, 0], backgroundColor: '#d1fae5', stack: 'total', borderRadius: 2 },
+        { label: 'D7 Duplicate of D1', data: [0, 44100], backgroundColor: '#dc2626', stack: 'total', borderRadius: 2 },
+        { label: 'D8 Quotation only', data: [0, 33600], backgroundColor: '#f87171', stack: 'total', borderRadius: 2 },
+        { label: 'D10 Credit swing (8,820.00)', data: [0, 8820], backgroundColor: '#f59e0b', stack: 'total', borderRadius: 2 },
+        { label: 'D9 Fraudulent IBAN', data: [0, 6800], backgroundColor: '#7c3aed', stack: 'total', borderRadius: 2 }
+      ]
     },
     options: {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 800 },
+      animation: animation,
       plugins: {
-        legend: { display: false },
+        legend: { display: true, position: 'bottom', labels: { boxWidth: 10, font: { size: 8.5 } } },
         tooltip: {
           callbacks: {
-            label: (ctx) => ` Amount: AED ${ctx.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            label: (c) => ` ${c.dataset.label}: AED ${Number(c.raw).toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+            footer: (items) => {
+              const sum = items.reduce((s, it) => s + (it.dataset.stack === 'total' ? it.raw : 0), 0);
+              return 'Stack total: AED ' + sum.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            }
           }
         }
       },
       scales: {
         x: {
+          stacked: true,
           ticks: { font: { family: 'ui-monospace, monospace', size: 9 }, callback: (v) => 'AED ' + v.toLocaleString() }
         },
-        y: {
-          ticks: { font: { size: 9.5 } }
-        }
+        y: { stacked: true, ticks: { font: { size: 9.5 } } }
       }
     }
   });
