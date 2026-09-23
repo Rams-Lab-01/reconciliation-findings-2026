@@ -184,7 +184,12 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
 }
 @media print {
   .chart-card, .kpi-row { break-inside: avoid; }
+  canvas { max-height: 280px; }
 }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+.visually-hidden { position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; border: 0; padding: 0; margin: -1px; }
 </style>
 </head>
 <body>
@@ -246,22 +251,42 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
   </div>
 </div>
 
+<!-- Chart: Three-series line. With-funding path, no-funding path, buffer floor. X-axis dates corrected to body-verbatim values. -->
 <div class="chart-card">
-  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:8px;">Visual Cash Trajectory: November Daily Balance vs AED 25,000 Minimum Buffer</div>
-  <div style="height: 200px; position:relative;">
-    <canvas id="task3Chart"></canvas>
+  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:4px;">November daily balance &mdash; three scenarios</div>
+  <div style="font-size:8.5pt;color:#475569;margin-bottom:8px;">Blue line: single USD 75,000 draw on Wed 4 Nov, funds in Fri 6, closes at AED 27,487.50. Red line: no funding, breaches buffer Mon 9 and overdrawn Wed 18. Dashed floor: AED 25,000 house buffer policy.</div>
+  <div style="height: 240px; position:relative;">
+    <canvas id="task3Chart" aria-describedby="task3Chart-desc" role="img"></canvas>
   </div>
+  <p id="task3Chart-desc" class="visually-hidden">Three-series line chart. X-axis: Mon 2 Open, Fri 6 Inflow, Mon 9 Rent, Tue 17 Util, Wed 18 Fit-out, Fri 20 Data, Mon 23 Ins, Wed 25 WPS, Mon 30 Close. Series 1 Single-Draw Plan: 115,000 opening, 390,437.50 inflow, 296,687.50 after rent, 288,287.50 after util, 243,287.50 after fit-out, 199,187.50 after data, 182,387.50 after ins, 49,887.50 after WPS, 27,487.50 closing. Series 2 No Funding: 115,000, 115,000 (no inflow), 21,250, 12,850, minus 32,150, minus 76,250, minus 93,050, minus 225,550, minus 247,950. Series 3 Buffer Floor: constant 25,000. Source: with-funding and no-funding running-balance tables in sections 2 and 3.</p>
+  <table class="visually-hidden" aria-label="November daily balance, three scenarios">
+    <thead><tr><th>Date (per body)</th><th>Single-Draw Plan balance (AED)</th><th>No Funding balance (AED)</th><th>Buffer floor (AED)</th></tr></thead>
+    <tbody>
+      <tr><td>Mon 2 Open</td><td>115,000.00</td><td>115,000.00</td><td>25,000.00</td></tr>
+      <tr><td>Fri 6 Inflow</td><td>390,437.50</td><td>115,000.00</td><td>25,000.00</td></tr>
+      <tr><td>Mon 9 Rent</td><td>296,687.50</td><td>21,250.00</td><td>25,000.00</td></tr>
+      <tr><td>Tue 17 Util</td><td>288,287.50</td><td>12,850.00</td><td>25,000.00</td></tr>
+      <tr><td>Wed 18 Fit-out</td><td>243,287.50</td><td>(32,150.00)</td><td>25,000.00</td></tr>
+      <tr><td>Fri 20 Data</td><td>199,187.50</td><td>(76,250.00)</td><td>25,000.00</td></tr>
+      <tr><td>Mon 23 Ins</td><td>182,387.50</td><td>(93,050.00)</td><td>25,000.00</td></tr>
+      <tr><td>Wed 25 WPS</td><td>49,887.50</td><td>(225,550.00)</td><td>25,000.00</td></tr>
+      <tr><td>Mon 30 Close</td><td>27,487.50</td><td>(247,950.00)</td><td>25,000.00</td></tr>
+    </tbody>
+  </table>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const animation = reduced ? false : { duration: 800 };
+
   const ctx = document.getElementById('task3Chart').getContext('2d');
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ['Mon 2 (Open)', 'Fri 6 (Inflow)', 'Mon 9 (Rent)', 'Wed 11 (Util)', 'Mon 16 (Fit-out)', 'Thu 19 (Data)', 'Tue 24 (Ins)', 'Thu 26 (WPS)', 'Mon 30 (Close)'],
+      labels: ['Mon 2 (Open)', 'Fri 6 (Inflow)', 'Mon 9 (Rent)', 'Tue 17 (Util)', 'Wed 18 (Fit-out)', 'Fri 20 (Data)', 'Mon 23 (Ins)', 'Wed 25 (WPS)', 'Mon 30 (Close)'],
       datasets: [
         {
-          label: 'Single-Draw Plan (Wed 4 Call)',
+          label: 'Single-Draw Plan (USD 75k on Wed 4)',
           data: [115000.00, 390437.50, 296687.50, 288287.50, 243287.50, 199187.50, 182387.50, 49887.50, 27487.50],
           borderColor: '#1d4ed8',
           backgroundColor: 'rgba(29, 78, 216, 0.08)',
@@ -271,9 +296,19 @@ document.addEventListener('DOMContentLoaded', () => {
           pointRadius: 4
         },
         {
-          label: 'House Buffer Policy Floor',
-          data: [25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000],
+          label: 'No Funding (buffer breach Mon 9; overdrawn Wed 18)',
+          data: [115000, 115000, 21250, 12850, -32150, -76250, -93050, -225550, -247950],
           borderColor: '#dc2626',
+          backgroundColor: 'rgba(220, 38, 38, 0.08)',
+          fill: true,
+          tension: 0.2,
+          borderWidth: 2.5,
+          pointRadius: 4
+        },
+        {
+          label: 'House Buffer Policy Floor (AED 25,000)',
+          data: [25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000],
+          borderColor: '#7c3aed',
           borderDash: [5, 5],
           borderWidth: 2,
           pointRadius: 0,
@@ -284,21 +319,24 @@ document.addEventListener('DOMContentLoaded', () => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 800 },
+      animation: animation,
       plugins: {
         legend: { position: 'top', labels: { boxWidth: 12, font: { size: 9.5 } } },
         tooltip: {
           callbacks: {
-            label: (ctx) => ` ${ctx.dataset.label}: AED ${ctx.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            label: (c) => ` ${c.dataset.label}: AED ${c.raw.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+            afterFooter: () => 'Dates are body-verbatim, not assumed.'
           }
         }
       },
       scales: {
         x: {
-          ticks: { font: { size: 9 } }
+          ticks: { font: { size: 9 } },
+          title: { display: true, text: 'Dates per body running-balance tables', font: { size: 9, weight: 'normal' } }
         },
         y: {
-          ticks: { font: { family: 'ui-monospace, monospace', size: 9 }, callback: (v) => 'AED ' + (v / 1000).toFixed(0) + 'k' }
+          ticks: { font: { family: 'ui-monospace, monospace', size: 9 }, callback: (v) => 'AED ' + (v / 1000).toFixed(0) + 'k' },
+          title: { display: true, text: 'Closing balance (AED)', font: { size: 9, weight: 'normal' } }
         }
       }
     }
