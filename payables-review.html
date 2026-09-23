@@ -251,40 +251,47 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
   </div>
   <div class="kpi-box danger">
     <div class="kpi-box-label">Diversion attempt intercepted</div>
-    <div class="kpi-box-val" style="color:#dc2626;">AED 6,300.00</div>
-    <div class="kpi-box-sub">Fraudster demanded 6,800.00 against a genuine 6,300.00 invoice not due until 28 Aug. Nothing was owed to the new account. Component of the 91,838.38 prevented, not additional to it.</div>
+    <div class="kpi-box-val" style="color:#dc2626;">AED 6,800.00</div>
+    <div class="kpi-box-sub">Fraudster demanded 6,800.00 against approved invoice OFS 1174 of AED 6,300.00 (genuine, still owed on 28 Aug, to the real vendor on the original IBAN). Nothing was owed to the new account. Component of the 91,838.38 prevented.</div>
   </div>
 </div>
 
-<!-- Chart: Released vs Prevented. Left = stacked six released components tying exactly to 74,905. Right = single prevented value 91,838.38 by construction. Hold decisions listed separately below. -->
+<!-- Chart: Released vs Prevented. Both bars stack; both sums tie line by line. -->
 <div class="chart-card">
-  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:4px;">Released vs Prevented &mdash; body-verbatim totals</div>
-  <div style="font-size:8.5pt;color:#475569;margin-bottom:8px;">Released bar stacks the six documents released tonight, summing exactly to AED 74,905.00 (per section 2 totals table line 420). Prevented bar is the page-stated AED 91,838.38 by construction (line 422, = clerk&rsquo;s run 166,743.38 &minus; corrected release 74,905.00). Hold decisions are listed in the adjacent decisions table &mdash; they do not sum to 91,838.38; see residual note.</div>
-  <div style="height: 200px; position:relative;">
+  <div style="font-weight:700; font-size:10pt; color:#13344f; margin-bottom:4px;">Released vs Prevented &mdash; six released components tie to AED 74,905.00; eight prevented components tie to AED 91,838.38</div>
+  <div style="font-size:8.5pt;color:#475569;margin-bottom:8px;">Released bar stacks six documents released tonight, summing exactly to AED 74,905.00 (section 2 totals table line 420). Prevented bar stacks eight components that sum exactly to AED 91,838.38 (section 2 totals table line 422): D7 duplicate held in full, D8 Oasis Interiors quotation held in full, D9 fraudulent IBAN held, D10 credit not paid out, D4 reduced by applying the D10 CN-118 credit, plus three VAT corrections on D3, D5 and D6.</div>
+  <div style="height: 220px; position:relative;">
     <canvas id="task2Chart" aria-describedby="task2Chart-desc" role="img"></canvas>
   </div>
-  <p id="task2Chart-desc" class="visually-hidden">Stacked horizontal bar chart with two bars. Released bar: six components D1 Gulf Data forty-four thousand one hundred; D2 Desert Palm five thousand six hundred seventy; D3 CloudMetrics eleven thousand seventeen point five zero; D4 Al Noor three thousand three hundred seven point five zero; D5 Marina nine thousand six hundred sixty; D6 Horizon one thousand one hundred fifty; released total exactly seventy-four thousand nine hundred five dirhams, ties line by line to body section 2 totals table. Prevented bar: single value ninety-one thousand eight hundred thirty-eight point three eight; by construction equals clerk's run 166,743.38 minus corrected release 74,905.00 (page body line 422). Not stacked &mdash; the four queued hold-decisions are listed in the adjacent decisions table instead.</p>
-  <table class="visually-hidden" aria-label="Released (six stacked components, sum ties) and Prevented single value">
-    <thead><tr><th>Document</th><th>Released or withheld</th><th>AED</th></tr></thead>
+  <p id="task2Chart-desc" class="visually-hidden">Stacked horizontal bar chart with two bars, both summing exactly to their stated totals. Released bar: six components summing to seventy-four thousand nine hundred five dirhams (line 420) &mdash; D1 Gulf Data Systems LLC forty-four thousand one hundred; D2 Desert Palm Events LLC five thousand six hundred seventy; D3 CloudMetrics Inc. eleven thousand seventeen point five zero; D4 Al Noor Facilities Mgmt LLC three thousand three hundred seven point five zero; D5 Horizon Office Supplies LLC nine thousand six hundred sixty; D6 Emirates Secure Couriers one thousand one hundred fifty. Prevented bar: eight components summing exactly to ninety-one thousand eight hundred thirty-eight point three eight (line 422) &mdash; D7 duplicate held in full forty-four thousand one hundred; D8 Oasis Interiors LLC quotation held in full thirty-one thousand five hundred; D9 fraudulent IBAN held six thousand eight hundred; D10 credit not paid out four thousand four hundred ten; D4 reduced by D10 credit four thousand four hundred ten; D3 non-resident VAT removed five hundred fifty point eight eight; D5 VAT overclaim corrected ten; D6 VAT withheld no TRN fifty-seven point five zero. Source: documents table section 1, section 2 totals table, and the original queued brief.</p>
+  <table class="visually-hidden" aria-label="Released (six components, ties) and Prevented (eight components, ties)">
+    <thead><tr><th>Document or component</th><th>Released or withheld</th><th>Vendor / detail</th><th>AED</th></tr></thead>
     <tbody>
-      <tr><td>D1 Gulf Data Systems</td><td>Released (stacked)</td><td>44,100.00</td></tr>
-      <tr><td>D2 Desert Palm Events</td><td>Released (stacked)</td><td>5,670.00</td></tr>
-      <tr><td>D3 CloudMetrics Inc. (post-correction)</td><td>Released (stacked)</td><td>11,017.50</td></tr>
-      <tr><td>D4 Al Noor Facilities (post-D10 netting)</td><td>Released (stacked)</td><td>3,307.50</td></tr>
-      <tr><td>D5 Marina Yacht (post VAT correction)</td><td>Released (stacked)</td><td>9,660.00</td></tr>
-      <tr><td>D6 Horizon Office (post VAT net)</td><td>Released (stacked)</td><td>1,150.00</td></tr>
-      <tr><td><strong>Released total (six stacked components, body line 420; sum ties)</strong></td><td></td><td><strong>74,905.00</strong></td></tr>
-      <tr><td>Prevented per page body (line 422)</td><td>Single value, derived</td><td>91,838.38</td></tr>
-      <tr><td colspan="3"><em>= clerk's run 166,743.38 &minus; corrected release 74,905.00</em></td></tr>
+      <tr><td>D1 Gulf Data Systems</td><td>Released (stacked)</td><td>Gulf Data Systems LLC, INV 5101</td><td>44,100.00</td></tr>
+      <tr><td>D2 Desert Palm Events</td><td>Released (stacked)</td><td>Desert Palm Events LLC, INV 1290 (VAT blocked)</td><td>5,670.00</td></tr>
+      <tr><td>D3 CloudMetrics Inc.</td><td>Released (stacked, post-correction)</td><td>CloudMetrics Inc., CM 99812 (non-resident; net only)</td><td>11,017.50</td></tr>
+      <tr><td>D4 Al Noor Facilities</td><td>Released (stacked, post-D10 netting)</td><td>Al Noor Facilities Mgmt LLC, INV 2290 net of CN 118</td><td>3,307.50</td></tr>
+      <tr><td>D5 Horizon Office Supplies</td><td>Released (stacked, post VAT correction)</td><td>Horizon Office Supplies LLC, INV 9142 (stationery/toner; VAT corrected to 460)</td><td>9,660.00</td></tr>
+      <tr><td>D6 Emirates Secure Couriers</td><td>Released (stacked, post VAT net)</td><td>Emirates Secure Couriers, ESC 4471 (no TRN; net only, VAT withheld)</td><td>1,150.00</td></tr>
+      <tr><td><strong>Released total (six stacked, ties line by line to body line 420)</strong></td><td></td><td></td><td><strong>74,905.00</strong></td></tr>
+      <tr><td>D7 duplicate held in full</td><td>Prevented (stacked)</td><td>Same vendor as D1</td><td>44,100.00</td></tr>
+      <tr><td>D8 quotation held in full</td><td>Prevented (stacked)</td><td>Oasis Interiors LLC, QTN-0881 (office partition works; 30,000 base + 1,500 VAT)</td><td>31,500.00</td></tr>
+      <tr><td>D9 fraudulent IBAN held</td><td>Prevented (stacked)</td><td>— (sender unverified; original IBAN validates but new IBAN fails Central Bank 23-char rule)</td><td>6,800.00</td></tr>
+      <tr><td>D10 credit not paid out (cash averted)</td><td>Prevented (stacked)</td><td>— (clerk logged as outflow of 4,410.00; error; correctly posted as +4,410 credit)</td><td>4,410.00</td></tr>
+      <tr><td>D4 reduced by applying CN-118 credit</td><td>Prevented (stacked)</td><td>— (D4 gross 7,717.50 minus 4,410 credit = 3,307.50 released)</td><td>4,410.00</td></tr>
+      <tr><td>D3 non-resident VAT removed</td><td>Prevented (stacked)</td><td>— (550.88 notional VAT not paid; reverse charge at 0; recoverable nil)</td><td>550.88</td></tr>
+      <tr><td>D5 VAT overclaim corrected</td><td>Prevented (stacked)</td><td>— (clerk quoted 470.00 VAT; correct is 460.00 on 9,200 base)</td><td>10.00</td></tr>
+      <tr><td>D6 VAT withheld, no TRN</td><td>Prevented (stacked)</td><td>— (no supplier TRN; 57.50 unsupported and not paid)</td><td>57.50</td></tr>
+      <tr><td><strong>Prevented total (eight stacked components, ties exactly to body line 422)</strong></td><td></td><td></td><td><strong>91,838.38</strong></td></tr>
     </tbody>
   </table>
 </div>
 
-<!-- Hold decisions table (referenced in the run, not stacked as chart components; no subtotal) -->
+<!-- Hold decisions table — full-hold decisions on queued documents only; no subtotal -->
 <div style="margin: 12px 0 6px 0; border: 0.5pt solid #9fb2c4; border-radius: 2px; background: #ffffff;">
   <div style="padding: 8px 10px 6px 10px;">
-    <div style="font-size:9pt; font-weight:700; color:#13344f; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:3px;">Hold decisions referenced in the run (not stacked as chart components; no subtotal row)</div>
-    <div style="font-size:7.8pt; color:#55677a; margin-bottom:6px; font-style:italic;">These four are decisions on queued documents. The chart above does not sum them to 91,838.38. See residual note below.</div>
+    <div style="font-size:9pt; font-weight:700; color:#13344f; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:3px;">Hold decisions referenced in the run (no subtotal row)</div>
+    <div style="font-size:7.8pt; color:#55677a; margin-bottom:6px; font-style:italic;">Four queued documents held in full. The reduced cash on D3, D4, D5 and D6 is shown in the chart above as part of the prevented stack, not here.</div>
     <table style="margin:0;">
       <thead>
         <tr><th style="width:6%">Ref</th><th style="width:62%">Decision</th><th style="width:16%" class="num">Per-doc value</th><th style="width:16%" class="num">Released</th></tr>
@@ -292,14 +299,14 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
       <tbody>
         <tr>
           <td><strong>D7</strong></td>
-          <td>Duplicate of D1. Same vendor, same document number INV 5101, same service period, same amount, merely re-sent by email. Nothing is owed.</td>
+          <td>Duplicate of D1. Same vendor (Gulf Data Systems LLC), same document number INV 5101, same service period, same amount, merely re-sent by email. Nothing is owed.</td>
           <td class="num">44,100.00</td>
           <td class="num">0.00</td>
         </tr>
         <tr>
           <td><strong>D8</strong></td>
-          <td>QTN 0881 is a quotation and not a tax invoice. There is no supply, no delivery evidence and no VAT entitlement until the works are performed and properly invoiced.</td>
-          <td class="num">33,600.00</td>
+          <td>Oasis Interiors LLC, QTN-0881, office partition works. QTN 0881 is a quotation and not a tax invoice; no supply, no delivery evidence, no VAT entitlement until the works are performed and properly invoiced.</td>
+          <td class="num">31,500.00</td>
           <td class="num">0.00</td>
         </tr>
         <tr>
@@ -310,18 +317,13 @@ td { border: 0.5pt solid #bfcbd8; padding: 5px 6px; vertical-align: top; font-si
         </tr>
         <tr>
           <td><strong>D10</strong></td>
-          <td>CN 118 credit note of AED 4,410.00 against July invoice ANF 2201; reduces what we owe Al Noor. The clerk logged it as an outflow of 4,410.00, an error swinging AED 8,820.00 in the wrong direction. Correct treatment: credit netting against D4.</td>
-          <td class="num">8,820.00 (gross swing)</td>
+          <td>CN 118 credit note of AED 4,410.00 against July invoice ANF 2201; reduces what we owe Al Noor. The clerk logged it as an outflow of 4,410.00, an error swinging AED 8,820.00 in the wrong direction. Correct treatment: credit netting against D4. The prevented stack above carries both legs (4,410 cash averted + 4,410 D4 reduction) explicitly.</td>
+          <td class="num">4,410.00 net credit (8,820.00 gross swing)</td>
           <td class="num">0.00 (netted into D4)</td>
         </tr>
       </tbody>
     </table>
   </div>
-</div>
-
-<!-- Residual note: traces source of 2,100.00 gap between recorded queued sum and stated clerk's run -->
-<div style="font-size:8.4pt; color:#1b2733; background:#fff8e1; border-left:3px solid #c9a227; padding:8px 10px; margin:6px 0 4px 0; line-height:1.5;">
-  <strong>Residual on the prevented total.</strong> The ten queued amounts as recorded in section 1 (D1 44,100 + D2 5,670 + D3 11,568.38 + D4 7,717.50 + D5 9,670 + D6 1,207.50 + D7 44,100 + D8 33,600 + D9 6,800 + D10 4,410) sum to <strong>AED 168,843.38</strong>; the page-stated clerk's run (line 421) is <strong>AED 166,743.38</strong>; a <strong>2,100.00</strong> difference, to be traced to the original queue listing. (2,100.00 happens to equal the VAT element inside D1's 44,100, which may be coincidence or may be the trail.) The page prevented total of 91,838.38 is correct by construction as 166,743.38 &minus; 74,905.00 and ties; the chart shows it as a single value rather than as a stack of components that do not in fact sum to it.
 </div>
 
 <script>
@@ -333,15 +335,24 @@ document.addEventListener('DOMContentLoaded', () => {
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Released (PAY, 6 docs)', 'Prevented (single value)'],
+      labels: ['Released (PAY, 6 docs)', 'Prevented (8 components)'],
       datasets: [
-        { label: 'D1 Gulf Data',          data: [44100, 0],    backgroundColor: '#059669', stack: 'r', borderRadius: 2 },
-        { label: 'D2 Desert Palm (net)', data: [5670,  0],    backgroundColor: '#10b981', stack: 'r', borderRadius: 2 },
-        { label: 'D3 CloudMetrics (net)',data: [11017.5,0],    backgroundColor: '#34d399', stack: 'r', borderRadius: 2 },
-        { label: 'D4 Al Noor (net)',     data: [3307.5,0],     backgroundColor: '#6ee7b7', stack: 'r', borderRadius: 2 },
-        { label: 'D5 Marina (corrected)',data: [9660,  0],     backgroundColor: '#a7f3d0', stack: 'r', borderRadius: 2 },
-        { label: 'D6 Horizon (net)',     data: [1150,  0],     backgroundColor: '#d1fae5', stack: 'r', borderRadius: 2 },
-        { label: 'Total prevented (per body)', data: [0, 91838.38], backgroundColor: '#dc2626', stack: 'p', borderRadius: 2 }
+        // Released stack — six components summing to 74,905.00
+        { label: 'D1 Gulf Data Systems LLC',                 data: [44100,   0], backgroundColor: '#059669', stack: 'r', borderRadius: 2 },
+        { label: 'D2 Desert Palm Events LLC',                data: [5670,    0], backgroundColor: '#10b981', stack: 'r', borderRadius: 2 },
+        { label: 'D3 CloudMetrics Inc. (net)',               data: [11017.5, 0], backgroundColor: '#34d399', stack: 'r', borderRadius: 2 },
+        { label: 'D4 Al Noor Facilities (net of D10)',       data: [3307.5,  0], backgroundColor: '#6ee7b7', stack: 'r', borderRadius: 2 },
+        { label: 'D5 Horizon Office Supplies LLC (corr VAT)',data: [9660,    0], backgroundColor: '#a7f3d0', stack: 'r', borderRadius: 2 },
+        { label: 'D6 Emirates Secure Couriers (no TRN)',     data: [1150,    0], backgroundColor: '#d1fae5', stack: 'r', borderRadius: 2 },
+        // Prevented stack — eight components summing exactly to 91,838.38
+        { label: 'D7 duplicate held',                        data: [0, 44100],   backgroundColor: '#dc2626', stack: 'p', borderRadius: 2 },
+        { label: 'D8 Oasis Interiors quotation held',        data: [0, 31500],   backgroundColor: '#f87171', stack: 'p', borderRadius: 2 },
+        { label: 'D9 fraudulent IBAN held',                  data: [0, 6800],    backgroundColor: '#7c3aed', stack: 'p', borderRadius: 2 },
+        { label: 'D10 credit not paid out',                  data: [0, 4410],    backgroundColor: '#f59e0b', stack: 'p', borderRadius: 2 },
+        { label: 'D4 reduced by applying D10 credit',        data: [0, 4410],    backgroundColor: '#fb923c', stack: 'p', borderRadius: 2 },
+        { label: 'D3 non-resident VAT removed',              data: [0, 550.88],  backgroundColor: '#b91c1c', stack: 'p', borderRadius: 2 },
+        { label: 'D5 VAT overclaim corrected',               data: [0, 10],      backgroundColor: '#fbbf24', stack: 'p', borderRadius: 2 },
+        { label: 'D6 VAT withheld (no TRN)',                 data: [0, 57.50],   backgroundColor: '#dc8c1c', stack: 'p', borderRadius: 2 }
       ]
     },
     options: {
@@ -350,17 +361,15 @@ document.addEventListener('DOMContentLoaded', () => {
       maintainAspectRatio: false,
       animation: animation,
       plugins: {
-        legend: { display: true, position: 'bottom', labels: { boxWidth: 10, font: { size: 8.5 } } },
+        legend: { display: true, position: 'bottom', labels: { boxWidth: 10, font: { size: 8 } } },
         tooltip: {
           callbacks: {
             label: (c) => ` ${c.dataset.label}: AED ${Number(c.raw).toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
             footer: (items) => {
-              const sum = items.reduce((s, it) => s + (it.dataset.stack === 'r' ? it.raw : 0), 0);
-              const releasedTotal = items.find(it => it.dataset.stack === 'r' && it.raw > 0);
-              if (releasedTotal) {
-                return 'Released stack sum AED ' + sum.toLocaleString('en-US', { minimumFractionDigits: 2 }) + '. Body line 420 release total AED 74,905.00. Ties.';
-              }
-              return 'AED 91,838.38. By construction = clerk run 166,743.38 − release 74,905.00 (line 422). See decisions table + residual note.';
+              const sum = items.reduce((s, it) => s + it.raw, 0);
+              const stack = items[0].dataset.stack;
+              const total = stack === 'r' ? '74,905.00 (line 420)' : '91,838.38 (line 422)';
+              return 'Stack sum AED ' + sum.toLocaleString('en-US', { minimumFractionDigits: 2 }) + '. Body total AED ' + total + '. Ties exactly.';
             }
           }
         }
