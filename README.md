@@ -32,7 +32,7 @@ in the relevant table.
 | 2 | Task 2 · Payables review | Document-by-document decisions on a queued payables run, with the four hold decisions and three VAT corrections itemised | [payables-review.html](https://rams-lab-01.github.io/reconciliation-findings-2026/payables-review.html) |
 | 3 | Task 3 · Funding plan | November cash-trajectory under three scenarios: with USD 75k draw on Wed 4, with no funding at all, and against the AED 25k buffer floor | [funding-plan-november-2026.html](https://rams-lab-01.github.io/reconciliation-findings-2026/funding-plan-november-2026.html) |
 | 4 | Task 4 · Spend review | Three-month FinOps executive dashboard with 14 spend categories, anomaly register, and one-line KPI tiles | [spend-review.html](https://rams-lab-01.github.io/reconciliation-findings-2026/spend-review.html) |
-| 5 | Task 5 · Automation design | Self-hosted n8n pipeline scoping, with a process flowchart and four-scope gating matrix | [task-5-automation-design.html](https://rams-lab-01.github.io/reconciliation-findings-2026/task-5-automation-design.html) |
+| 5 | Task 5 · Automation design | Monthly-close automation on Make.com, Claude, Google Workspace and Todoist: an 8-step pipeline with 3 human gates, failure modes, data-security posture and the verbatim first prompt | [task-5-automation-design.html](https://rams-lab-01.github.io/reconciliation-findings-2026/task-5-automation-design.html) |
 | 6 | Task 6 · Rules verification | Twelve-statement verdict on an AI-generated briefing memo, source-by-source | [task-6-finance-rules-check.html](https://rams-lab-01.github.io/reconciliation-findings-2026/task-6-finance-rules-check.html) |
 | 7 | Task 6 · Audit response | Independent audit of the Task 6 verdict sheet against the criteria of the page that produced it | [task-6-audit-response.html](https://rams-lab-01.github.io/reconciliation-findings-2026/task-6-audit-response.html) |
 
@@ -53,7 +53,7 @@ For a quick read in roughly fifteen minutes:
 3. `payables-review.html` — applies the same method to a release-or-hold decision
 4. `funding-plan-november-2026.html` — three-trajectory scenario modelling
 5. `spend-review.html` — the dashboard, all fourteen categories in one place
-6. `task-5-automation-design.html` — the self-hosted n8n scoping
+6. `task-5-automation-design.html` — the Make.com monthly-close pipeline (8 steps, 3 human gates)
 7. `task-6-finance-rules-check.html` and `task-6-audit-response.html` — the rule-by-rule verification pair
 
 The two Task 6 pages are intended to be read together: the verification sheet stands on its own
@@ -175,7 +175,7 @@ reconciliation-findings-2026/
 ├── funding-plan-november-2026.html       Task 3 — three-trajectory cash model
 ├── spend-review.html                     Task 4 — FinOps dashboard
 ├── spend-review-memorandum.html          Companion formal one-page memo to Task 4
-├── task-5-automation-design.html         Task 5 — n8n pipeline scoping
+├── task-5-automation-design.html         Task 5 — Make.com close pipeline, 8 steps / 3 gates
 ├── task-6-finance-rules-check.html       Task 6 — twelve-statement verdict
 ├── task-6-audit-response.html            Task 6 audit — independent review
 └── README.md                             This file

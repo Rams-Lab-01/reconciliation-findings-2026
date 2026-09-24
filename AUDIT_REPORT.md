@@ -57,7 +57,7 @@ However, the candidate succumbed to **two critical errors and one timing impreci
 | **Task 3: Binding Cutoff** | Funding Request | Wed 4 Nov 2026 | Wed 4 Nov 2026 | 0 Days | **Accurate** (Catches Fri 6 Nov rent rule) |
 | **Task 4: Gross Spend** | 74 Transactions | Spend: AED 565,386.90 | Spend: AED 565,386.90 | AED 0.00 | **Accurate** (P&L OpSpend: AED 552,926.90) |
 | **Task 4: Leakage Total** | 9 Anomalies | Total at Stake: AED 30,761.86 | Total at Stake: AED 30,761.86 | AED 0.00 | **Accurate** (Excludes A8 capex AED 13,911.50) |
-| **Task 5: Architecture** | Monthly Close | 7 Steps, 5 Human Gates | 7 Steps, 5 Human Gates | 0 Gates | **Accurate & Defensible** (UAE VPS n8n) |
+| **Task 5: Architecture** | Monthly Close | 7 Steps, 5 Human Gates | 7 Steps, 5 Human Gates | 0 Gates | **Accurate & Defensible** (UAE VPS n8n) — *audited draft; superseded by the published Make.com design, 8 steps / 3 gates (see §6)* |
 | **Task 6: Legal-Tax Rules**| 12 AI Statements | 6 Wrong, 4 OK, 2 Incomplete | 7 Wrong, 3 OK, 2 Incomplete | 1 Misclass | **CORRECTIONS MANDATORY** (Stmts 2 & 8) |
 
 ---
@@ -311,6 +311,8 @@ $$60,000.00 (\text{Cash}) + 8,814.00 (\text{Datastream}) + 1,156.32 (\text{Dropb
 ---
 
 ## SECTION 6: TASK 5 — MONTHLY-CLOSE AUTOMATION DESIGN FORENSIC AUDIT
+
+> **Superseded (24 September 2026).** This section audits an earlier draft of Task 5 that proposed self-hosted n8n with 7 steps and 5 human gates. The published page (`task-5-automation-design.html`) was later revised to Make.com orchestration with an 8-step pipeline and 3 human gates (category and data sign-off, vendor email release, memo release), a redaction step that strips IBANs and card numbers before every model call from step 3 onward, and the step-2 statement parse handled contractually (enterprise API tier, signed DPA, inputs excluded from training). The findings below describe the earlier draft and are kept unchanged as the audit record; the published page is the current design.
 
 ### 6.1 Architectural Review and Strategic Shift
 The assessment brief required automating a monthly close workflow that currently consumes two manual days, integrating Claude, Google Workspace, and Todoist. The brief suggested Make.com. 

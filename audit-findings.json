@@ -336,6 +336,10 @@
       "annualized_forward_leakage_aed": 70438.32
     },
     "task_5_automation_architecture": {
+      "status": "SUPERSEDED",
+      "superseded_on": "2026-09-24",
+      "note": "This entry describes an earlier self-hosted n8n draft (7 steps, 5 gates). The published task-5-automation-design.html uses the design in published_design.",
+      "published_design": {"orchestrator": "Make.com", "intelligence": "Claude (API, Cowork, Code)", "system_of_record": "Google Workspace", "task_tracking": "Todoist", "pipeline_steps": 8, "human_gates": ["G1 Category and data sign-off", "G2 Vendor email release", "G3 Memo release to principals"], "data_posture": "Redaction strips IBAN, PAN and 16-digit patterns before every model call from step 3; the step-2 statement parse is covered contractually (enterprise tier, signed DPA, inputs excluded from training)"},
       "orchestrator": "Self-hosted n8n on UAE-region VPS",
       "architecture_rationale": "Data sovereignty, UAE banking secrecy compliance, deterministic file audit logs, zero SaaS quota risk",
       "pipeline_steps": 7,
